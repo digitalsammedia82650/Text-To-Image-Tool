@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:wght@300..800&family=Montserrat:wght@300..800&display=swap" rel="stylesheet">
-
 <script src="https://unpkg.com/dom-to-image-more@2.9.5/dist/dom-to-image-more.min.js"></script>
 
 <style>
@@ -29,6 +28,7 @@ main {
   height: calc(100vh - 50px);
 }
 
+/* LEFT PANEL */
 .controls {
   padding: 12px;
   background: #0c0f25;
@@ -60,6 +60,7 @@ main {
   cursor: pointer;
 }
 
+/* EDITOR */
 .editor {
   display: flex;
   flex-direction: column;
@@ -68,7 +69,7 @@ main {
 
 #textInput {
   width: 100%;
-  height: 140px;
+  height: 150px;
   font-size: 18px;
   padding: 12px;
   border: none;
@@ -78,6 +79,7 @@ main {
   color: #fff;
 }
 
+/* PREVIEW */
 .preview-area {
   flex: 1;
   overflow: auto;
@@ -88,27 +90,33 @@ main {
 #renderBox {
   display: inline-block;
   padding: 40px;
-  background: #111;
   border-radius: 16px;
   min-width: 400px;
+  background: #111;
   --strokeWidth: 0px;
+  --strokeColor: #000;
 }
 
+/* WORD STYLING */
 .word {
   cursor: pointer;
   padding: 2px 4px;
+  color: inherit;
 }
 
 .word.selected {
   outline: 2px dashed #4f6bff;
 }
 
-.glow {
-  text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
+/* CORRECT STROKE */
+.stroke {
+  -webkit-text-stroke-width: var(--strokeWidth);
+  -webkit-text-stroke-color: var(--strokeColor);
+  paint-order: stroke fill;
 }
 
-.stroke {
-  -webkit-text-stroke: var(--strokeWidth) currentColor;
+.glow {
+  text-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
 }
 
 .skew {
@@ -132,6 +140,7 @@ main {
 
 <main>
 
+<!-- LEFT CONTROLS -->
 <div class="controls">
 
 <label>Font</label>
@@ -150,6 +159,9 @@ main {
 <label>Stroke Width</label>
 <input type="range" min="0" max="10" value="0" id="strokeWidth" oninput="applyToSelected()">
 
+<label>Stroke Color</label>
+<input type="color" id="strokeColor" value="#000000" onchange="applyToSelected()">
+
 <label><input type="checkbox" id="glowToggle" onchange="applyToSelected()"> Glow</label>
 <label><input type="checkbox" id="skewToggle" onchange="applyToSelected()"> Skew</label>
 
@@ -157,13 +169,13 @@ main {
 <input type="color" id="bgColor" value="#111111" onchange="updateBackground()">
 
 <button onclick="toggleAnimation()">Toggle Pulse</button>
-
 <button onclick="exportImage()">Export PNG</button>
 
 </div>
 
+<!-- EDITOR + PREVIEW -->
 <div class="editor">
-<textarea id="textInput" placeholder="Type or paste text here…"></textarea>
+<textarea id="textInput" placeholder="Type or paste text here…">Click words to style them individually</textarea>
 
 <div class="preview-area">
   <div id="renderBox"></div>
@@ -184,6 +196,7 @@ function renderText() {
   box.style.fontSize = fontSize.value + "px";
   box.style.color = textColor.value;
   box.style.setProperty("--strokeWidth", strokeWidth.value + "px");
+  box.style.setProperty("--strokeColor", strokeColor.value);
 
   textInput.value.split(/\s+/).forEach(word => {
     const span = document.createElement("span");
@@ -202,11 +215,22 @@ function selectWord(el) {
 }
 
 function applyToSelected(applyAll = false) {
-  const targets = applyAll ? document.querySelectorAll(".word") : [selectedWord];
+  const targets = applyAll
+    ? document.querySelectorAll(".word")
+    : [selectedWord];
+
   targets.forEach(w => {
     if (!w) return;
+
     w.style.color = textColor.value;
-    w.classList.toggle("stroke", strokeWidth.value > 0);
+
+    if (strokeWidth.value > 0) {
+      w.classList.add("stroke");
+      w.style.setProperty("--strokeColor", strokeColor.value);
+    } else {
+      w.classList.remove("stroke");
+    }
+
     w.classList.toggle("glow", glowToggle.checked);
     w.classList.toggle("skew", skewToggle.checked);
   });
