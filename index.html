@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Text → Image WordArt Studio</title>
+<title>Text → Image Studio (Word-Style Editor)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200..900&family=Poppins:wght@300..800&display=swap" rel="stylesheet">
 
+<!-- Export -->
 <script src="https://unpkg.com/dom-to-image-more@2.9.5/dist/dom-to-image-more.min.js"></script>
 
 <style>
+*{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Inter,sans-serif;
@@ -18,73 +22,90 @@ body{
 }
 
 header{
-  padding:12px;
+  padding:12px 16px;
   background:#12163a;
   font-weight:600;
 }
 
 main{
   display:grid;
-  grid-template-columns:360px 1fr;
+  grid-template-columns:1fr 1fr;
   height:calc(100vh - 50px);
 }
 
-/* CONTROLS */
-.controls{
-  padding:14px;
+/* ===== LEFT: EDITOR ===== */
+.editor-panel{
+  display:flex;
+  flex-direction:column;
   background:#0d1130;
-  overflow-y:auto;
+  border-right:1px solid #222;
 }
 
-.controls h3{
-  font-size:14px;
-  margin-top:16px;
+/* Toolbar */
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  padding:8px;
+  background:#151a45;
 }
 
-.controls label{
-  font-size:12px;
-  display:block;
-  margin-top:10px;
-}
-
-.controls select,
-.controls input,
-.controls button{
-  width:100%;
-  margin-top:6px;
-  padding:6px;
-  border:none;
-  border-radius:6px;
-  background:#1a1f48;
+.toolbar button,
+.toolbar select,
+.toolbar input{
+  background:#1e2355;
   color:#fff;
+  border:none;
+  padding:6px 8px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
 }
 
-.controls button{
+/* Editor */
+#editor{
+  flex:1;
+  padding:20px;
+  outline:none;
+  background:#070a1d;
+  font-size:18px;
+  line-height:1.6;
+  overflow:auto;
+}
+
+#editor:empty:before{
+  content:"Start typing here like a Word document…";
+  color:#666;
+}
+
+/* ===== RIGHT: OUTPUT ===== */
+.output-panel{
+  display:flex;
+  flex-direction:column;
+  background:#070a18;
+}
+
+.output-toolbar{
+  padding:10px;
+  background:#151a45;
+  display:flex;
+  gap:10px;
+}
+
+.output-toolbar button,
+.output-toolbar input{
   background:#4f6bff;
+  border:none;
+  padding:8px 12px;
+  color:#fff;
+  border-radius:6px;
   font-weight:600;
   cursor:pointer;
 }
 
-/* EDITOR */
-.editor-wrap{
-  border:1px solid #333;
-  border-radius:10px;
-  padding:10px;
-  background:#070a1d;
-}
-
-#editor{
-  min-height:160px;
-  outline:none;
-  white-space:pre-wrap;
-  font-size:18px;
-  line-height:1.5;
-}
-
-/* PREVIEW */
 .preview{
+  flex:1;
   padding:24px;
-  background:#070a18;
   overflow:auto;
 }
 
@@ -93,121 +114,98 @@ main{
   padding:40px;
   border-radius:16px;
   background:#111;
-  font-size:42px;
+  min-width:300px;
 }
 
-/* EFFECTS */
+/* Effects */
 .glow{
   text-shadow:0 0 10px currentColor,0 0 25px currentColor;
-}
-.stroke{
-  -webkit-text-stroke:var(--stroke,2px) currentColor;
-}
-.anim-pulse{
-  animation:pulse 1.5s infinite alternate;
-}
-@keyframes pulse{
-  from{transform:scale(1)}
-  to{transform:scale(1.05)}
 }
 </style>
 </head>
 
 <body>
 
-<header>Text → Image • WordArt • Typography Studio</header>
+<header>Text → Image Tool • Word-Style Editor</header>
 
 <main>
 
-<div class="controls">
+<!-- LEFT: WORD-LIKE INPUT -->
+<div class="editor-panel">
 
-<h3>✍️ Text Input</h3>
-<div class="editor-wrap">
-  <div id="editor" contenteditable="true">
-Type freely here.
-Use multiple lines.
-Better control = better output.
+  <div class="toolbar">
+    <button onclick="cmd('bold')"><b>B</b></button>
+    <button onclick="cmd('italic')"><i>I</i></button>
+    <button onclick="cmd('underline')"><u>U</u></button>
+
+    <select onchange="cmd('fontName',this.value)">
+      <option value="Inter">Inter</option>
+      <option value="Poppins">Poppins</option>
+      <option value="serif">Serif</option>
+    </select>
+
+    <select onchange="cmd('fontSize',this.value)">
+      <option value="3">Small</option>
+      <option value="4" selected>Normal</option>
+      <option value="5">Large</option>
+      <option value="6">XL</option>
+    </select>
+
+    <input type="color" onchange="cmd('foreColor',this.value)">
+
+    <button onclick="cmd('justifyLeft')">⬅</button>
+    <button onclick="cmd('justifyCenter')">⬍</button>
+    <button onclick="cmd('justifyRight')">➡</button>
+    <button onclick="cmd('justifyFull')">☰</button>
+
+    <button onclick="cmd('insertUnorderedList')">• List</button>
   </div>
-</div>
 
-<h3>🅰 Typography</h3>
-
-<label>Font</label>
-<select id="font">
-  <option>Inter</option>
-  <option>Poppins</option>
-</select>
-
-<label>Font Size</label>
-<input type="range" min="16" max="120" value="42" id="fontSize">
-
-<label>Line Height</label>
-<input type="range" min="1" max="2.5" step="0.1" value="1.4" id="lineHeight">
-
-<label>Letter Spacing</label>
-<input type="range" min="0" max="10" value="0" id="letterSpacing">
-
-<label>Text Align</label>
-<select id="align">
-  <option value="left">Left</option>
-  <option value="center">Center</option>
-  <option value="right">Right</option>
-  <option value="justify">Justify</option>
-</select>
-
-<label>Text Color</label>
-<input type="color" id="color" value="#ffffff">
-
-<label>Stroke Width</label>
-<input type="range" min="0" max="8" value="0" id="stroke">
-
-<label>Glow</label>
-<input type="checkbox" id="glow">
-
-<h3>🎞 Animation</h3>
-<button onclick="toggleAnim()">Toggle Pulse</button>
-
-<h3>📤 Export</h3>
-<button onclick="exportImg()">Export PNG</button>
+  <div id="editor" contenteditable="true"></div>
 
 </div>
 
-<div class="preview">
-  <div id="renderBox"></div>
+<!-- RIGHT: OUTPUT -->
+<div class="output-panel">
+
+  <div class="output-toolbar">
+    <input type="color" value="#111111" onchange="renderBox.style.background=this.value">
+    <button onclick="toggleGlow()">Glow</button>
+    <button onclick="exportPNG()">Export PNG</button>
+    <button onclick="copyImage()">Copy</button>
+  </div>
+
+  <div class="preview">
+    <div id="renderBox"></div>
+  </div>
+
 </div>
 
 </main>
 
 <script>
-const editor = document.getElementById("editor");
-const box = document.getElementById("renderBox");
+const editor=document.getElementById("editor");
+const renderBox=document.getElementById("renderBox");
 
-function render(){
-  box.innerHTML = editor.innerHTML;
-  box.style.fontFamily = font.value;
-  box.style.fontSize = fontSize.value + "px";
-  box.style.lineHeight = lineHeight.value;
-  box.style.letterSpacing = letterSpacing.value + "px";
-  box.style.textAlign = align.value;
-  box.style.color = color.value;
-  box.style.setProperty("--stroke", stroke.value + "px");
-
-  box.classList.toggle("glow", glow.checked);
+function cmd(command,value=null){
+  document.execCommand(command,false,value);
+  sync();
 }
 
-editor.addEventListener("input", render);
-document.querySelectorAll("input,select").forEach(el=>{
-  el.addEventListener("input", render);
-});
-
-let anim=false;
-function toggleAnim(){
-  anim=!anim;
-  box.classList.toggle("anim-pulse",anim);
+function sync(){
+  renderBox.innerHTML=editor.innerHTML;
 }
 
-function exportImg(){
-  domtoimage.toBlob(box,{scale:2}).then(blob=>{
+editor.addEventListener("input",sync);
+
+let glow=false;
+function toggleGlow(){
+  glow=!glow;
+  renderBox.classList.toggle("glow",glow);
+}
+
+function exportPNG(){
+  domtoimage.toBlob(renderBox,{scale:2}).then(blob=>{
     const a=document.createElement("a");
     a.href=URL.createObjectURL(blob);
     a.download="text-image.png";
@@ -215,7 +213,13 @@ function exportImg(){
   });
 }
 
-render();
+function copyImage(){
+  domtoimage.toBlob(renderBox).then(blob=>{
+    navigator.clipboard.write([new ClipboardItem({"image/png":blob})]);
+  });
+}
+
+sync();
 </script>
 
 </body>
