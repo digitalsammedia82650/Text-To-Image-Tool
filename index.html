@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WordArt Studio Pro</title>
+    <title>WordArt Professional Studio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;800&family=Montserrat:wght@400;900&family=Playfair+Display:wght@700&family=Bungee&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;800&family=Montserrat:wght@400;900&family=Playfair+Display:wght@700&family=Bungee&family=Courier+Prime&display=swap" rel="stylesheet">
 
     <!-- Libraries -->
     <script src="https://unpkg.com/dom-to-image-more@2.9.5/dist/dom-to-image-more.min.js"></script>
@@ -14,410 +14,339 @@
     <style>
         :root {
             --primary: #4f6bff;
-            --bg-dark: #0f1220;
-            --panel-bg: #161b33;
-            --input-bg: #1f2544;
-            --text-main: #ffffff;
-            /* Dynamic Vars */
-            --global-font-size: 40px;
-            --global-font-family: 'Inter';
-            --global-stroke: 0px;
+            --bg-dark: #121420;
+            --toolbar-bg: #1c1f35;
+            --sidebar-bg: #16192c;
+            --canvas-bg: #ffffff;
+            --text-on-dark: #e0e0e0;
         }
 
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
             background: var(--bg-dark);
-            color: var(--text-main);
+            color: var(--text-on-dark);
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
         }
 
+        /* --- Header & Toolbar --- */
         header {
-            padding: 15px 25px;
-            background: var(--panel-bg);
-            border-bottom: 1px solid #2d3561;
+            background: var(--toolbar-bg);
+            padding: 10px 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #2d3561;
+            z-index: 100;
         }
 
-        .main-container {
+        .word-toolbar {
+            background: #252a4a;
+            padding: 8px 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #2d3561;
+        }
+
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding-right: 15px;
+            border-right: 1px solid #3d4675;
+        }
+
+        /* --- Main Layout --- */
+        .app-container {
             display: grid;
-            grid-template-columns: 350px 1fr;
+            grid-template-columns: 260px 1fr 280px;
             flex-grow: 1;
             overflow: hidden;
         }
 
-        /* Sidebar Styling */
-        .controls {
-            overflow-y: auto;
+        /* --- Sidebars --- */
+        .sidebar {
+            background: var(--sidebar-bg);
             padding: 20px;
-            background: var(--panel-bg);
-            border-right: 1px solid #2d3561;
+            overflow-y: auto;
+            font-size: 13px;
         }
 
-        .control-group {
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #2d3561;
-        }
-
-        h3 {
-            font-size: 12px;
+        .sidebar h3 {
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 15px;
             color: var(--primary);
+            border-bottom: 1px solid #2d3561;
+            padding-bottom: 5px;
         }
 
-        label {
-            display: block;
-            font-size: 11px;
-            margin-bottom: 5px;
-            opacity: 0.8;
-        }
+        .control-item { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; opacity: 0.8; font-size: 11px; }
 
-        input[type="text"], textarea, select {
-            width: 100%;
-            background: var(--input-bg);
-            border: 1px solid #333c66;
-            color: white;
-            padding: 8px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .btn-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        button {
-            cursor: pointer;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-
-        button:hover { filter: brightness(1.2); }
-        button.secondary { background: #333c66; }
-
-        /* Preview Area */
-        .preview-area {
-            background: #080a18;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: auto;
+        /* --- The Main Editor Canvas --- */
+        .editor-container {
             padding: 40px;
-            position: relative;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            background: #0b0d18;
         }
 
-        #renderBox {
+        #canvas {
+            width: 800px;
+            min-height: 1000px;
+            background: var(--canvas-bg);
+            color: #000;
             padding: 60px;
-            background: #111;
-            border-radius: 12px;
-            min-width: 300px;
-            text-align: center;
-            font-family: var(--global-font-family);
-            font-size: var(--global-font-size);
-            line-height: 1.4;
-            transition: background 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            outline: none;
             position: relative;
+            transition: all 0.3s;
+            /* Default Text Styles */
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: left;
         }
 
-        /* Word Styling */
-        .word {
-            display: inline-block;
+        /* --- Interactive Elements --- */
+        select, button, input[type="color"] {
+            background: #2a3152;
+            color: white;
+            border: 1px solid #3d4675;
+            padding: 5px 10px;
+            border-radius: 4px;
             cursor: pointer;
-            padding: 0 4px;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-            -webkit-text-stroke: var(--global-stroke) currentColor;
         }
 
-        .word:hover {
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
+        .tool-btn {
+            font-weight: bold;
+            min-width: 32px;
         }
 
-        .word.selected {
-            border: 2px dashed var(--primary);
-            border-radius: 4px;
-            background: rgba(79, 107, 255, 0.2);
+        .tool-btn:hover { background: var(--primary); }
+
+        .btn-main {
+            background: var(--primary);
+            width: 100%;
+            padding: 10px;
+            font-weight: bold;
+            margin-top: 10px;
         }
 
-        /* Effects */
-        .glow { text-shadow: 0 0 15px currentColor; }
-        .skew { transform: skew(-15deg); }
-        .anim-pulse { animation: pulse 1.5s infinite alternate ease-in-out; }
-
+        /* --- Special Effects CSS --- */
+        .wa-glow { text-shadow: 0 0 10px currentColor; }
+        .wa-skew { display: inline-block; transform: skew(-15deg); }
+        .wa-stroke { -webkit-text-stroke: 1px currentColor; }
+        
+        #canvas.anim-pulse { animation: pulse 2s infinite alternate ease-in-out; }
         @keyframes pulse {
             from { transform: scale(1); }
-            to { transform: scale(1.03); }
+            to { transform: scale(1.02); }
         }
 
-        svg { overflow: visible; width: 100%; height: auto; }
-
-        @media (max-width: 800px) {
-            .main-container { grid-template-columns: 1fr; }
-            .controls { height: 300px; }
+        /* Curved Text Overlay (Simplified for this UI) */
+        #curveOverlay {
+            position: absolute;
+            top: 0; left: 0; pointer-events: none;
+            width: 100%; height: 100%;
+            display: none;
         }
+
     </style>
 </head>
 <body>
 
 <header>
-    <div style="font-weight: 800; font-size: 1.2rem;">WORDART <span style="color: var(--primary)">STUDIO</span></div>
-    <div id="statusMsg" style="font-size: 12px; opacity: 0.7;">Ready</div>
+    <div style="font-weight: 900; letter-spacing: 1px;">WORDART <span style="color:var(--primary)">PRO</span></div>
+    <div id="status" style="font-size: 12px; opacity: 0.6;">Document Saved</div>
+    <div>
+        <button class="tool-btn" onclick="exportImage('png')" style="background:var(--primary)">Export Image</button>
+    </div>
 </header>
 
-<main class="main-container">
-    <div class="controls">
-        
-        <div class="control-group">
-            <h3>1. Content</h3>
-            <textarea id="textInput" rows="3" placeholder="Enter text here..." oninput="renderText()">Type something cool</textarea>
-            <label>Font Family</label>
-            <select id="fontSelect" onchange="updateGlobalStyles()">
-                <option value="Inter">Inter (Clean)</option>
-                <option value="Poppins">Poppins (Modern)</option>
-                <option value="Montserrat">Montserrat (Bold)</option>
-                <option value="Playfair Display">Playfair (Elegant)</option>
-                <option value="Bungee">Bungee (Comic)</option>
-            </select>
-        </div>
+<!-- Word-Style Toolbar -->
+<div class="word-toolbar">
+    <div class="toolbar-group">
+        <select id="fontFamily" onchange="execCmd('fontName', this.value)">
+            <option value="Inter">Inter</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Playfair Display">Playfair</option>
+            <option value="Courier Prime">Typewriter</option>
+            <option value="Bungee">Bungee</option>
+        </select>
+        <select id="fontSize" onchange="execCmd('fontSize', this.value)">
+            <option value="3">Small</option>
+            <option value="4" selected>Normal</option>
+            <option value="5">Large</option>
+            <option value="6">Huge</option>
+            <option value="7">Giant</option>
+        </select>
+    </div>
+    
+    <div class="toolbar-group">
+        <button class="tool-btn" onclick="execCmd('bold')">B</button>
+        <button class="tool-btn" onclick="execCmd('italic')">I</button>
+        <button class="tool-btn" onclick="execCmd('underline')">U</button>
+        <input type="color" onchange="execCmd('foreColor', this.value)" title="Text Color">
+    </div>
 
-        <div class="control-group">
-            <h3>2. Global Style</h3>
-            <label>Font Size</label>
-            <input type="range" min="20" max="150" value="50" id="fontSize" oninput="updateGlobalStyles()">
-            
-            <label>Stroke Width</label>
-            <input type="range" min="0" max="5" step="0.5" value="0" id="strokeWidth" oninput="updateGlobalStyles()">
-            
+    <div class="toolbar-group">
+        <button class="tool-btn" onclick="execCmd('justifyLeft')">Left</button>
+        <button class="tool-btn" onclick="execCmd('justifyCenter')">Center</button>
+        <button class="tool-btn" onclick="execCmd('justifyRight')">Right</button>
+    </div>
+
+    <div class="toolbar-group" style="border:none">
+        <button class="tool-btn" onclick="execCmd('insertUnorderedList')">• List</button>
+    </div>
+</div>
+
+<main class="app-container">
+    <!-- Left Sidebar: Document Settings -->
+    <aside class="sidebar">
+        <h3>Page Setup</h3>
+        <div class="control-item">
             <label>Canvas Background</label>
-            <input type="color" id="bgColor" value="#111111" onchange="updateCanvasBg()" style="height:40px">
+            <input type="color" id="canvasBg" value="#ffffff" onchange="updateCanvasStyle()" style="width:100%; height:40px;">
+        </div>
+        <div class="control-item">
+            <label>Page Padding</label>
+            <input type="range" min="0" max="150" value="60" oninput="updateCanvasStyle()" id="canvasPadding">
+        </div>
+        <div class="control-item">
+            <label>Line Height</label>
+            <input type="range" min="1" max="3" step="0.1" value="1.6" oninput="updateCanvasStyle()" id="canvasLineHeight">
         </div>
 
-        <div class="control-group" id="wordControls" style="opacity: 0.5; pointer-events: none;">
-            <h3>3. Selected Word Style</h3>
-            <label>Text Color</label>
-            <input type="color" id="wordColor" value="#ffffff" oninput="applyWordStyle()">
-            
-            <div style="display: flex; gap: 10px; margin-top:10px;">
-                <label><input type="checkbox" id="glowToggle" onchange="applyWordStyle()"> Glow</label>
-                <label><input type="checkbox" id="skewToggle" onchange="applyWordStyle()"> Skew</label>
-            </div>
+        <h3 style="margin-top:40px;">Animation</h3>
+        <button class="tool-btn" style="width:100%" onclick="toggleAnimation()">Toggle Page Pulse</button>
+    </aside>
+
+    <!-- Middle: The Document -->
+    <section class="editor-container">
+        <div id="canvas" contenteditable="true" spellcheck="false">
+            <h1>Start Creating...</h1>
+            <p>You can <b>bold</b> text, change colors, or highlight text and apply <i>Studio Effects</i> from the right panel.</p>
+            <p>Paste your content here directly from Word or the web!</p>
+        </div>
+    </section>
+
+    <!-- Right Sidebar: WordArt Effects -->
+    <aside class="sidebar">
+        <h3>Studio Effects</h3>
+        <p style="font-size: 10px; margin-bottom: 15px; opacity: 0.7;">Highlight text in the middle to apply these styles:</p>
+        
+        <div class="control-item">
+            <button class="btn-main" onclick="applyEffect('glow')">Add Glow</button>
+        </div>
+        <div class="control-item">
+            <button class="btn-main" onclick="applyEffect('skew')">Add Skew</button>
+        </div>
+        <div class="control-item">
+            <button class="btn-main" onclick="applyEffect('stroke')">Add Stroke</button>
+        </div>
+        
+        <div class="control-item" style="margin-top:30px;">
+            <button class="btn-main" style="background: #661111;" onclick="execCmd('removeFormat')">Clear All Formatting</button>
         </div>
 
-        <div class="control-group">
-            <h3>4. Layout & Path</h3>
-            <select id="curveType" onchange="renderText()">
-                <option value="none">Straight Layout</option>
-                <option value="arc">Arc Path</option>
-            </select>
-            <label>Path Radius</label>
-            <input type="range" min="100" max="500" value="250" id="radius" oninput="renderText()">
-        </div>
-
-        <div class="control-group">
-            <h3>5. Export</h3>
-            <div class="btn-grid">
-                <button onclick="exportImage('png')">Download PNG</button>
-                <button class="secondary" onclick="copyClipboard()">Copy Image</button>
-            </div>
-            <button onclick="toggleAnimation()" style="width:100%; margin-top:8px;" id="animBtn">Toggle Animation</button>
-        </div>
-    </div>
-
-    <div class="preview-area">
-        <div id="renderBox">
-            <!-- Content generated by JS -->
-        </div>
-    </div>
+        <h3 style="margin-top:40px;">Fast Export</h3>
+        <button class="btn-main" style="background: #28a745;" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <p style="font-size: 10px; text-align: center; margin-top: 10px;">Captures the entire page as an image.</p>
+    </aside>
 </main>
 
 <script>
-    let selectedWordEl = null;
-    let isAnimated = false;
-
-    // Initialize
-    window.onload = () => {
-        renderText();
-        updateGlobalStyles();
-    };
-
-    function renderText() {
-        const box = document.getElementById("renderBox");
-        const text = document.getElementById("textInput").value;
-        const curve = document.getElementById("curveType").value;
-        
-        // Clear box
-        box.innerHTML = "";
-        selectedWordEl = null;
-        document.getElementById("wordControls").style.opacity = "0.5";
-        document.getElementById("wordControls").style.pointerEvents = "none";
-
-        if (curve === "none") {
-            const words = text.split(/\s+/);
-            words.forEach(w => {
-                if(!w) return;
-                const span = document.createElement("span");
-                span.className = "word";
-                span.textContent = w + " ";
-                span.onclick = (e) => {
-                    e.stopPropagation();
-                    selectWord(span);
-                };
-                box.appendChild(span);
-            });
-        } else {
-            // SVG Path Logic
-            const r = document.getElementById("radius").value;
-            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-            svg.setAttribute("viewBox", `0 0 ${r*2} ${r}`);
-            
-            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute("id", "curvePath");
-            path.setAttribute("fill", "transparent");
-            path.setAttribute("d", `M 0 ${r} A ${r} ${r} 0 0 1 ${r*2} ${r}`);
-            
-            const textNode = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            textNode.setAttribute("fill", "white");
-            textNode.style.fontFamily = "inherit";
-            
-            const textPath = document.createElementNS("http://www.w3.org/2000/svg", "textPath");
-            textPath.setAttribute("href", "#curvePath");
-            textPath.setAttribute("startOffset", "50%");
-            textPath.setAttribute("text-anchor", "middle");
-            textPath.textContent = text;
-
-            textNode.appendChild(textPath);
-            svg.appendChild(path);
-            svg.appendChild(textNode);
-            box.appendChild(svg);
-        }
+    // --- Rich Text Commands ---
+    function execCmd(command, value = null) {
+        document.execCommand(command, false, value);
+        document.getElementById('canvas').focus();
     }
 
-    function updateGlobalStyles() {
-        const root = document.documentElement;
-        const font = document.getElementById("fontSelect").value;
-        const size = document.getElementById("fontSize").value;
-        const stroke = document.getElementById("strokeWidth").value;
+    // --- Studio Effects (Applying classes to selection) ---
+    function applyEffect(effectClass) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
 
-        root.style.setProperty('--global-font-family', font);
-        root.style.setProperty('--global-font-size', size + "px");
-        root.style.setProperty('--global-stroke', stroke + "px");
+        const span = document.createElement("span");
+        span.classList.add("wa-" + effectClass);
+        
+        // Wrap selection in a styled span
+        const range = selection.getRangeAt(0);
+        range.surroundContents(span);
     }
 
-    function selectWord(el) {
-        // Clear previous selection
-        document.querySelectorAll(".word").forEach(w => w.classList.remove("selected"));
+    // --- Page Styles ---
+    function updateCanvasStyle() {
+        const canvas = document.getElementById('canvas');
+        canvas.style.backgroundColor = document.getElementById('canvasBg').value;
+        canvas.style.padding = document.getElementById('canvasPadding').value + "px";
+        canvas.style.lineHeight = document.getElementById('canvasLineHeight').value;
         
-        selectedWordEl = el;
-        el.classList.add("selected");
-
-        // Enable word controls
-        const ctrl = document.getElementById("wordControls");
-        ctrl.style.opacity = "1";
-        ctrl.style.pointerEvents = "all";
-
-        // Sync control values with element current state
-        document.getElementById("wordColor").value = rgbToHex(window.getComputedStyle(el).color);
-        document.getElementById("glowToggle").checked = el.classList.contains("glow");
-        document.getElementById("skewToggle").checked = el.classList.contains("skew");
-    }
-
-    function applyWordStyle() {
-        if (!selectedWordEl) return;
-        
-        selectedWordEl.style.color = document.getElementById("wordColor").value;
-        
-        if (document.getElementById("glowToggle").checked) 
-            selectedWordEl.classList.add("glow");
-        else 
-            selectedWordEl.classList.remove("glow");
-
-        if (document.getElementById("skewToggle").checked) 
-            selectedWordEl.classList.add("skew");
-        else 
-            selectedWordEl.classList.remove("skew");
-    }
-
-    function updateCanvasBg() {
-        document.getElementById("renderBox").style.background = document.getElementById("bgColor").value;
+        // Auto-detect text contrast
+        const rgb = hexToRgb(document.getElementById('canvasBg').value);
+        const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+        canvas.style.color = brightness > 125 ? 'black' : 'white';
     }
 
     function toggleAnimation() {
-        isAnimated = !isAnimated;
-        document.getElementById("renderBox").classList.toggle("anim-pulse", isAnimated);
-        document.getElementById("animBtn").innerText = isAnimated ? "Stop Animation" : "Toggle Animation";
+        document.getElementById('canvas').classList.toggle('anim-pulse');
     }
 
+    // --- Export Logic ---
     function exportImage(format) {
-        showStatus("Rendering...");
-        const node = document.getElementById("renderBox");
+        const node = document.getElementById('canvas');
+        showStatus("Generating " + format.toUpperCase() + "...");
         
-        // Remove selection border before export
-        const prevSelected = selectedWordEl;
-        if(selectedWordEl) selectedWordEl.classList.remove("selected");
-
         domtoimage.toBlob(node, { scale: 2 })
             .then(blob => {
                 const link = document.createElement('a');
-                link.download = `wordart-${Date.now()}.${format}`;
+                link.download = `wordart-export-${Date.now()}.${format}`;
                 link.href = URL.createObjectURL(blob);
                 link.click();
-                showStatus("Exported!");
-                if(prevSelected) prevSelected.classList.add("selected");
+                showStatus("Exported Successfully");
             });
     }
 
-    async function copyClipboard() {
-        showStatus("Copying...");
-        const node = document.getElementById("renderBox");
+    async function copyToClipboard() {
+        const node = document.getElementById('canvas');
+        showStatus("Copying Image...");
         const blob = await domtoimage.toBlob(node);
         try {
             await navigator.clipboard.write([
                 new ClipboardItem({ "image/png": blob })
             ]);
-            showStatus("Copied to clipboard!");
+            showStatus("Copied to Clipboard!");
         } catch (err) {
-            showStatus("Copy failed.");
+            showStatus("Error copying.");
         }
     }
 
     function showStatus(msg) {
-        const el = document.getElementById("statusMsg");
+        const el = document.getElementById('status');
         el.innerText = msg;
-        setTimeout(() => el.innerText = "Ready", 2000);
+        setTimeout(() => el.innerText = "Document Ready", 2000);
     }
 
-    // Helper: Convert RGB to Hex for color input sync
-    function rgbToHex(rgb) {
-        if (!rgb) return "#ffffff";
-        const vals = rgb.match(/\d+/g);
-        if (!vals) return "#ffffff";
-        return "#" + vals.slice(0,3).map(x => {
-            const hex = parseInt(x).toString(16);
-            return hex.length === 1 ? "0" + hex : hex;
-        }).join("");
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : {r:255, g:255, b:255};
     }
+
+    // Initial focus
+    window.onload = () => document.getElementById('canvas').focus();
 </script>
 
 </body>
