@@ -2,14 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 
-<title>Text To Image Studio Pro</title>
+<title>SVG Canva Style Studio</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&family=Playfair+Display:wght@700&family=Fira+Code&family=Bungee&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700&family=Fira+Code&family=Bungee&display=swap" rel="stylesheet">
 
 <style>
 
@@ -18,14 +15,14 @@ ROOT
 ========================================================= */
 
 :root{
-    --bg:#020617;
-    --panel:#0f172a;
-    --panel2:#111827;
-    --border:#1e293b;
+    --bg:#0b1120;
+    --panel:#111827;
+    --panel2:#1e293b;
+    --border:#243041;
     --text:#f8fafc;
     --muted:#94a3b8;
     --primary:#6366f1;
-    --primary-hover:#4f46e5;
+    --hover:#4f46e5;
 }
 
 /* =========================================================
@@ -33,23 +30,25 @@ GLOBAL
 ========================================================= */
 
 *{
+    margin:0;
+    padding:0;
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
 }
 
 html,
 body{
-    margin:0;
     height:100%;
     overflow:hidden;
     background:var(--bg);
-    color:var(--text);
     font-family:Inter,sans-serif;
+    color:white;
 }
 
 button,
 input,
-select{
+select,
+textarea{
     font-family:inherit;
 }
 
@@ -79,13 +78,12 @@ HEADER
 
 header{
     height:70px;
-    min-height:70px;
+    background:rgba(2,6,23,.95);
+    border-bottom:1px solid var(--border);
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 20px;
-    background:rgba(2,6,23,.95);
-    border-bottom:1px solid var(--border);
     z-index:100;
 }
 
@@ -102,7 +100,6 @@ header{
 .header-actions{
     display:flex;
     gap:10px;
-    flex-wrap:wrap;
 }
 
 /* =========================================================
@@ -112,20 +109,16 @@ BUTTONS
 .btn{
     border:none;
     cursor:pointer;
-    background:#1e293b;
-    color:white;
-    padding:10px 14px;
     border-radius:14px;
+    padding:11px 16px;
     font-weight:700;
     transition:.2s;
+    background:#1e293b;
+    color:white;
 }
 
 .btn:hover{
     background:#334155;
-}
-
-.btn.active{
-    background:var(--primary);
 }
 
 .btn-primary{
@@ -133,11 +126,15 @@ BUTTONS
 }
 
 .btn-primary:hover{
-    background:var(--primary-hover);
+    background:var(--hover);
+}
+
+.btn.active{
+    background:var(--primary);
 }
 
 /* =========================================================
-MAIN
+LAYOUT
 ========================================================= */
 
 .main{
@@ -151,24 +148,24 @@ SIDEBAR
 ========================================================= */
 
 .sidebar{
-    width:390px;
-    overflow-y:auto;
+    width:380px;
     background:var(--panel);
+    overflow-y:auto;
     border-right:1px solid var(--border);
 }
 
-.panel{
-    padding:18px;
+.section{
+    padding:20px;
     border-bottom:1px solid var(--border);
 }
 
-.panel-title{
+.section-title{
     font-size:12px;
     text-transform:uppercase;
     color:var(--muted);
-    margin-bottom:15px;
-    letter-spacing:1px;
+    margin-bottom:16px;
     font-weight:800;
+    letter-spacing:1px;
 }
 
 .group{
@@ -182,10 +179,10 @@ SIDEBAR
     width:100%;
     border:none;
     outline:none;
-    background:#020617;
-    border:1px solid #1e293b;
-    color:white;
     border-radius:14px;
+    background:#020617;
+    color:white;
+    border:1px solid #1e293b;
     padding:12px;
 }
 
@@ -194,10 +191,10 @@ SIDEBAR
 }
 
 label{
-    font-size:12px;
-    color:#cbd5e1;
     display:block;
     margin-bottom:8px;
+    color:#cbd5e1;
+    font-size:13px;
 }
 
 /* =========================================================
@@ -205,14 +202,14 @@ EDITOR
 ========================================================= */
 
 #editor{
-    min-height:260px;
-    border-radius:18px;
-    border:1px solid #1e293b;
+    min-height:240px;
     background:#020617;
+    border:1px solid #1e293b;
+    border-radius:20px;
     padding:18px;
     outline:none;
     line-height:1.6;
-    font-size:18px;
+    font-size:20px;
 }
 
 /* =========================================================
@@ -238,16 +235,15 @@ CANVAS
 
 .canvas-wrap{
     position:relative;
-    transition:.2s;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:
+    0 25px 70px rgba(0,0,0,.55);
 }
 
 #svgCanvas{
     display:block;
-    border-radius:30px;
-    overflow:hidden;
     background:#111;
-    box-shadow:
-    0 25px 60px rgba(0,0,0,.6);
 }
 
 /* =========================================================
@@ -286,8 +282,8 @@ MOBILE
         display:flex;
         justify-content:space-around;
         padding:10px;
+        background:#111827;
         border-top:1px solid var(--border);
-        background:#0f172a;
     }
 
     .mobile-nav button{
@@ -346,36 +342,42 @@ SIDEBAR
 <aside class="sidebar active" id="sidebar">
 
 <!-- =========================================================
-CONTENT
+TEXT
 ========================================================= -->
 
-<div class="panel">
+<div class="section">
 
-<div class="panel-title">
-Content
+<div class="section-title">
+Text
 </div>
 
-<div class="group" style="margin-bottom:15px;">
+<div class="group" style="margin-bottom:14px;">
 
-<button class="btn" onclick="execCmd('bold')"><b>B</b></button>
+<button class="btn" onclick="cmd('bold')">
+B
+</button>
 
-<button class="btn" onclick="execCmd('italic')"><i>I</i></button>
+<button class="btn" onclick="cmd('italic')">
+I
+</button>
 
-<button class="btn" onclick="execCmd('underline')"><u>U</u></button>
+<button class="btn" onclick="cmd('underline')">
+U
+</button>
 
-<button class="btn" onclick="execCmd('insertUnorderedList')">
+<button class="btn" onclick="cmd('insertUnorderedList')">
 List
 </button>
 
-<button class="btn" onclick="setAlign('left')">
+<button class="btn" onclick="alignText('left')">
 Left
 </button>
 
-<button class="btn" onclick="setAlign('center')">
+<button class="btn" onclick="alignText('center')">
 Center
 </button>
 
-<button class="btn" onclick="setAlign('right')">
+<button class="btn" onclick="alignText('right')">
 Right
 </button>
 
@@ -386,18 +388,18 @@ id="editor"
 contenteditable="true"
 oninput="syncEditor()">
 
-<h1>SVG Text Studio</h1>
+<h1>SVG Canva Style Studio</h1>
 
 <p>
-Create beautiful text-based full-page images with SVG rendering.
+Create modern text based full page image posters.
 </p>
 
 <ul>
-<li>Modern typography</li>
+<li>SVG powered rendering</li>
+<li>Editable backgrounds</li>
 <li>Gradient text</li>
 <li>Paper sizes</li>
-<li>Background image controls</li>
-<li>Retina PNG export</li>
+<li>Ultra HD export</li>
 </ul>
 
 </div>
@@ -408,17 +410,17 @@ Create beautiful text-based full-page images with SVG rendering.
 TYPOGRAPHY
 ========================================================= -->
 
-<div class="panel">
+<div class="section">
 
-<div class="panel-title">
+<div class="section-title">
 Typography
 </div>
 
 <label>
-Font Family
+Font
 </label>
 
-<select class="select" onchange="changeFont(this.value)">
+<select class="select" onchange="setFont(this.value)">
 
 <option value="Inter">
 Inter
@@ -440,9 +442,25 @@ Bungee
 
 <br><br>
 
-<div class="group">
+<label>
+Text Style
+</label>
 
-<div style="flex:1;">
+<select class="select" onchange="setTextMode(this.value)">
+
+<option value="solid">
+Solid Color
+</option>
+
+<option value="gradient">
+Gradient
+</option>
+
+</select>
+
+<br><br>
+
+<div id="solidTextOptions">
 
 <label>
 Text Color
@@ -452,78 +470,44 @@ Text Color
 type="color"
 class="input"
 value="#ffffff"
-oninput="changeTextColor(this.value)"
+oninput="setTextColor(this.value)"
 >
 
 </div>
 
-<div style="flex:1;">
+<div id="gradientTextOptions" style="display:none;">
 
 <label>
-Background
+Gradient Color 1
 </label>
 
 <input
 type="color"
 class="input"
-value="#111111"
-oninput="changeBackground(this.value)"
->
-
-</div>
-
-</div>
-
-<br>
-
-<div class="group">
-
-<div style="flex:1;">
-
-<label>
-Gradient 1
-</label>
-
-<input
-type="color"
-class="input"
-id="grad1"
+id="tgrad1"
 value="#6366f1"
 >
 
-</div>
-
-<div style="flex:1;">
+<br><br>
 
 <label>
-Gradient 2
+Gradient Color 2
 </label>
 
 <input
 type="color"
 class="input"
-id="grad2"
+id="tgrad2"
 value="#ec4899"
 >
 
-</div>
+<br><br>
 
-</div>
-
-<br>
-
-<div class="group">
-
-<button class="btn" onclick="applyGradientText()">
-Gradient Text
-</button>
-
-<button class="btn" onclick="applyGradientBackground()">
-Gradient BG
-</button>
-
-<button class="btn" onclick="toggleGlow()">
-Glow
+<button
+class="btn"
+style="width:100%;"
+onclick="applyTextGradient()">
+Apply Gradient
 </button>
 
 </div>
@@ -540,7 +524,7 @@ class="range"
 min="18"
 max="120"
 value="48"
-oninput="changeFontSize(this.value)"
+oninput="setFontSize(this.value)"
 >
 
 <br><br>
@@ -556,7 +540,7 @@ min="1"
 max="3"
 step="0.1"
 value="1.5"
-oninput="changeLineHeight(this.value)"
+oninput="setLineHeight(this.value)"
 >
 
 <br><br>
@@ -571,8 +555,17 @@ class="range"
 min="0"
 max="20"
 value="0"
-oninput="changeLetterSpacing(this.value)"
+oninput="setLetterSpacing(this.value)"
 >
+
+<br><br>
+
+<button
+class="btn"
+style="width:100%;"
+onclick="toggleGlow()">
+Toggle Glow
+</button>
 
 </div>
 
@@ -580,17 +573,97 @@ oninput="changeLetterSpacing(this.value)"
 BACKGROUND
 ========================================================= -->
 
-<div class="panel">
+<div class="section">
 
-<div class="panel-title">
-Background Image
+<div class="section-title">
+Background
 </div>
+
+<label>
+Background Type
+</label>
+
+<select class="select" onchange="setBackgroundMode(this.value)">
+
+<option value="solid">
+Solid Color
+</option>
+
+<option value="gradient">
+Gradient
+</option>
+
+<option value="image">
+Image
+</option>
+
+</select>
+
+<br><br>
+
+<div id="solidBgOptions">
+
+<label>
+Background Color
+</label>
+
+<input
+type="color"
+class="input"
+value="#111111"
+oninput="setBackgroundColor(this.value)"
+>
+
+</div>
+
+<div id="gradientBgOptions" style="display:none;">
+
+<label>
+Gradient Color 1
+</label>
+
+<input
+type="color"
+class="input"
+id="bggrad1"
+value="#0f172a"
+>
+
+<br><br>
+
+<label>
+Gradient Color 2
+</label>
+
+<input
+type="color"
+class="input"
+id="bggrad2"
+value="#312e81"
+>
+
+<br><br>
+
+<button
+class="btn"
+style="width:100%;"
+onclick="applyBackgroundGradient()">
+Apply Gradient
+</button>
+
+</div>
+
+<div id="imageBgOptions" style="display:none;">
+
+<br>
 
 <button
 class="btn"
 style="width:100%;"
 onclick="document.getElementById('bgUpload').click()">
+
 Upload Background
+
 </button>
 
 <input
@@ -604,29 +677,68 @@ onchange="uploadBackground(this)"
 <br><br>
 
 <label>
-Image Fit
+Zoom
 </label>
 
-<select class="select" onchange="setBgFit(this.value)">
-
-<option value="cover">
-Cover
-</option>
-
-<option value="contain">
-Contain
-</option>
-
-<option value="stretch">
-Stretch
-</option>
-
-</select>
+<input
+type="range"
+class="range"
+min="0.5"
+max="3"
+step="0.01"
+value="1"
+oninput="setBgScale(this.value)"
+>
 
 <br><br>
 
 <label>
-Background Opacity
+Position X
+</label>
+
+<input
+type="range"
+class="range"
+min="-1000"
+max="1000"
+value="0"
+oninput="setBgX(this.value)"
+>
+
+<br><br>
+
+<label>
+Position Y
+</label>
+
+<input
+type="range"
+class="range"
+min="-1000"
+max="1000"
+value="0"
+oninput="setBgY(this.value)"
+>
+
+<br><br>
+
+<label>
+Rotation
+</label>
+
+<input
+type="range"
+class="range"
+min="-180"
+max="180"
+value="0"
+oninput="setBgRotate(this.value)"
+>
+
+<br><br>
+
+<label>
+Opacity
 </label>
 
 <input
@@ -639,34 +751,7 @@ value="1"
 oninput="setBgOpacity(this.value)"
 >
 
-<br><br>
-
-<label>
-Overlay Color
-</label>
-
-<input
-type="color"
-class="input"
-value="#000000"
-oninput="setOverlayColor(this.value)"
->
-
-<br><br>
-
-<label>
-Overlay Strength
-</label>
-
-<input
-type="range"
-class="range"
-min="0"
-max="1"
-step="0.01"
-value="0"
-oninput="setOverlayOpacity(this.value)"
->
+</div>
 
 </div>
 
@@ -674,35 +759,35 @@ oninput="setOverlayOpacity(this.value)"
 CANVAS
 ========================================================= -->
 
-<div class="panel">
+<div class="section">
 
-<div class="panel-title">
+<div class="section-title">
 Canvas
 </div>
 
 <div class="group">
 
-<button class="btn active" onclick="setPaper(2480,3508,this)">
+<button class="btn active" onclick="setCanvas(2480,3508,this)">
 A4
 </button>
 
-<button class="btn" onclick="setPaper(3508,4961,this)">
+<button class="btn" onclick="setCanvas(3508,4961,this)">
 A3
 </button>
 
-<button class="btn" onclick="setPaper(1748,2480,this)">
+<button class="btn" onclick="setCanvas(1748,2480,this)">
 A5
 </button>
 
-<button class="btn" onclick="setPaper(1080,1080,this)">
+<button class="btn" onclick="setCanvas(1080,1080,this)">
 1:1
 </button>
 
-<button class="btn" onclick="setPaper(1080,1920,this)">
-9:16
+<button class="btn" onclick="setCanvas(1080,1920,this)">
+Story
 </button>
 
-<button class="btn" onclick="setPaper(1920,1080,this)">
+<button class="btn" onclick="setCanvas(1920,1080,this)">
 16:9
 </button>
 
@@ -717,7 +802,7 @@ Custom Width
 <input
 type="number"
 class="input"
-id="customWidth"
+id="cw"
 value="1080"
 >
 
@@ -730,7 +815,7 @@ Custom Height
 <input
 type="number"
 class="input"
-id="customHeight"
+id="ch"
 value="1920"
 >
 
@@ -739,8 +824,10 @@ value="1920"
 <button
 class="btn"
 style="width:100%;"
-onclick="applyCustomSize()">
+onclick="applyCustomCanvas()">
+
 Apply Custom Size
+
 </button>
 
 </div>
@@ -753,14 +840,14 @@ WORKSPACE
 
 <section class="workspace active" id="workspace">
 
-<div class="canvas-wrap" id="canvasWrap">
+<div class="canvas-wrap">
 
 <svg
 id="svgCanvas"
 xmlns="http://www.w3.org/2000/svg"
-width="2480"
-height="3508"
-viewBox="0 0 2480 3508">
+width="1080"
+height="1920"
+viewBox="0 0 1080 1920">
 
 <defs>
 
@@ -771,20 +858,22 @@ y1="0%"
 x2="100%"
 y2="100%">
 
-<stop offset="0%" stop-color="#6366f1"/>
-<stop offset="100%" stop-color="#ec4899"/>
+<stop offset="0%" stop-color="#0f172a"/>
+<stop offset="100%" stop-color="#312e81"/>
 
 </linearGradient>
 
 <filter id="glow">
 
 <feGaussianBlur
-stdDeviation="8"
+stdDeviation="10"
 result="blur"/>
 
 <feMerge>
+
 <feMergeNode in="blur"/>
 <feMergeNode in="SourceGraphic"/>
+
 </feMerge>
 
 </filter>
@@ -794,40 +883,34 @@ result="blur"/>
 <!-- BASE -->
 
 <rect
-id="svgBg"
+id="bgRect"
 width="100%"
 height="100%"
 fill="#111"
 />
 
-<!-- IMAGE -->
+<!-- SVG IMAGE LAYER -->
+
+<g id="bgGroup">
 
 <image
 id="bgImage"
-width="100%"
-height="100%"
+width="1080"
+height="1920"
 preserveAspectRatio="xMidYMid slice"
 style="display:none;"
 />
 
-<!-- OVERLAY -->
-
-<rect
-id="overlay"
-width="100%"
-height="100%"
-fill="#000"
-opacity="0"
-/>
+</g>
 
 <!-- CONTENT -->
 
 <foreignObject
 id="foreignObject"
-x="120"
-y="120"
-width="2240"
-height="3200">
+x="80"
+y="80"
+width="920"
+height="1760">
 
 <div
 xmlns="http://www.w3.org/1999/xhtml"
@@ -841,8 +924,8 @@ font-family:Inter,sans-serif;
 color:white;
 overflow-wrap:anywhere;
 word-break:break-word;
-white-space:pre-wrap;
 ">
+
 </div>
 
 </foreignObject>
@@ -855,19 +938,27 @@ white-space:pre-wrap;
 
 </div>
 
+<!-- =========================================================
+MOBILE NAV
+========================================================= -->
+
 <nav class="mobile-nav">
 
 <button
 id="editBtn"
 class="active"
 onclick="switchMobile('edit')">
+
 Edit
+
 </button>
 
 <button
 id="previewBtn"
 onclick="switchMobile('preview')">
+
 Preview
+
 </button>
 
 </nav>
@@ -880,20 +971,16 @@ Preview
 ELEMENTS
 ========================================================= */
 
-const editor =
-document.getElementById('editor');
+const editor=document.getElementById('editor');
+const svgContent=document.getElementById('svgContent');
+const svgCanvas=document.getElementById('svgCanvas');
+const bgImage=document.getElementById('bgImage');
+const bgGroup=document.getElementById('bgGroup');
 
-const svgContent =
-document.getElementById('svgContent');
-
-const svgCanvas =
-document.getElementById('svgCanvas');
-
-const foreignObject =
-document.getElementById('foreignObject');
-
-const bgImage =
-document.getElementById('bgImage');
+let bgScale=1;
+let bgX=0;
+let bgY=0;
+let bgRotate=0;
 
 /* =========================================================
 SYNC
@@ -901,80 +988,71 @@ SYNC
 
 function syncEditor(){
 
-    svgContent.innerHTML =
-    editor.innerHTML;
+    svgContent.innerHTML=editor.innerHTML;
 
     autoResize();
-
-    localStorage.setItem(
-        'studioData',
-        editor.innerHTML
-    );
 
 }
 
 /* =========================================================
-AUTO HEIGHT
+AUTO RESIZE
 ========================================================= */
 
 function autoResize(){
 
     setTimeout(()=>{
 
-        const h =
-        svgContent.scrollHeight + 260;
+        const h=svgContent.scrollHeight+200;
 
-        const w =
-        svgCanvas.viewBox.baseVal.width;
-
-        svgCanvas.setAttribute(
-            'height',
-            h
-        );
-
-        svgCanvas.setAttribute(
-            'viewBox',
-            `0 0 ${w} ${h}`
-        );
-
-        foreignObject.setAttribute(
-            'height',
-            h - 240
-        );
+        document
+        .getElementById('foreignObject')
+        .setAttribute('height',h);
 
     },50);
 
 }
 
 /* =========================================================
-TEXT COMMANDS
+COMMANDS
 ========================================================= */
 
-function execCmd(cmd){
+function cmd(c){
 
-    document.execCommand(
-        cmd,
-        false,
-        null
-    );
+    document.execCommand(c,false,null);
 
     syncEditor();
 
 }
 
-function setAlign(v){
+function alignText(v){
 
     svgContent.style.textAlign=v;
 
 }
 
-function changeFont(v){
+/* =========================================================
+TYPOGRAPHY
+========================================================= */
+
+function setFont(v){
 
     svgContent.style.fontFamily=v;
 
 }
 
-function changeTextColor(v){
+function setTextMode(v){
+
+    document.getElementById('solidTextOptions').style.display=
+    v==='solid' ? 'block':'none';
+
+    document.getElementById('gradientTextOptions').style.display=
+    v==='gradient' ? 'block':'none';
+
+}
+
+function setTextColor(v){
+
+    svgContent.style.background='none';
 
     svgContent.style.color=v;
 
@@ -982,98 +1060,38 @@ function changeTextColor(v){
 
 }
 
-function changeFontSize(v){
+function applyTextGradient(){
 
-    svgContent.style.fontSize =
-    v + 'px';
+    const c1=document.getElementById('tgrad1').value;
+    const c2=document.getElementById('tgrad2').value;
+
+    svgContent.style.background=
+    `linear-gradient(90deg,${c1},${c2})`;
+
+    svgContent.style.webkitBackgroundClip='text';
+    svgContent.style.webkitTextFillColor='transparent';
+
+}
+
+function setFontSize(v){
+
+    svgContent.style.fontSize=v+'px';
 
     autoResize();
 
 }
 
-function changeLineHeight(v){
+function setLineHeight(v){
 
     svgContent.style.lineHeight=v;
 
-    autoResize();
-
 }
 
-function changeLetterSpacing(v){
+function setLetterSpacing(v){
 
-    svgContent.style.letterSpacing =
-    v + 'px';
-
-}
-
-/* =========================================================
-BACKGROUND
-========================================================= */
-
-function changeBackground(v){
-
-    document
-    .getElementById('svgBg')
-    .setAttribute(
-        'fill',
-        v
-    );
+    svgContent.style.letterSpacing=v+'px';
 
 }
-
-function applyGradientBackground(){
-
-    const c1 =
-    document.getElementById('grad1').value;
-
-    const c2 =
-    document.getElementById('grad2').value;
-
-    const stops =
-    document
-    .querySelectorAll('#bgGradient stop');
-
-    stops[0].setAttribute(
-        'stop-color',
-        c1
-    );
-
-    stops[1].setAttribute(
-        'stop-color',
-        c2
-    );
-
-    document
-    .getElementById('svgBg')
-    .setAttribute(
-        'fill',
-        'url(#bgGradient)'
-    );
-
-}
-
-function applyGradientText(){
-
-    const c1 =
-    document.getElementById('grad1').value;
-
-    const c2 =
-    document.getElementById('grad2').value;
-
-    svgContent.style.background =
-    `linear-gradient(90deg,${c1},${c2})`;
-
-    svgContent.style.webkitBackgroundClip =
-    'text';
-
-    svgContent.style.webkitTextFillColor =
-    'transparent';
-
-}
-
-/* =========================================================
-GLOW
-========================================================= */
 
 let glow=false;
 
@@ -1081,26 +1099,63 @@ function toggleGlow(){
 
     glow=!glow;
 
-    svgContent.style.filter =
-    glow
-    ? 'url(#glow)'
-    : 'none';
+    svgContent.style.filter=
+    glow ? 'url(#glow)' : 'none';
 
 }
 
 /* =========================================================
-UPLOAD BACKGROUND
+BACKGROUND
+========================================================= */
+
+function setBackgroundMode(v){
+
+    document.getElementById('solidBgOptions').style.display=
+    v==='solid' ? 'block':'none';
+
+    document.getElementById('gradientBgOptions').style.display=
+    v==='gradient' ? 'block':'none';
+
+    document.getElementById('imageBgOptions').style.display=
+    v==='image' ? 'block':'none';
+
+}
+
+function setBackgroundColor(v){
+
+    document
+    .getElementById('bgRect')
+    .setAttribute('fill',v);
+
+}
+
+function applyBackgroundGradient(){
+
+    const c1=document.getElementById('bggrad1').value;
+    const c2=document.getElementById('bggrad2').value;
+
+    const stops=document.querySelectorAll('#bgGradient stop');
+
+    stops[0].setAttribute('stop-color',c1);
+    stops[1].setAttribute('stop-color',c2);
+
+    document
+    .getElementById('bgRect')
+    .setAttribute('fill','url(#bgGradient)');
+
+}
+
+/* =========================================================
+UPLOAD BG
 ========================================================= */
 
 function uploadBackground(input){
 
-    const file =
-    input.files[0];
+    const file=input.files[0];
 
     if(!file) return;
 
-    const reader =
-    new FileReader();
+    const reader=new FileReader();
 
     reader.onload=e=>{
 
@@ -1118,76 +1173,57 @@ function uploadBackground(input){
 }
 
 /* =========================================================
-BACKGROUND FIT
+SVG IMAGE TRANSFORM
 ========================================================= */
 
-function setBgFit(mode){
+function updateBgTransform(){
 
-    if(mode==='cover'){
-
-        bgImage.setAttribute(
-            'preserveAspectRatio',
-            'xMidYMid slice'
-        );
-
-    }
-
-    if(mode==='contain'){
-
-        bgImage.setAttribute(
-            'preserveAspectRatio',
-            'xMidYMid meet'
-        );
-
-    }
-
-    if(mode==='stretch'){
-
-        bgImage.setAttribute(
-            'preserveAspectRatio',
-            'none'
-        );
-
-    }
+    bgGroup.setAttribute(
+        'transform',
+        `
+        translate(${bgX} ${bgY})
+        scale(${bgScale})
+        rotate(${bgRotate} 540 960)
+        `
+    );
 
 }
 
-/* =========================================================
-BACKGROUND OPACITY
-========================================================= */
+function setBgScale(v){
+
+    bgScale=v;
+
+    updateBgTransform();
+
+}
+
+function setBgX(v){
+
+    bgX=v;
+
+    updateBgTransform();
+
+}
+
+function setBgY(v){
+
+    bgY=v;
+
+    updateBgTransform();
+
+}
+
+function setBgRotate(v){
+
+    bgRotate=v;
+
+    updateBgTransform();
+
+}
 
 function setBgOpacity(v){
 
-    bgImage.setAttribute(
-        'opacity',
-        v
-    );
-
-}
-
-/* =========================================================
-OVERLAY
-========================================================= */
-
-function setOverlayColor(v){
-
-    document
-    .getElementById('overlay')
-    .setAttribute(
-        'fill',
-        v
-    );
-
-}
-
-function setOverlayOpacity(v){
-
-    document
-    .getElementById('overlay')
-    .setAttribute(
-        'opacity',
-        v
-    );
+    bgImage.setAttribute('opacity',v);
 
 }
 
@@ -1195,7 +1231,7 @@ function setOverlayOpacity(v){
 CANVAS
 ========================================================= */
 
-function setPaper(w,h,btn){
+function setCanvas(w,h,btn){
 
     document
     .querySelectorAll('.group .btn')
@@ -1203,58 +1239,27 @@ function setPaper(w,h,btn){
 
     btn.classList.add('active');
 
-    applySize(w,h);
+    applyCanvas(w,h);
 
 }
 
-function applyCustomSize(){
+function applyCustomCanvas(){
 
-    const w =
-    parseInt(
-        document.getElementById(
-            'customWidth'
-        ).value
-    );
+    const w=parseInt(document.getElementById('cw').value);
+    const h=parseInt(document.getElementById('ch').value);
 
-    const h =
-    parseInt(
-        document.getElementById(
-            'customHeight'
-        ).value
-    );
-
-    applySize(w,h);
+    applyCanvas(w,h);
 
 }
 
-function applySize(w,h){
+function applyCanvas(w,h){
 
-    svgCanvas.setAttribute(
-        'width',
-        w
-    );
+    svgCanvas.setAttribute('width',w);
+    svgCanvas.setAttribute('height',h);
+    svgCanvas.setAttribute('viewBox',`0 0 ${w} ${h}`);
 
-    svgCanvas.setAttribute(
-        'height',
-        h
-    );
-
-    svgCanvas.setAttribute(
-        'viewBox',
-        `0 0 ${w} ${h}`
-    );
-
-    foreignObject.setAttribute(
-        'width',
-        w - 240
-    );
-
-    foreignObject.setAttribute(
-        'height',
-        h - 240
-    );
-
-    autoResize();
+    bgImage.setAttribute('width',w);
+    bgImage.setAttribute('height',h);
 
 }
 
@@ -1264,64 +1269,45 @@ EXPORT
 
 function exportImage(type='png'){
 
-    const serializer =
-    new XMLSerializer();
+    const serializer=new XMLSerializer();
 
-    const source =
-    serializer.serializeToString(
-        svgCanvas
-    );
+    const source=
+    serializer.serializeToString(svgCanvas);
 
-    const blob =
+    const blob=
     new Blob(
         [source],
-        {
-            type:'image/svg+xml;charset=utf-8'
-        }
+        {type:'image/svg+xml;charset=utf-8'}
     );
 
-    const url =
-    URL.createObjectURL(blob);
+    const url=URL.createObjectURL(blob);
 
-    const img =
-    new Image();
+    const img=new Image();
 
     img.onload=()=>{
 
-        const w =
-        svgCanvas.viewBox.baseVal.width;
+        const canvas=document.createElement('canvas');
 
-        const h =
-        svgCanvas.viewBox.baseVal.height;
+        canvas.width=
+        svgCanvas.viewBox.baseVal.width*2;
 
-        const canvas =
-        document.createElement('canvas');
+        canvas.height=
+        svgCanvas.viewBox.baseVal.height*2;
 
-        canvas.width=w*2;
-
-        canvas.height=h*2;
-
-        const ctx =
-        canvas.getContext('2d');
+        const ctx=canvas.getContext('2d');
 
         ctx.scale(2,2);
 
         ctx.drawImage(img,0,0);
 
-        URL.revokeObjectURL(url);
-
         canvas.toBlob(blob=>{
 
-            const a =
-            document.createElement('a');
+            const a=document.createElement('a');
 
-            a.href =
-            URL.createObjectURL(blob);
+            a.href=URL.createObjectURL(blob);
 
-            a.download =
-            'SVG-Studio-' +
-            Date.now() +
-            '.' + type;
+            a.download=
+            'SVG-Studio-'+Date.now()+'.'+type;
 
             a.click();
 
@@ -1343,30 +1329,22 @@ SVG DOWNLOAD
 
 function downloadSVG(){
 
-    const serializer =
-    new XMLSerializer();
+    const serializer=new XMLSerializer();
 
-    const source =
-    serializer.serializeToString(
-        svgCanvas
-    );
+    const source=
+    serializer.serializeToString(svgCanvas);
 
-    const blob =
+    const blob=
     new Blob(
         [source],
-        {
-            type:'image/svg+xml'
-        }
+        {type:'image/svg+xml'}
     );
 
-    const a =
-    document.createElement('a');
+    const a=document.createElement('a');
 
-    a.href =
-    URL.createObjectURL(blob);
+    a.href=URL.createObjectURL(blob);
 
-    a.download =
-    'SVG-Studio.svg';
+    a.download='SVG-Studio.svg';
 
     a.click();
 
@@ -1378,8 +1356,6 @@ RESET
 
 function resetStudio(){
 
-    localStorage.clear();
-
     location.reload();
 
 }
@@ -1390,36 +1366,26 @@ MOBILE
 
 function switchMobile(mode){
 
-    const sidebar =
-    document.getElementById('sidebar');
+    const sidebar=document.getElementById('sidebar');
+    const workspace=document.getElementById('workspace');
 
-    const workspace =
-    document.getElementById('workspace');
-
-    const eb =
-    document.getElementById('editBtn');
-
-    const pb =
-    document.getElementById('previewBtn');
+    const eb=document.getElementById('editBtn');
+    const pb=document.getElementById('previewBtn');
 
     if(mode==='edit'){
 
         sidebar.classList.add('active');
-
         workspace.classList.remove('active');
 
         eb.classList.add('active');
-
         pb.classList.remove('active');
 
     }else{
 
         sidebar.classList.remove('active');
-
         workspace.classList.add('active');
 
         eb.classList.remove('active');
-
         pb.classList.add('active');
 
     }
@@ -1427,51 +1393,10 @@ function switchMobile(mode){
 }
 
 /* =========================================================
-SHORTCUTS
-========================================================= */
-
-document.addEventListener(
-'keydown',
-e=>{
-
-    if(e.ctrlKey || e.metaKey){
-
-        if(e.key==='b'){
-
-            e.preventDefault();
-
-            execCmd('bold');
-
-        }
-
-        if(e.key==='i'){
-
-            e.preventDefault();
-
-            execCmd('italic');
-
-        }
-
-    }
-
-});
-
-/* =========================================================
 INIT
 ========================================================= */
 
 window.onload=()=>{
-
-    const saved =
-    localStorage.getItem(
-        'studioData'
-    );
-
-    if(saved){
-
-        editor.innerHTML=saved;
-
-    }
 
     syncEditor();
 
