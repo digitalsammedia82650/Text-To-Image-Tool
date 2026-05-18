@@ -11,7 +11,7 @@ content="width=device-width, initial-scale=1.0"
 
 <title>Text To Image Tool</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;700;800&family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@700&family=Oswald:wght@400;600&family=Bebas+Neue&family=Anton&family=Fira+Code&family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;700;800&family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@700&family=Oswald:wght@400;600&family=Bebas+Neue&family=Anton&family=Fira+Code&family=Lobster&family=Pacifico&family=Cinzel:wght@400;700&family=Raleway:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -20,14 +20,14 @@ ROOT
 ========================================================= */
 
 :root{
-    --bg:#edf2f7;
+    --bg:#eef2ff;
     --panel:#ffffff;
-    --border:#dbe3ef;
+    --border:#dbe4f0;
     --text:#0f172a;
     --muted:#64748b;
     --primary:#7c3aed;
-    --primary-hover:#6d28d9;
-    --shadow:0 10px 50px rgba(15,23,42,.08);
+    --primaryHover:#6d28d9;
+    --shadow:0 15px 60px rgba(15,23,42,.12);
 }
 
 /* =========================================================
@@ -64,7 +64,7 @@ select{
 
 ::-webkit-scrollbar-thumb{
     background:#cbd5e1;
-    border-radius:20px;
+    border-radius:30px;
 }
 
 /* =========================================================
@@ -82,8 +82,8 @@ HEADER
 ========================================================= */
 
 header{
-    height:72px;
-    min-height:72px;
+    height:74px;
+    min-height:74px;
     background:white;
     border-bottom:1px solid var(--border);
     display:flex;
@@ -91,12 +91,14 @@ header{
     justify-content:space-between;
     padding:0 18px;
     z-index:100;
+    gap:10px;
 }
 
 .logo{
-    font-size:1.3rem;
+    font-size:1.4rem;
     font-weight:900;
     letter-spacing:-1px;
+    white-space:nowrap;
 }
 
 .logo span{
@@ -105,8 +107,8 @@ header{
 
 .header-actions{
     display:flex;
-    gap:10px;
     flex-wrap:wrap;
+    gap:10px;
 }
 
 /* =========================================================
@@ -115,25 +117,29 @@ BUTTONS
 
 .btn{
     border:none;
-    cursor:pointer;
     border-radius:14px;
     padding:11px 15px;
-    font-weight:700;
+    cursor:pointer;
     transition:.2s;
+    font-weight:700;
 }
 
 .btn:hover{
     transform:translateY(-1px);
 }
 
-.btn-light{
-    background:#eef2ff;
-    color:#312e81;
-}
-
 .btn-primary{
     background:var(--primary);
     color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primaryHover);
+}
+
+.btn-light{
+    background:#eef2ff;
+    color:#312e81;
 }
 
 .btn-dark{
@@ -142,7 +148,7 @@ BUTTONS
 }
 
 /* =========================================================
-MAIN LAYOUT
+MAIN
 ========================================================= */
 
 .main{
@@ -157,7 +163,7 @@ SIDEBAR
 
 .sidebar{
     width:390px;
-    background:var(--panel);
+    background:white;
     border-right:1px solid var(--border);
     overflow-y:auto;
 }
@@ -169,27 +175,27 @@ SIDEBAR
 
 .section-title{
     font-size:12px;
-    font-weight:900;
-    letter-spacing:1px;
     text-transform:uppercase;
+    letter-spacing:1px;
     color:var(--muted);
+    font-weight:900;
     margin-bottom:16px;
 }
 
 .group{
     display:flex;
-    gap:10px;
     flex-wrap:wrap;
+    gap:10px;
 }
 
 .input,
 .select{
     width:100%;
-    border:1px solid var(--border);
-    border-radius:14px;
     padding:12px;
-    outline:none;
+    border-radius:14px;
+    border:1px solid var(--border);
     background:white;
+    outline:none;
 }
 
 .range{
@@ -212,11 +218,12 @@ EDITOR
     min-height:260px;
     border:1px solid var(--border);
     border-radius:24px;
-    padding:20px;
+    padding:22px;
     background:white;
     outline:none;
     font-size:22px;
     line-height:1.6;
+    color:#111111;
 }
 
 /* =========================================================
@@ -244,7 +251,6 @@ CANVAS
     border-radius:28px;
     overflow:hidden;
     box-shadow:var(--shadow);
-    position:relative;
 }
 
 #svgCanvas{
@@ -268,7 +274,7 @@ MOBILE
 
     .sidebar{
         width:100%;
-        height:calc(100vh - 130px);
+        height:calc(100vh - 140px);
         display:none;
     }
 
@@ -289,9 +295,9 @@ MOBILE
         display:flex;
         justify-content:space-around;
         align-items:center;
-        padding:12px;
         background:white;
         border-top:1px solid var(--border);
+        padding:12px;
     }
 
     .mobile-nav button{
@@ -305,6 +311,45 @@ MOBILE
         color:var(--primary);
     }
 
+    header{
+        flex-direction:column;
+        height:auto;
+        padding:12px;
+        align-items:flex-start;
+    }
+
+}
+
+/* =========================================================
+COLOR PICKERS
+========================================================= */
+
+.color-row{
+    display:flex;
+    gap:10px;
+}
+
+.color-row input{
+    flex:1;
+    height:50px;
+    border:none;
+    border-radius:14px;
+    overflow:hidden;
+}
+
+/* =========================================================
+TOOLS
+========================================================= */
+
+.tool-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.tool-row button{
+    flex:1;
+    min-width:90px;
 }
 
 </style>
@@ -313,10 +358,6 @@ MOBILE
 <body>
 
 <div class="app">
-
-<!-- =========================================================
-HEADER
-========================================================= -->
 
 <header>
 
@@ -327,28 +368,28 @@ Text<span>.</span>To<span>.</span>Image
 <div class="header-actions">
 
 <button class="btn btn-light" onclick="resetStudio()">
-Reset Project
+Reset
 </button>
 
 <button class="btn btn-dark" onclick="downloadSVG()">
-⬇ Download Editable SVG
+⬇ SVG
 </button>
 
 <button class="btn btn-dark" onclick="exportImage('jpg')">
-⬇ Download JPG Image
+⬇ JPG
 </button>
 
 <button class="btn btn-primary" onclick="exportImage('png')">
-⬇ Download PNG Image
+⬇ PNG
+</button>
+
+<button class="btn btn-primary" onclick="downloadPDF()">
+⬇ PDF
 </button>
 
 </div>
 
 </header>
-
-<!-- =========================================================
-MAIN
-========================================================= -->
 
 <div class="main">
 
@@ -359,16 +400,16 @@ SIDEBAR
 <aside class="sidebar active" id="sidebar">
 
 <!-- =========================================================
-TEXT
+TEXT TOOLS
 ========================================================= -->
 
 <div class="section">
 
 <div class="section-title">
-Text Editor
+Text Tools
 </div>
 
-<div class="group" style="margin-bottom:14px;">
+<div class="tool-row">
 
 <button class="btn btn-light" onclick="cmd('bold')">
 Bold
@@ -400,6 +441,8 @@ Right
 
 </div>
 
+<br>
+
 <div
 id="editor"
 contenteditable="true"
@@ -408,14 +451,15 @@ oninput="syncEditor()">
 <h1>Text To Image Tool</h1>
 
 <p>
-Create beautiful full page text images with SVG rendering.
+Create full page beautiful image posts with SVG rendering engine.
 </p>
 
 <ul>
-<li>HD PNG Export</li>
-<li>HD JPG Export</li>
+<li>PNG Export</li>
+<li>JPG Export</li>
+<li>PDF Export</li>
 <li>Editable SVG Export</li>
-<li>Background Image Controls</li>
+<li>Background Image Editing</li>
 <li>Paper Sizes</li>
 </ul>
 
@@ -438,6 +482,7 @@ Font Family
 </label>
 
 <select class="select" onchange="updateFont(this.value)">
+
 <option>Inter</option>
 <option>Poppins</option>
 <option>Montserrat</option>
@@ -449,6 +494,9 @@ Font Family
 <option>Fira Code</option>
 <option>Lobster</option>
 <option>Pacifico</option>
+<option>Cinzel</option>
+<option>Raleway</option>
+
 </select>
 
 <br><br>
@@ -463,7 +511,7 @@ type="range"
 min="12"
 max="120"
 value="32"
-oninput="updateTextStyle('fontSize', this.value + 'px')"
+oninput="updateTextStyle('fontSize',this.value+'px')"
 />
 
 <br><br>
@@ -479,7 +527,7 @@ min="1"
 max="3"
 step="0.1"
 value="1.5"
-oninput="updateTextStyle('lineHeight', this.value)"
+oninput="updateTextStyle('lineHeight',this.value)"
 />
 
 <br><br>
@@ -494,7 +542,7 @@ type="range"
 min="0"
 max="20"
 value="0"
-oninput="updateTextStyle('letterSpacing', this.value + 'px')"
+oninput="updateTextStyle('letterSpacing',this.value+'px')"
 />
 
 <br><br>
@@ -503,8 +551,9 @@ oninput="updateTextStyle('letterSpacing', this.value + 'px')"
 Text Color
 </label>
 
+<div class="color-row">
+
 <input
-class="input"
 type="color"
 value="#111111"
 oninput="updateTextColor(this.value)"
@@ -512,14 +561,16 @@ oninput="updateTextColor(this.value)"
 
 </div>
 
+</div>
+
 <!-- =========================================================
-PAPER SIZE
+CANVAS
 ========================================================= -->
 
 <div class="section">
 
 <div class="section-title">
-Canvas & Paper Size
+Canvas Size
 </div>
 
 <select class="select" onchange="setPaper(this.value)">
@@ -537,15 +588,15 @@ YouTube Thumbnail
 </option>
 
 <option value="794x1123">
-A4 Paper
+A4
 </option>
 
 <option value="1123x1587">
-A3 Paper
+A3
 </option>
 
 <option value="1587x2245">
-A2 Paper
+A2
 </option>
 
 <option value="595x842">
@@ -561,7 +612,7 @@ Custom
 <br><br>
 
 <label>
-Canvas Width
+Custom Width
 </label>
 
 <input
@@ -574,7 +625,7 @@ value="1080"
 <br><br>
 
 <label>
-Canvas Height
+Custom Height
 </label>
 
 <input
@@ -591,7 +642,7 @@ class="btn btn-primary"
 style="width:100%;"
 onclick="applyCustomCanvas()">
 
-Apply Custom Canvas
+Apply Canvas
 
 </button>
 
@@ -604,19 +655,22 @@ BACKGROUND
 <div class="section">
 
 <div class="section-title">
-Background Image Studio
+Background Studio
 </div>
 
 <label>
 Background Color
 </label>
 
+<div class="color-row">
+
 <input
-class="input"
 type="color"
 value="#ffffff"
 oninput="updateBackgroundColor(this.value)"
 />
+
+</div>
 
 <br><br>
 
@@ -634,14 +688,14 @@ onchange="uploadBackground(this)"
 <br><br>
 
 <label>
-Background Position X
+Position X
 </label>
 
 <input
 class="range"
 type="range"
-min="-500"
-max="500"
+min="-1000"
+max="1000"
 value="0"
 oninput="bgPosX=this.value; renderSVG();"
 />
@@ -649,14 +703,14 @@ oninput="bgPosX=this.value; renderSVG();"
 <br><br>
 
 <label>
-Background Position Y
+Position Y
 </label>
 
 <input
 class="range"
 type="range"
-min="-500"
-max="500"
+min="-1000"
+max="1000"
 value="0"
 oninput="bgPosY=this.value; renderSVG();"
 />
@@ -664,14 +718,14 @@ oninput="bgPosY=this.value; renderSVG();"
 <br><br>
 
 <label>
-Background Zoom
+Zoom
 </label>
 
 <input
 class="range"
 type="range"
 min="20"
-max="300"
+max="400"
 value="100"
 oninput="bgScale=this.value; renderSVG();"
 />
@@ -679,7 +733,7 @@ oninput="bgScale=this.value; renderSVG();"
 <br><br>
 
 <label>
-Background Rotation
+Rotation
 </label>
 
 <input
@@ -694,7 +748,7 @@ oninput="bgRotate=this.value; renderSVG();"
 <br><br>
 
 <label>
-Background Opacity
+Opacity
 </label>
 
 <input
@@ -710,7 +764,7 @@ oninput="bgOpacity=this.value; renderSVG();"
 <br><br>
 
 <label>
-Background Blur
+Blur
 </label>
 
 <input
@@ -781,8 +835,11 @@ PREVIEW
 STATE
 ========================================================= */
 
-const editor = document.getElementById("editor");
-const svgCanvas = document.getElementById("svgCanvas");
+const editor =
+document.getElementById("editor");
+
+const svgCanvas =
+document.getElementById("svgCanvas");
 
 let canvasWidth = 1080;
 let canvasHeight = 1080;
@@ -875,14 +932,14 @@ function uploadBackground(input){
 
         renderSVG();
 
-    }
+    };
 
     reader.readAsDataURL(file);
 
 }
 
 /* =========================================================
-PAPER
+PAPER SIZE
 ========================================================= */
 
 function setPaper(size){
@@ -901,10 +958,14 @@ function setPaper(size){
 function applyCustomCanvas(){
 
     canvasWidth =
-    parseInt(document.getElementById("customWidth").value);
+    parseInt(
+    document.getElementById("customWidth").value
+    );
 
     canvasHeight =
-    parseInt(document.getElementById("customHeight").value);
+    parseInt(
+    document.getElementById("customHeight").value
+    );
 
     renderSVG();
 
@@ -921,13 +982,20 @@ function syncEditor(){
 }
 
 /* =========================================================
-SVG RENDER
+RENDER SVG
 ========================================================= */
 
 function renderSVG(){
 
-    svgCanvas.setAttribute("width",canvasWidth);
-    svgCanvas.setAttribute("height",canvasHeight);
+    svgCanvas.setAttribute(
+    "width",
+    canvasWidth
+    );
+
+    svgCanvas.setAttribute(
+    "height",
+    canvasHeight
+    );
 
     let bgLayer = `
     <rect
@@ -939,11 +1007,12 @@ function renderSVG(){
     if(bgImage){
 
         bgLayer += `
+
         <defs>
 
-            <filter id="bgFx">
-                <feGaussianBlur stdDeviation="${bgBlur}" />
-            </filter>
+        <filter id="bgBlurFilter">
+        <feGaussianBlur stdDeviation="${bgBlur}" />
+        </filter>
 
         </defs>
 
@@ -954,8 +1023,8 @@ function renderSVG(){
         width="${canvasWidth * (bgScale/100)}"
         height="${canvasHeight * (bgScale/100)}"
         opacity="${bgOpacity}"
-        filter="url(#bgFx)"
         preserveAspectRatio="xMidYMid slice"
+        filter="url(#bgBlurFilter)"
         transform="
         rotate(
         ${bgRotate}
@@ -963,10 +1032,9 @@ function renderSVG(){
         ${canvasHeight/2}
         )"
         />
+
         `;
     }
-
-    const html = editor.innerHTML;
 
     svgCanvas.innerHTML = `
 
@@ -975,24 +1043,25 @@ function renderSVG(){
     <foreignObject
     x="60"
     y="60"
-    width="${canvasWidth-120}"
-    height="${canvasHeight-120}">
+    width="${canvasWidth - 120}"
+    height="${canvasHeight - 120}">
 
-        <div xmlns="http://www.w3.org/1999/xhtml"
-        style="
-        width:100%;
-        height:100%;
-        color:${textColor};
-        font-family:${getComputedStyle(editor).fontFamily};
-        font-size:${getComputedStyle(editor).fontSize};
-        line-height:${getComputedStyle(editor).lineHeight};
-        letter-spacing:${getComputedStyle(editor).letterSpacing};
-        overflow-wrap:break-word;
-        ">
+    <div xmlns="http://www.w3.org/1999/xhtml"
+    style="
+    width:100%;
+    height:100%;
+    color:${textColor};
+    font-family:${getComputedStyle(editor).fontFamily};
+    font-size:${getComputedStyle(editor).fontSize};
+    line-height:${getComputedStyle(editor).lineHeight};
+    letter-spacing:${getComputedStyle(editor).letterSpacing};
+    text-align:${getComputedStyle(editor).textAlign};
+    overflow-wrap:break-word;
+    ">
 
-        ${html}
+    ${editor.innerHTML}
 
-        </div>
+    </div>
 
     </foreignObject>
 
@@ -1006,29 +1075,41 @@ DOWNLOAD SVG
 
 function downloadSVG(){
 
-    const data =
-    new XMLSerializer().serializeToString(svgCanvas);
+    const serializer =
+    new XMLSerializer();
+
+    let source =
+    serializer.serializeToString(svgCanvas);
+
+    source =
+    '<?xml version="1.0" standalone="no"?>\r\n' +
+    source;
 
     const blob =
-    new Blob([data],{
-        type:"image/svg+xml"
+    new Blob(
+    [source],
+    {
+        type:"image/svg+xml;charset=utf-8"
     });
 
     const url =
     URL.createObjectURL(blob);
 
-    const a =
+    const link =
     document.createElement("a");
 
-    a.href = url;
+    link.href = url;
 
-    a.download = "Text-To-Image.svg";
+    link.download =
+    "Text-To-Image.svg";
 
-    document.body.appendChild(a);
+    document.body.appendChild(link);
 
-    a.click();
+    link.click();
 
-    document.body.removeChild(a);
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
 
 }
 
@@ -1038,16 +1119,18 @@ EXPORT PNG/JPG
 
 function exportImage(type){
 
-    const svgData =
-    new XMLSerializer().serializeToString(svgCanvas);
+    const serializer =
+    new XMLSerializer();
+
+    const source =
+    serializer.serializeToString(svgCanvas);
 
     const svgBlob =
     new Blob(
-        [svgData],
-        {
-            type:"image/svg+xml;charset=utf-8"
-        }
-    );
+    [source],
+    {
+        type:"image/svg+xml;charset=utf-8"
+    });
 
     const url =
     URL.createObjectURL(svgBlob);
@@ -1060,32 +1143,39 @@ function exportImage(type){
         const canvas =
         document.createElement("canvas");
 
-        canvas.width = canvasWidth * 2;
+        const scale = 3;
 
-        canvas.height = canvasHeight * 2;
+        canvas.width =
+        canvasWidth * scale;
+
+        canvas.height =
+        canvasHeight * scale;
 
         const ctx =
         canvas.getContext("2d");
 
+        ctx.scale(scale,scale);
+
         if(type === "jpg"){
 
-            ctx.fillStyle = bgColor;
+            ctx.fillStyle =
+            bgColor;
 
             ctx.fillRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
+            0,
+            0,
+            canvasWidth,
+            canvasHeight
             );
 
         }
 
         ctx.drawImage(
-            img,
-            0,
-            0,
-            canvas.width,
-            canvas.height
+        img,
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
         );
 
         const link =
@@ -1095,10 +1185,11 @@ function exportImage(type){
         `Text-To-Image.${type}`;
 
         link.href =
-        canvas.toDataURL(
-            `image/${type}`,
-            1
-        );
+        type === "png"
+        ?
+        canvas.toDataURL("image/png",1)
+        :
+        canvas.toDataURL("image/jpeg",1);
 
         document.body.appendChild(link);
 
@@ -1108,15 +1199,144 @@ function exportImage(type){
 
         URL.revokeObjectURL(url);
 
-    }
+    };
 
     img.onerror = function(){
 
-        alert("Image export failed.");
+        alert("Export failed.");
 
-    }
+    };
 
-    img.src = url;
+    const reader =
+    new FileReader();
+
+    reader.onload = function(){
+
+        img.src = reader.result;
+
+    };
+
+    reader.readAsDataURL(svgBlob);
+
+}
+
+/* =========================================================
+PDF
+========================================================= */
+
+function downloadPDF(){
+
+    const serializer =
+    new XMLSerializer();
+
+    const source =
+    serializer.serializeToString(svgCanvas);
+
+    const svgBlob =
+    new Blob(
+    [source],
+    {
+        type:"image/svg+xml;charset=utf-8"
+    });
+
+    const img =
+    new Image();
+
+    img.onload = function(){
+
+        const canvas =
+        document.createElement("canvas");
+
+        const scale = 3;
+
+        canvas.width =
+        canvasWidth * scale;
+
+        canvas.height =
+        canvasHeight * scale;
+
+        const ctx =
+        canvas.getContext("2d");
+
+        ctx.scale(scale,scale);
+
+        ctx.fillStyle =
+        bgColor;
+
+        ctx.fillRect(
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+        );
+
+        ctx.drawImage(
+        img,
+        0,
+        0,
+        canvasWidth,
+        canvasHeight
+        );
+
+        const image =
+        canvas.toDataURL(
+        "image/jpeg",
+        1
+        );
+
+        const pdfWindow =
+        window.open("");
+
+        pdfWindow.document.write(`
+
+        <html>
+
+        <head>
+
+        <title>
+        Text To Image PDF
+        </title>
+
+        <style>
+
+        body{
+            margin:0;
+        }
+
+        img{
+            width:100%;
+            display:block;
+        }
+
+        </style>
+
+        </head>
+
+        <body>
+
+        <img
+        src="${image}"
+        onload="window.print()"
+        />
+
+        </body>
+
+        </html>
+
+        `);
+
+    };
+
+    const reader =
+    new FileReader();
+
+    reader.onload = function(){
+
+        img.src = reader.result;
+
+    };
+
+    reader.readAsDataURL(svgBlob);
 
 }
 
@@ -1131,7 +1351,7 @@ function resetStudio(){
 }
 
 /* =========================================================
-MOBILE PANEL
+MOBILE
 ========================================================= */
 
 function showPanel(type){
@@ -1180,7 +1400,7 @@ window.onload = function(){
 
     renderSVG();
 
-}
+};
 
 </script>
 
