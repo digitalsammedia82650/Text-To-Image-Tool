@@ -3,11 +3,7 @@
 <head>
 
 <meta charset="UTF-8" />
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <title>Text To Image Tool</title>
 
@@ -467,9 +463,7 @@ Create full page beautiful image posts with SVG rendering engine.
 
 </div>
 
-<!-- =========================================================
-TYPOGRAPHY
-========================================================= -->
+<!-- TYPOGRAPHY -->
 
 <div class="section">
 
@@ -563,9 +557,7 @@ oninput="updateTextColor(this.value)"
 
 </div>
 
-<!-- =========================================================
-CANVAS
-========================================================= -->
+<!-- CANVAS -->
 
 <div class="section">
 
@@ -648,9 +640,7 @@ Apply Canvas
 
 </div>
 
-<!-- =========================================================
-BACKGROUND
-========================================================= -->
+<!-- BACKGROUND -->
 
 <div class="section">
 
@@ -780,9 +770,7 @@ oninput="bgBlur=this.value; renderSVG();"
 
 </aside>
 
-<!-- =========================================================
-WORKSPACE
-========================================================= -->
+<!-- WORKSPACE -->
 
 <section class="workspace active" id="workspace">
 
@@ -802,9 +790,7 @@ height="1080">
 
 </div>
 
-<!-- =========================================================
-MOBILE NAV
-========================================================= -->
+<!-- MOBILE -->
 
 <nav class="mobile-nav">
 
@@ -857,10 +843,18 @@ let bgBlur = 0;
 let textColor = "#111111";
 
 /* =========================================================
-TEXT COMMANDS
+FIX EXEC COMMANDS
 ========================================================= */
 
+function focusEditor(){
+
+    editor.focus();
+
+}
+
 function cmd(command){
+
+    focusEditor();
 
     document.execCommand(command,false,null);
 
@@ -870,7 +864,19 @@ function cmd(command){
 
 function alignText(type){
 
-    editor.style.textAlign = type;
+    focusEditor();
+
+    if(type === "left"){
+        document.execCommand("justifyLeft");
+    }
+
+    if(type === "center"){
+        document.execCommand("justifyCenter");
+    }
+
+    if(type === "right"){
+        document.execCommand("justifyRight");
+    }
 
     syncEditor();
 
@@ -1226,117 +1232,7 @@ PDF
 
 function downloadPDF(){
 
-    const serializer =
-    new XMLSerializer();
-
-    const source =
-    serializer.serializeToString(svgCanvas);
-
-    const svgBlob =
-    new Blob(
-    [source],
-    {
-        type:"image/svg+xml;charset=utf-8"
-    });
-
-    const img =
-    new Image();
-
-    img.onload = function(){
-
-        const canvas =
-        document.createElement("canvas");
-
-        const scale = 3;
-
-        canvas.width =
-        canvasWidth * scale;
-
-        canvas.height =
-        canvasHeight * scale;
-
-        const ctx =
-        canvas.getContext("2d");
-
-        ctx.scale(scale,scale);
-
-        ctx.fillStyle =
-        bgColor;
-
-        ctx.fillRect(
-        0,
-        0,
-        canvasWidth,
-        canvasHeight
-        );
-
-        ctx.drawImage(
-        img,
-        0,
-        0,
-        canvasWidth,
-        canvasHeight
-        );
-
-        const image =
-        canvas.toDataURL(
-        "image/jpeg",
-        1
-        );
-
-        const pdfWindow =
-        window.open("");
-
-        pdfWindow.document.write(`
-
-        <html>
-
-        <head>
-
-        <title>
-        Text To Image PDF
-        </title>
-
-        <style>
-
-        body{
-            margin:0;
-        }
-
-        img{
-            width:100%;
-            display:block;
-        }
-
-        </style>
-
-        </head>
-
-        <body>
-
-        <img
-        src="${image}"
-        onload="window.print()"
-        />
-
-        </body>
-
-        </html>
-
-        `);
-
-    };
-
-    const reader =
-    new FileReader();
-
-    reader.onload = function(){
-
-        img.src = reader.result;
-
-    };
-
-    reader.readAsDataURL(svgBlob);
+    window.print();
 
 }
 
