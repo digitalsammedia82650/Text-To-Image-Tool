@@ -1,294 +1,1503 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Pro Text-to-Image Studio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8" />
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+/>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Fira+Code&family=Bungee&display=swap" rel="stylesheet">
-    
-    <!-- Libraries -->
-    <script src="https://unpkg.com/dom-to-image-more@2.9.5/dist/dom-to-image-more.min.js"></script>
+<title>SVG Full Page Text To Image Studio</title>
 
-    <style>
-        :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg: #0f172a;
-            --panel: #1e293b;
-            --text: #f8fafc;
-            --border: #334155;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Playfair+Display:wght@700&family=Fira+Code:wght@400;700&family=Bungee&display=swap" rel="stylesheet">
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body {
-            margin: 0; font-family: 'Inter', sans-serif;
-            background: var(--bg); color: var(--text);
-            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
-        }
+<style>
 
-        /* --- HEADER --- */
-        header {
-            padding: 12px 20px; background: var(--panel);
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-        }
+/* =========================================================
+   ROOT
+========================================================= */
 
-        .logo { font-weight: 900; letter-spacing: -1px; font-size: 1.2rem; }
-        .logo span { color: var(--primary); }
+:root{
 
-        /* --- LAYOUT ENGINE --- */
-        main { display: flex; flex: 1; overflow: hidden; position: relative; }
+    --dsm-primary:#6366f1;
+    --dsm-primary-hover:#4f46e5;
 
-        /* Sidebar (Editor & Styles) */
-        .sidebar {
-            width: 380px;
-            background: var(--panel);
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid var(--border);
-            overflow-y: auto;
-            z-index: 10;
-        }
+    --dsm-bg:#0f172a;
+    --dsm-panel:#1e293b;
 
-        /* Canvas Workspace */
-        .workspace {
-            flex: 1;
-            background: #020617;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: auto;
-            padding: 40px;
-            background-image: radial-gradient(#1e293b 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
+    --dsm-border:#334155;
 
-        /* --- COMPONENTS --- */
-        .section { padding: 20px; border-bottom: 1px solid var(--border); }
-        .label { font-size: 11px; text-transform: uppercase; color: #94a3b8; margin-bottom: 10px; display: block; font-weight: 700; }
+    --dsm-text:#f8fafc;
 
-        #editor {
-            min-height: 150px; background: rgba(0,0,0,0.2); border: 1px solid var(--border);
-            border-radius: 8px; padding: 15px; outline: none; font-size: 16px; line-height: 1.5;
-        }
+}
 
-        #renderBox {
-            position: relative; background: #111; padding: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-            word-wrap: break-word; overflow: hidden;
-            background-size: cover; background-position: center;
-            transition: transform 0.2s ease;
-        }
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-        /* Buttons & Controls */
-        .btn-group { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
-        
-        button.tool-btn {
-            background: #334155; color: white; border: none;
-            padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: 600;
-            transition: 0.2s;
-        }
-        button.tool-btn:hover { background: #475569; }
-        button.tool-btn.active { background: var(--primary); }
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
 
-        select, input[type="range"], input[type="color"] {
-            width: 100%; background: #0f172a; color: white;
-            border: 1px solid var(--border); padding: 8px; border-radius: 6px; outline: none;
-        }
+html,body{
 
-        /* Mobile Tab Bar */
-        .mobile-nav {
-            display: none; background: var(--panel);
-            padding: 10px; border-top: 1px solid var(--border);
-        }
+    margin:0;
+    height:100%;
+    overflow:hidden;
 
-        /* --- RESPONSIVE LOGIC --- */
-        @media (max-width: 900px) {
-            main { flex-direction: column; }
-            .sidebar { width: 100%; height: 100%; display: none; }
-            .sidebar.active { display: flex; }
-            .workspace { display: none; height: 100%; }
-            .workspace.active { display: flex; }
-            .mobile-nav { display: flex; justify-content: space-around; }
-            .mobile-nav button {
-                background: none; border: none; color: #94a3b8; font-weight: 600; font-size: 12px;
-            }
-            .mobile-nav button.active { color: var(--primary); }
-        }
-    </style>
+    background:var(--dsm-bg);
+
+    color:var(--dsm-text);
+
+    font-family:'Inter',sans-serif;
+
+}
+
+button,
+input,
+select,
+textarea{
+    font-family:inherit;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.dsm-app{
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.dsm-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 18px;
+
+    background:rgba(15,23,42,.96);
+
+    border-bottom:1px solid var(--dsm-border);
+
+    backdrop-filter:blur(14px);
+
+    z-index:100;
+
+}
+
+.dsm-logo{
+
+    font-size:1.3rem;
+
+    font-weight:900;
+
+    letter-spacing:-1px;
+
+}
+
+.dsm-logo span{
+
+    color:var(--dsm-primary);
+
+}
+
+.dsm-actions{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.dsm-btn{
+
+    border:none;
+
+    cursor:pointer;
+
+    border-radius:12px;
+
+    padding:11px 16px;
+
+    font-weight:700;
+
+    color:white;
+
+    background:#334155;
+
+    transition:.2s;
+
+}
+
+.dsm-btn:hover{
+
+    transform:translateY(-1px);
+
+    background:#475569;
+
+}
+
+.dsm-btn-primary{
+
+    background:var(--dsm-primary);
+
+}
+
+.dsm-btn-primary:hover{
+
+    background:var(--dsm-primary-hover);
+
+}
+
+.dsm-btn-active{
+
+    background:var(--dsm-primary);
+
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.dsm-main{
+
+    flex:1;
+
+    display:flex;
+
+    overflow:hidden;
+
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.dsm-sidebar{
+
+    width:390px;
+
+    background:var(--dsm-panel);
+
+    border-right:1px solid var(--dsm-border);
+
+    overflow-y:auto;
+
+}
+
+.dsm-section{
+
+    padding:20px;
+
+    border-bottom:1px solid var(--dsm-border);
+
+}
+
+.dsm-label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    color:#94a3b8;
+
+    font-size:11px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+.dsm-group{
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.dsm-input,
+.dsm-select{
+
+    width:100%;
+
+    background:#0f172a;
+
+    border:1px solid var(--dsm-border);
+
+    border-radius:12px;
+
+    padding:10px;
+
+    color:white;
+
+    outline:none;
+
+}
+
+/* =========================================================
+   EDITOR
+========================================================= */
+
+#dsm-editor{
+
+    min-height:240px;
+
+    background:rgba(0,0,0,.2);
+
+    border:1px solid var(--dsm-border);
+
+    border-radius:16px;
+
+    padding:18px;
+
+    outline:none;
+
+    font-size:17px;
+
+    line-height:1.7;
+
+}
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.dsm-workspace{
+
+    flex:1;
+
+    overflow:auto;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    padding:50px;
+
+    background:
+    radial-gradient(#1e293b 1px, transparent 1px);
+
+    background-size:20px 20px;
+
+}
+
+/* =========================================================
+   SVG CONTAINER
+========================================================= */
+
+#dsm-renderBox{
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 30px 60px rgba(0,0,0,.65);
+
+}
+
+#dsm-svgCanvas{
+
+    display:block;
+
+    background:#111;
+
+}
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.dsm-mobile-nav{
+
+    display:none;
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px){
+
+    .dsm-main{
+
+        flex-direction:column;
+
+    }
+
+    .dsm-sidebar{
+
+        width:100%;
+
+        display:none;
+
+    }
+
+    .dsm-sidebar.active{
+
+        display:block;
+
+    }
+
+    .dsm-workspace{
+
+        display:none;
+
+        padding:20px;
+
+    }
+
+    .dsm-workspace.active{
+
+        display:flex;
+
+    }
+
+    .dsm-mobile-nav{
+
+        display:flex;
+
+        justify-content:space-around;
+
+        background:var(--dsm-panel);
+
+        border-top:1px solid var(--dsm-border);
+
+        padding:10px;
+
+    }
+
+    .dsm-mobile-nav button{
+
+        background:none;
+
+        border:none;
+
+        color:#94a3b8;
+
+        font-weight:800;
+
+        font-size:12px;
+
+    }
+
+    .dsm-mobile-nav button.active{
+
+        color:var(--dsm-primary);
+
+    }
+
+    .dsm-sidebar{
+
+        height:100%;
+
+    }
+
+}
+
+</style>
 </head>
 <body>
 
-<header>
-    <div class="logo">STUDIO<span>.</span></div>
-    <div style="display:flex; gap:10px;">
-        <button class="tool-btn" style="background:transparent;" onclick="localStorage.clear(); location.reload();">Reset</button>
-        <button class="tool-btn" style="background:var(--primary);" onclick="exportImage()">Download PNG</button>
-    </div>
-</header>
+<div class="dsm-app">
 
-<main>
-    <!-- Left Sidebar: Controls -->
-    <aside class="sidebar active" id="sidebar">
-        <div class="section">
-            <span class="label">1. Text Content</span>
-            <div class="btn-group">
-                <button class="tool-btn" onclick="exec('bold')" title="Ctrl+B"><b>B</b></button>
-                <button class="tool-btn" onclick="exec('italic')" title="Ctrl+I"><i>I</i></button>
-                <button class="tool-btn" onclick="exec('underline')"><u>U</u></button>
-                <button class="tool-btn" onclick="exec('justifyCenter')">Center</button>
-                <button class="tool-btn" onclick="exec('insertUnorderedList')">List</button>
-            </div>
-            <div id="editor" contenteditable="true" oninput="sync()">Hello! Type something beautiful here...</div>
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="dsm-header">
+
+        <div class="dsm-logo">
+            STUDIO<span>.</span>
         </div>
 
-        <div class="section">
-            <span class="label">2. Typography</span>
-            <div class="btn-group">
-                <select onchange="exec('fontName', this.value)" style="flex:1">
-                    <option value="Inter">Inter (Sans)</option>
-                    <option value="Playfair Display">Playfair (Serif)</option>
-                    <option value="Fira Code">Fira Code (Mono)</option>
-                    <option value="Bungee">Bungee (Display)</option>
+        <div class="dsm-actions">
+
+            <button
+            class="dsm-btn"
+            onclick="resetStudio()">
+            Reset
+            </button>
+
+            <button
+            class="dsm-btn"
+            onclick="downloadSVG()">
+            SVG
+            </button>
+
+            <button
+            class="dsm-btn"
+            onclick="exportJPG()">
+            JPG
+            </button>
+
+            <button
+            class="dsm-btn dsm-btn-primary"
+            onclick="exportPNG()">
+            PNG
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="dsm-main">
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside
+        class="dsm-sidebar active"
+        id="dsm-sidebar">
+
+            <!-- =============================================
+                 TEXT
+            ============================================== -->
+
+            <div class="dsm-section">
+
+                <span class="dsm-label">
+                    Text Editor
+                </span>
+
+                <div class="dsm-group" style="margin-bottom:10px;">
+
+                    <button
+                    class="dsm-btn"
+                    onclick="execCmd('bold')">
+                    <b>B</b>
+                    </button>
+
+                    <button
+                    class="dsm-btn"
+                    onclick="execCmd('italic')">
+                    <i>I</i>
+                    </button>
+
+                    <button
+                    class="dsm-btn"
+                    onclick="execCmd('underline')">
+                    <u>U</u>
+                    </button>
+
+                    <button
+                    class="dsm-btn"
+                    onclick="setTextAlign('left')">
+                    Left
+                    </button>
+
+                    <button
+                    class="dsm-btn"
+                    onclick="setTextAlign('center')">
+                    Center
+                    </button>
+
+                    <button
+                    class="dsm-btn"
+                    onclick="setTextAlign('right')">
+                    Right
+                    </button>
+
+                    <button
+                    class="dsm-btn"
+                    onclick="execCmd('insertUnorderedList')">
+                    List
+                    </button>
+
+                </div>
+
+                <div
+                id="dsm-editor"
+                contenteditable="true"
+                oninput="syncEditorToSVG()">
+
+<h1>Full Page SVG Text To Image Studio</h1>
+
+<p>
+This tool can generate very long text images with SVG intermediate rendering.
+</p>
+
+<p>
+Supports:
+</p>
+
+<ul>
+<li>Long page exports</li>
+<li>Background images</li>
+<li>Colored typography</li>
+<li>Retina PNG rendering</li>
+<li>SVG exports</li>
+<li>JPG exports</li>
+<li>Mobile support</li>
+</ul>
+
+                </div>
+
+            </div>
+
+            <!-- =============================================
+                 TYPOGRAPHY
+            ============================================== -->
+
+            <div class="dsm-section">
+
+                <span class="dsm-label">
+                    Font Family
+                </span>
+
+                <select
+                class="dsm-select"
+                onchange="changeFont(this.value)">
+
+                    <option value="Inter">
+                        Inter
+                    </option>
+
+                    <option value="Playfair Display">
+                        Playfair
+                    </option>
+
+                    <option value="Fira Code">
+                        Fira Code
+                    </option>
+
+                    <option value="Bungee">
+                        Bungee
+                    </option>
+
                 </select>
-                <input type="color" onchange="exec('foreColor', this.value)" style="width:45px; padding:2px;">
+
+                <br><br>
+
+                <span class="dsm-label">
+                    Text Color
+                </span>
+
+                <input
+                type="color"
+                class="dsm-input"
+                value="#ffffff"
+                onchange="changeTextColor(this.value)">
+
+                <br><br>
+
+                <span class="dsm-label">
+                    Background Color
+                </span>
+
+                <input
+                type="color"
+                class="dsm-input"
+                value="#111111"
+                onchange="changeBg(this.value)">
+
+                <br><br>
+
+                <span class="dsm-label">
+                    Font Size
+                </span>
+
+                <input
+                type="range"
+                min="18"
+                max="120"
+                value="52"
+                class="dsm-input"
+                oninput="changeFontSize(this.value)">
+
+                <br><br>
+
+                <span class="dsm-label">
+                    Line Height
+                </span>
+
+                <input
+                type="range"
+                min="1"
+                max="3"
+                step="0.1"
+                value="1.4"
+                class="dsm-input"
+                oninput="changeLineHeight(this.value)">
+
+                <br><br>
+
+                <span class="dsm-label">
+                    Letter Spacing
+                </span>
+
+                <input
+                type="range"
+                min="0"
+                max="10"
+                value="0"
+                class="dsm-input"
+                oninput="changeLetterSpacing(this.value)">
+
             </div>
-            <div style="display:flex; gap:15px; align-items:center;">
-                <div style="flex:1">
-                    <span class="label" style="font-size:9px">Size</span>
-                    <input type="range" min="12" max="100" value="32" oninput="updateStyle('fontSize', this.value + 'px')">
+
+            <!-- =============================================
+                 SIZE
+            ============================================== -->
+
+            <div class="dsm-section">
+
+                <span class="dsm-label">
+                    Presets
+                </span>
+
+                <div class="dsm-group">
+
+                    <button
+                    id="dsm-r1"
+                    class="dsm-btn dsm-btn-active"
+                    onclick="setRatio('1:1','dsm-r1')">
+                    1:1
+                    </button>
+
+                    <button
+                    id="dsm-r2"
+                    class="dsm-btn"
+                    onclick="setRatio('9:16','dsm-r2')">
+                    9:16
+                    </button>
+
+                    <button
+                    id="dsm-r3"
+                    class="dsm-btn"
+                    onclick="setRatio('16:9','dsm-r3')">
+                    16:9
+                    </button>
+
+                    <button
+                    id="dsm-r4"
+                    class="dsm-btn"
+                    onclick="setRatio('a4','dsm-r4')">
+                    A4
+                    </button>
+
                 </div>
-                <div style="flex:1">
-                    <span class="label" style="font-size:9px">Spacing</span>
-                    <input type="range" min="0.8" max="2.5" step="0.1" value="1.3" oninput="updateStyle('lineHeight', this.value)">
-                </div>
-            </div>
-        </div>
 
-        <div class="section">
-            <span class="label">3. Canvas Design</span>
-            <div class="btn-group">
-                <button class="tool-btn active" id="r1" onclick="setRatio('1:1', 'r1')">1:1</button>
-                <button class="tool-btn" id="r2" onclick="setRatio('9:16', 'r2')">9:16</button>
-                <button class="tool-btn" id="r3" onclick="setRatio('16:9', 'r3')">16:9</button>
-            </div>
-            <span class="label" style="font-size:9px; margin-top:10px;">Background</span>
-            <div style="display:flex; gap:10px;">
-                <input type="color" value="#111111" oninput="changeBg(this.value)" style="width:45px;">
-                <button class="tool-btn" style="flex:1" onclick="document.getElementById('bgUpload').click()">Upload Image</button>
-                <input type="file" id="bgUpload" hidden accept="image/*" onchange="handleBgUpload(this)">
-            </div>
-            <button class="tool-btn" style="width:100%; margin-top:10px; border:1px solid var(--primary);" onclick="toggleGlow()">Toggle Glow Effect</button>
-        </div>
-    </aside>
+                <br>
 
-    <!-- Right Area: Live Preview -->
-    <section class="workspace active" id="workspace">
-        <div id="renderBox"></div>
-    </section>
-</main>
+                <span class="dsm-label">
+                    Custom Width
+                </span>
 
-<nav class="mobile-nav">
-    <button id="nav-edit" class="active" onclick="mSwitch('edit')">EDIT</button>
-    <button id="nav-preview" onclick="mSwitch('preview')">PREVIEW</button>
-</nav>
+                <input
+                type="number"
+                id="dsm-customWidth"
+                class="dsm-input"
+                value="1080">
+
+                <br><br>
+
+                <span class="dsm-label">
+                    Custom Height
+                </span>
+
+                <input
+                type="number"
+                id="dsm-customHeight"
+                class="dsm-input"
+                value="1080">
+
+                <br><br>
+
+                <button
+                class="dsm-btn"
+                style="width:100%;"
+                onclick="setCustomSize()">
+                Apply Custom Size
+                </button>
+
+            </div>
+
+            <!-- =============================================
+                 BACKGROUND IMAGE
+            ============================================== -->
+
+            <div class="dsm-section">
+
+                <span class="dsm-label">
+                    Background Image
+                </span>
+
+                <button
+                class="dsm-btn"
+                style="width:100%;"
+                onclick="document.getElementById('dsm-bgUpload').click()">
+                Upload Background
+                </button>
+
+                <input
+                hidden
+                type="file"
+                id="dsm-bgUpload"
+                accept="image/*"
+                onchange="handleBgUpload(this)">
+
+                <br><br>
+
+                <button
+                class="dsm-btn"
+                style="width:100%;"
+                onclick="toggleGlow()">
+                Toggle Glow
+                </button>
+
+            </div>
+
+        </aside>
+
+        <!-- =================================================
+             WORKSPACE
+        ================================================== -->
+
+        <section
+        class="dsm-workspace active"
+        id="dsm-workspace">
+
+            <div id="dsm-renderBox">
+
+                <!-- =========================================
+                     SVG ENGINE
+                ========================================== -->
+
+                <svg
+                id="dsm-svgCanvas"
+                xmlns="http://www.w3.org/2000/svg"
+                width="1080"
+                height="1080"
+                viewBox="0 0 1080 1080">
+
+                    <defs>
+
+                        <!-- GLOW -->
+
+                        <filter id="dsm-glow">
+
+                            <feGaussianBlur
+                            stdDeviation="7"
+                            result="blur"/>
+
+                            <feMerge>
+
+                                <feMergeNode in="blur"/>
+
+                                <feMergeNode in="SourceGraphic"/>
+
+                            </feMerge>
+
+                        </filter>
+
+                    </defs>
+
+                    <!-- BACKGROUND -->
+
+                    <rect
+                    id="dsm-svgBg"
+                    width="100%"
+                    height="100%"
+                    fill="#111111"/>
+
+                    <!-- IMAGE -->
+
+                    <image
+                    id="dsm-svgBgImage"
+                    width="100%"
+                    height="100%"
+                    preserveAspectRatio="xMidYMid slice"
+                    style="display:none;" />
+
+                    <!-- CONTENT -->
+
+                    <foreignObject
+                    id="dsm-foreignObject"
+                    x="60"
+                    y="60"
+                    width="960"
+                    height="960">
+
+                        <div
+                        xmlns="http://www.w3.org/1999/xhtml"
+                        id="dsm-svgContent"
+                        style="
+                        width:100%;
+                        min-height:100%;
+                        color:white;
+                        font-size:52px;
+                        line-height:1.4;
+                        font-family:Inter,sans-serif;
+                        white-space:pre-wrap;
+                        overflow-wrap:anywhere;
+                        word-break:break-word;
+                        letter-spacing:0px;
+                        ">
+
+                        </div>
+
+                    </foreignObject>
+
+                </svg>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- =====================================================
+         MOBILE NAV
+    ====================================================== -->
+
+    <nav class="dsm-mobile-nav">
+
+        <button
+        id="dsm-nav-edit"
+        class="active"
+        onclick="switchMobile('edit')">
+        EDIT
+        </button>
+
+        <button
+        id="dsm-nav-preview"
+        onclick="switchMobile('preview')">
+        PREVIEW
+        </button>
+
+    </nav>
+
+</div>
 
 <script>
-    const editor = document.getElementById('editor');
-    const renderBox = document.getElementById('renderBox');
 
-    // Sync Content
-    function sync() {
-        renderBox.innerHTML = editor.innerHTML;
-        localStorage.setItem('studio_data', editor.innerHTML);
-    }
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-    function exec(cmd, val = null) {
-        document.execCommand(cmd, false, val);
-        sync();
-    }
+const dsmEditor =
+document.getElementById(
+'dsm-editor'
+);
 
-    // Styling
-    function updateStyle(prop, val) {
-        renderBox.style[prop] = val;
-    }
+const dsmSVGContent =
+document.getElementById(
+'dsm-svgContent'
+);
 
-    function changeBg(color) {
-        renderBox.style.backgroundImage = 'none';
-        renderBox.style.backgroundColor = color;
-    }
+const dsmSVGCanvas =
+document.getElementById(
+'dsm-svgCanvas'
+);
 
-    function handleBgUpload(input) {
-        const reader = new FileReader();
-        reader.onload = (e) => renderBox.style.backgroundImage = `url(${e.target.result})`;
-        reader.readAsDataURL(input.files[0]);
-    }
+const dsmForeignObject =
+document.getElementById(
+'dsm-foreignObject'
+);
 
-    function setRatio(ratio, id) {
-        document.querySelectorAll('.sidebar .tool-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        
-        const map = { '1:1': [500, 500], '9:16': [400, 711], '16:9': [700, 393] };
-        renderBox.style.width = map[ratio][0] + 'px';
-        renderBox.style.height = map[ratio][1] + 'px';
-    }
+/* =========================================================
+   SYNC
+========================================================= */
 
-    let glow = false;
-    function toggleGlow() {
-        glow = !glow;
-        renderBox.style.textShadow = glow ? '0 0 20px currentColor' : 'none';
-    }
+function syncEditorToSVG(){
 
-    // Mobile Navigation
-    function mSwitch(mode) {
-        const side = document.getElementById('sidebar');
-        const work = document.getElementById('workspace');
-        const btnE = document.getElementById('nav-edit');
-        const btnP = document.getElementById('nav-preview');
+    dsmSVGContent.innerHTML =
+    dsmEditor.innerHTML;
 
-        if(mode === 'edit') {
-            side.classList.add('active'); work.classList.remove('active');
-            btnE.classList.add('active'); btnP.classList.remove('active');
-        } else {
-            side.classList.remove('active'); work.classList.add('active');
-            btnE.classList.remove('active'); btnP.classList.add('active');
-        }
-    }
+    autoResizeCanvas();
 
-    // Computer Keyboard Shortcuts
-    document.addEventListener('keydown', (e) => {
-        if(e.ctrlKey || e.metaKey) {
-            if(e.key === 'b') { e.preventDefault(); exec('bold'); }
-            if(e.key === 'i') { e.preventDefault(); exec('italic'); }
-        }
+    localStorage.setItem(
+        'dsm_svg_studio',
+        dsmEditor.innerHTML
+    );
+
+}
+
+/* =========================================================
+   AUTO RESIZE
+========================================================= */
+
+function autoResizeCanvas(){
+
+    setTimeout(()=>{
+
+        const contentHeight =
+        dsmSVGContent.scrollHeight;
+
+        const finalHeight =
+        contentHeight + 160;
+
+        dsmSVGCanvas.setAttribute(
+            'height',
+            finalHeight
+        );
+
+        const currentWidth =
+        dsmSVGCanvas.viewBox.baseVal.width;
+
+        dsmSVGCanvas.setAttribute(
+            'viewBox',
+            `0 0 ${currentWidth} ${finalHeight}`
+        );
+
+        dsmForeignObject.setAttribute(
+            'height',
+            finalHeight - 120
+        );
+
+    },50);
+
+}
+
+/* =========================================================
+   COMMANDS
+========================================================= */
+
+function execCmd(cmd,val=null){
+
+    document.execCommand(
+        cmd,
+        false,
+        val
+    );
+
+    syncEditorToSVG();
+
+}
+
+/* =========================================================
+   TEXT ALIGN
+========================================================= */
+
+function setTextAlign(align){
+
+    dsmSVGContent.style.textAlign =
+    align;
+
+}
+
+/* =========================================================
+   FONT
+========================================================= */
+
+function changeFont(font){
+
+    dsmSVGContent.style.fontFamily =
+    font;
+
+}
+
+function changeTextColor(color){
+
+    dsmSVGContent.style.color =
+    color;
+
+}
+
+function changeBg(color){
+
+    document
+    .getElementById('dsm-svgBg')
+    .setAttribute(
+        'fill',
+        color
+    );
+
+}
+
+function changeFontSize(size){
+
+    dsmSVGContent.style.fontSize =
+    size + 'px';
+
+    autoResizeCanvas();
+
+}
+
+function changeLineHeight(v){
+
+    dsmSVGContent.style.lineHeight =
+    v;
+
+    autoResizeCanvas();
+
+}
+
+function changeLetterSpacing(v){
+
+    dsmSVGContent.style.letterSpacing =
+    v + 'px';
+
+}
+
+/* =========================================================
+   BACKGROUND IMAGE
+========================================================= */
+
+function handleBgUpload(input){
+
+    const file =
+    input.files[0];
+
+    if(!file) return;
+
+    const reader =
+    new FileReader();
+
+    reader.onload = e => {
+
+        const img =
+        document.getElementById(
+            'dsm-svgBgImage'
+        );
+
+        img.setAttribute(
+            'href',
+            e.target.result
+        );
+
+        img.style.display='block';
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+/* =========================================================
+   RATIOS
+========================================================= */
+
+function setRatio(ratio,id){
+
+    document
+    .querySelectorAll('.dsm-group .dsm-btn')
+    .forEach(btn=>{
+
+        btn.classList.remove(
+            'dsm-btn-active'
+        );
+
     });
 
-    // High Res Export
-    function exportImage() {
-        const btn = event.target;
-        btn.innerText = "Generating...";
-        domtoimage.toBlob(renderBox, { 
-            scale: 3,
-            style: { transform: 'scale(1)', transformOrigin: 'top left' }
-        }).then(blob => {
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = `Studio-${Date.now()}.png`;
-            a.click();
-            btn.innerText = "Download PNG";
-        });
+    document
+    .getElementById(id)
+    .classList.add(
+        'dsm-btn-active'
+    );
+
+    const map = {
+
+        '1:1':[1080,1080],
+
+        '9:16':[1080,1920],
+
+        '16:9':[1920,1080],
+
+        'a4':[1240,1754]
+
+    };
+
+    const w = map[ratio][0];
+    const h = map[ratio][1];
+
+    dsmSVGCanvas.setAttribute(
+        'width',
+        w
+    );
+
+    dsmSVGCanvas.setAttribute(
+        'height',
+        h
+    );
+
+    dsmSVGCanvas.setAttribute(
+        'viewBox',
+        `0 0 ${w} ${h}`
+    );
+
+    dsmForeignObject.setAttribute(
+        'width',
+        w - 120
+    );
+
+    autoResizeCanvas();
+
+}
+
+/* =========================================================
+   CUSTOM SIZE
+========================================================= */
+
+function setCustomSize(){
+
+    const w =
+    parseInt(
+        document.getElementById(
+            'dsm-customWidth'
+        ).value
+    );
+
+    const h =
+    parseInt(
+        document.getElementById(
+            'dsm-customHeight'
+        ).value
+    );
+
+    dsmSVGCanvas.setAttribute(
+        'width',
+        w
+    );
+
+    dsmSVGCanvas.setAttribute(
+        'height',
+        h
+    );
+
+    dsmSVGCanvas.setAttribute(
+        'viewBox',
+        `0 0 ${w} ${h}`
+    );
+
+    dsmForeignObject.setAttribute(
+        'width',
+        w - 120
+    );
+
+    autoResizeCanvas();
+
+}
+
+/* =========================================================
+   GLOW
+========================================================= */
+
+let dsmGlow = false;
+
+function toggleGlow(){
+
+    dsmGlow = !dsmGlow;
+
+    dsmSVGContent.style.filter =
+    dsmGlow
+    ? 'url(#dsm-glow)'
+    : 'none';
+
+}
+
+/* =========================================================
+   EXPORT ENGINE
+========================================================= */
+
+function createExportCanvas(type='png'){
+
+    const serializer =
+    new XMLSerializer();
+
+    const source =
+    serializer.serializeToString(
+        dsmSVGCanvas
+    );
+
+    const blob =
+    new Blob(
+        [source],
+        {
+            type:'image/svg+xml;charset=utf-8'
+        }
+    );
+
+    const url =
+    URL.createObjectURL(blob);
+
+    const img =
+    new Image();
+
+    img.onload = ()=>{
+
+        const width =
+        dsmSVGCanvas.viewBox.baseVal.width;
+
+        const height =
+        dsmSVGCanvas.viewBox.baseVal.height;
+
+        const canvas =
+        document.createElement('canvas');
+
+        canvas.width = width * 2;
+        canvas.height = height * 2;
+
+        const ctx =
+        canvas.getContext('2d');
+
+        ctx.scale(2,2);
+
+        ctx.drawImage(
+            img,
+            0,
+            0
+        );
+
+        URL.revokeObjectURL(url);
+
+        if(type==='jpg'){
+
+            canvas.toBlob(blob=>{
+
+                const a =
+                document.createElement('a');
+
+                a.href =
+                URL.createObjectURL(blob);
+
+                a.download =
+                'Studio-'+Date.now()+'.jpg';
+
+                a.click();
+
+            },'image/jpeg',0.95);
+
+        }else{
+
+            canvas.toBlob(blob=>{
+
+                const a =
+                document.createElement('a');
+
+                a.href =
+                URL.createObjectURL(blob);
+
+                a.download =
+                'Studio-'+Date.now()+'.png';
+
+                a.click();
+
+            });
+
+        }
+
+    };
+
+    img.src = url;
+
+}
+
+/* =========================================================
+   EXPORT PNG
+========================================================= */
+
+function exportPNG(){
+
+    createExportCanvas('png');
+
+}
+
+/* =========================================================
+   EXPORT JPG
+========================================================= */
+
+function exportJPG(){
+
+    createExportCanvas('jpg');
+
+}
+
+/* =========================================================
+   SVG DOWNLOAD
+========================================================= */
+
+function downloadSVG(){
+
+    const serializer =
+    new XMLSerializer();
+
+    const source =
+    serializer.serializeToString(
+        dsmSVGCanvas
+    );
+
+    const blob =
+    new Blob(
+        [source],
+        {
+            type:'image/svg+xml'
+        }
+    );
+
+    const a =
+    document.createElement('a');
+
+    a.href =
+    URL.createObjectURL(blob);
+
+    a.download =
+    'Studio-'+Date.now()+'.svg';
+
+    a.click();
+
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetStudio(){
+
+    localStorage.clear();
+
+    location.reload();
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+function switchMobile(mode){
+
+    const side =
+    document.getElementById(
+        'dsm-sidebar'
+    );
+
+    const work =
+    document.getElementById(
+        'dsm-workspace'
+    );
+
+    const btnE =
+    document.getElementById(
+        'dsm-nav-edit'
+    );
+
+    const btnP =
+    document.getElementById(
+        'dsm-nav-preview'
+    );
+
+    if(mode==='edit'){
+
+        side.classList.add('active');
+
+        work.classList.remove('active');
+
+        btnE.classList.add('active');
+
+        btnP.classList.remove('active');
+
+    }else{
+
+        side.classList.remove('active');
+
+        work.classList.add('active');
+
+        btnE.classList.remove('active');
+
+        btnP.classList.add('active');
+
     }
 
-    window.onload = () => {
-        const saved = localStorage.getItem('studio_data');
-        if(saved) editor.innerHTML = saved;
-        setRatio('1:1', 'r1');
-        sync();
-    };
+}
+
+/* =========================================================
+   SHORTCUTS
+========================================================= */
+
+document.addEventListener(
+'keydown',
+e=>{
+
+    if(e.ctrlKey || e.metaKey){
+
+        if(e.key==='b'){
+
+            e.preventDefault();
+
+            execCmd('bold');
+
+        }
+
+        if(e.key==='i'){
+
+            e.preventDefault();
+
+            execCmd('italic');
+
+        }
+
+    }
+
+});
+
+/* =========================================================
+   INIT
+========================================================= */
+
+window.onload = ()=>{
+
+    const saved =
+    localStorage.getItem(
+        'dsm_svg_studio'
+    );
+
+    if(saved){
+
+        dsmEditor.innerHTML =
+        saved;
+
+    }
+
+    syncEditorToSVG();
+
+    setRatio(
+        '1:1',
+        'dsm-r1'
+    );
+
+};
+
 </script>
 
 </body>
