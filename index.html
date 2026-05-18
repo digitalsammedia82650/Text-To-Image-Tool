@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>DSM Design Studio Pro</title>
+<meta charset="UTF-8" />
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
+
+<title>Text To Image Tool</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;700;800&family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@700&family=Oswald:wght@400;600&family=Bebas+Neue&family=Anton&family=Fira+Code&family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
 
 /* =========================================================
-ROOT VARIABLES
+ROOT
 ========================================================= */
 
 :root{
@@ -303,6 +308,7 @@ MOBILE
 }
 
 </style>
+
 </head>
 <body>
 
@@ -315,7 +321,7 @@ HEADER
 <header>
 
 <div class="logo">
-DSM<span>.</span>Studio
+Text<span>.</span>To<span>.</span>Image
 </div>
 
 <div class="header-actions">
@@ -325,15 +331,15 @@ Reset Project
 </button>
 
 <button class="btn btn-dark" onclick="downloadSVG()">
-Download Editable SVG
+⬇ Download Editable SVG
 </button>
 
 <button class="btn btn-dark" onclick="exportImage('jpg')">
-Download High Quality JPG
+⬇ Download JPG Image
 </button>
 
 <button class="btn btn-primary" onclick="exportImage('png')">
-Download Transparent PNG
+⬇ Download PNG Image
 </button>
 
 </div>
@@ -347,7 +353,7 @@ MAIN
 <div class="main">
 
 <!-- =========================================================
-LEFT SIDEBAR
+SIDEBAR
 ========================================================= -->
 
 <aside class="sidebar active" id="sidebar">
@@ -399,18 +405,18 @@ id="editor"
 contenteditable="true"
 oninput="syncEditor()">
 
-<h1>Modern Design Studio</h1>
+<h1>Text To Image Tool</h1>
 
 <p>
-Create beautiful full page text images like Canva and Photoshop.
+Create beautiful full page text images with SVG rendering.
 </p>
 
 <ul>
-<li>SVG Rendering Engine</li>
-<li>Paper Sizes</li>
+<li>HD PNG Export</li>
+<li>HD JPG Export</li>
+<li>Editable SVG Export</li>
 <li>Background Image Controls</li>
-<li>Text Styling</li>
-<li>HD Export</li>
+<li>Paper Sizes</li>
 </ul>
 
 </div>
@@ -507,7 +513,7 @@ oninput="updateTextColor(this.value)"
 </div>
 
 <!-- =========================================================
-CANVAS SIZE
+PAPER SIZE
 ========================================================= -->
 
 <div class="section">
@@ -592,7 +598,7 @@ Apply Custom Canvas
 </div>
 
 <!-- =========================================================
-BACKGROUND IMAGE ENGINE
+BACKGROUND
 ========================================================= -->
 
 <div class="section">
@@ -716,91 +722,6 @@ value="0"
 oninput="bgBlur=this.value; renderSVG();"
 />
 
-<br><br>
-
-<label>
-Background Brightness
-</label>
-
-<input
-class="range"
-type="range"
-min="0.2"
-max="2"
-step="0.1"
-value="1"
-oninput="bgBrightness=this.value; renderSVG();"
-/>
-
-<br><br>
-
-<label>
-Background Contrast
-</label>
-
-<input
-class="range"
-type="range"
-min="0.2"
-max="3"
-step="0.1"
-value="1"
-oninput="bgContrast=this.value; renderSVG();"
-/>
-
-</div>
-
-<!-- =========================================================
-TEXT EFFECTS
-========================================================= -->
-
-<div class="section">
-
-<div class="section-title">
-Text Effects
-</div>
-
-<label>
-Text Shadow Blur
-</label>
-
-<input
-class="range"
-type="range"
-min="0"
-max="60"
-value="0"
-oninput="textShadowBlur=this.value; renderSVG();"
-/>
-
-<br><br>
-
-<label>
-Text Shadow Color
-</label>
-
-<input
-class="input"
-type="color"
-value="#000000"
-oninput="textShadowColor=this.value; renderSVG();"
-/>
-
-<br><br>
-
-<label>
-Canvas Padding
-</label>
-
-<input
-class="range"
-type="range"
-min="10"
-max="200"
-value="80"
-oninput="canvasPadding=this.value; renderSVG();"
-/>
-
 </div>
 
 </aside>
@@ -854,14 +775,10 @@ PREVIEW
 
 </div>
 
-<!-- =========================================================
-SCRIPT
-========================================================= -->
-
 <script>
 
 /* =========================================================
-GLOBAL STATE
+STATE
 ========================================================= */
 
 const editor = document.getElementById("editor");
@@ -879,48 +796,57 @@ let bgScale = 100;
 let bgRotate = 0;
 let bgOpacity = 1;
 let bgBlur = 0;
-let bgBrightness = 1;
-let bgContrast = 1;
 
 let textColor = "#111111";
 
-let textShadowBlur = 0;
-let textShadowColor = "#000000";
-
-let canvasPadding = 80;
-
 /* =========================================================
-EDITOR COMMANDS
+TEXT COMMANDS
 ========================================================= */
 
 function cmd(command){
+
     document.execCommand(command,false,null);
+
     syncEditor();
+
 }
 
 function alignText(type){
+
     editor.style.textAlign = type;
+
     syncEditor();
+
 }
 
 /* =========================================================
-TEXT STYLES
+TEXT STYLE
 ========================================================= */
 
 function updateFont(font){
+
     editor.style.fontFamily = font;
+
     syncEditor();
+
 }
 
 function updateTextStyle(prop,val){
+
     editor.style[prop] = val;
+
     syncEditor();
+
 }
 
 function updateTextColor(color){
+
     textColor = color;
+
     editor.style.color = color;
+
     syncEditor();
+
 }
 
 /* =========================================================
@@ -928,20 +854,27 @@ BACKGROUND
 ========================================================= */
 
 function updateBackgroundColor(color){
+
     bgColor = color;
+
     renderSVG();
+
 }
 
 function uploadBackground(input){
 
     const file = input.files[0];
+
     if(!file) return;
 
     const reader = new FileReader();
 
     reader.onload = function(e){
+
         bgImage = e.target.result;
+
         renderSVG();
+
     }
 
     reader.readAsDataURL(file);
@@ -949,7 +882,7 @@ function uploadBackground(input){
 }
 
 /* =========================================================
-PAPER SIZE
+PAPER
 ========================================================= */
 
 function setPaper(size){
@@ -983,17 +916,12 @@ SYNC
 
 function syncEditor(){
 
-    localStorage.setItem(
-        "studio_content",
-        editor.innerHTML
-    );
-
     renderSVG();
 
 }
 
 /* =========================================================
-SVG ENGINE
+SVG RENDER
 ========================================================= */
 
 function renderSVG(){
@@ -1034,12 +962,6 @@ function renderSVG(){
         ${canvasWidth/2}
         ${canvasHeight/2}
         )"
-
-        style="
-        filter:
-        brightness(${bgBrightness})
-        contrast(${bgContrast});
-        "
         />
         `;
     }
@@ -1051,10 +973,10 @@ function renderSVG(){
     ${bgLayer}
 
     <foreignObject
-    x="${canvasPadding}"
-    y="${canvasPadding}"
-    width="${canvasWidth - canvasPadding*2}"
-    height="${canvasHeight - canvasPadding*2}">
+    x="60"
+    y="60"
+    width="${canvasWidth-120}"
+    height="${canvasHeight-120}">
 
         <div xmlns="http://www.w3.org/1999/xhtml"
         style="
@@ -1065,9 +987,6 @@ function renderSVG(){
         font-size:${getComputedStyle(editor).fontSize};
         line-height:${getComputedStyle(editor).lineHeight};
         letter-spacing:${getComputedStyle(editor).letterSpacing};
-        text-shadow:
-        0 0 ${textShadowBlur}px
-        ${textShadowColor};
         overflow-wrap:break-word;
         ">
 
@@ -1102,8 +1021,14 @@ function downloadSVG(){
     document.createElement("a");
 
     a.href = url;
-    a.download = "DSM-Studio.svg";
+
+    a.download = "Text-To-Image.svg";
+
+    document.body.appendChild(a);
+
     a.click();
+
+    document.body.removeChild(a);
 
 }
 
@@ -1113,13 +1038,16 @@ EXPORT PNG/JPG
 
 function exportImage(type){
 
-    const data =
+    const svgData =
     new XMLSerializer().serializeToString(svgCanvas);
 
     const svgBlob =
-    new Blob([data],{
-        type:"image/svg+xml;charset=utf-8"
-    });
+    new Blob(
+        [svgData],
+        {
+            type:"image/svg+xml;charset=utf-8"
+        }
+    );
 
     const url =
     URL.createObjectURL(svgBlob);
@@ -1133,6 +1061,7 @@ function exportImage(type){
         document.createElement("canvas");
 
         canvas.width = canvasWidth * 2;
+
         canvas.height = canvasHeight * 2;
 
         const ctx =
@@ -1141,6 +1070,7 @@ function exportImage(type){
         if(type === "jpg"){
 
             ctx.fillStyle = bgColor;
+
             ctx.fillRect(
                 0,
                 0,
@@ -1162,7 +1092,7 @@ function exportImage(type){
         document.createElement("a");
 
         link.download =
-        `DSM-Studio.${type}`;
+        `Text-To-Image.${type}`;
 
         link.href =
         canvas.toDataURL(
@@ -1170,7 +1100,19 @@ function exportImage(type){
             1
         );
 
+        document.body.appendChild(link);
+
         link.click();
+
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(url);
+
+    }
+
+    img.onerror = function(){
+
+        alert("Image export failed.");
 
     }
 
@@ -1184,7 +1126,6 @@ RESET
 
 function resetStudio(){
 
-    localStorage.clear();
     location.reload();
 
 }
@@ -1210,17 +1151,21 @@ function showPanel(type){
     if(type === "edit"){
 
         sidebar.classList.add("active");
+
         workspace.classList.remove("active");
 
         editBtn.classList.add("active");
+
         previewBtn.classList.remove("active");
 
     }else{
 
         workspace.classList.add("active");
+
         sidebar.classList.remove("active");
 
         previewBtn.classList.add("active");
+
         editBtn.classList.remove("active");
 
     }
@@ -1232,13 +1177,6 @@ INIT
 ========================================================= */
 
 window.onload = function(){
-
-    const saved =
-    localStorage.getItem("studio_content");
-
-    if(saved){
-        editor.innerHTML = saved;
-    }
 
     renderSVG();
 
