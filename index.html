@@ -2,37 +2,44 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+/>
 
-<title>SVG Full Page Text To Image Studio</title>
+<title>Modern SVG Text To Image Studio</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Playfair+Display:wght@700&family=Fira+Code:wght@400;700&family=Bungee&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&family=Playfair+Display:wght@700&family=Fira+Code:wght@400;700&family=Bungee&display=swap" rel="stylesheet">
 
 <style>
 
-/* =========================================================
+/* =====================================================
 ROOT
-========================================================= */
+===================================================== */
 
 :root{
     --primary:#6366f1;
     --primary-hover:#4f46e5;
-    --bg:#0f172a;
-    --panel:#1e293b;
-    --border:#334155;
+    --bg:#020617;
+    --panel:#0f172a;
+    --panel2:#111827;
+    --border:#1e293b;
     --text:#f8fafc;
+    --muted:#94a3b8;
+    --success:#22c55e;
 }
 
-/* =========================================================
+/* =====================================================
 GLOBAL
-========================================================= */
+===================================================== */
 
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
     margin:0;
     height:100%;
     overflow:hidden;
@@ -41,13 +48,25 @@ html,body{
     font-family:'Inter',sans-serif;
 }
 
-button,input,select{
+button,
+input,
+select{
     font-family:inherit;
 }
 
-/* =========================================================
+::-webkit-scrollbar{
+    width:10px;
+    height:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#334155;
+    border-radius:20px;
+}
+
+/* =====================================================
 APP
-========================================================= */
+===================================================== */
 
 .app{
     display:flex;
@@ -55,18 +74,20 @@ APP
     height:100%;
 }
 
-/* =========================================================
+/* =====================================================
 HEADER
-========================================================= */
+===================================================== */
 
 header{
+    height:70px;
+    min-height:70px;
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    padding:14px 18px;
-    background:rgba(15,23,42,.95);
+    justify-content:space-between;
+    padding:0 18px;
+    background:rgba(2,6,23,.92);
     border-bottom:1px solid var(--border);
-    backdrop-filter:blur(10px);
+    backdrop-filter:blur(12px);
     z-index:100;
 }
 
@@ -80,30 +101,30 @@ header{
     color:var(--primary);
 }
 
-.actions{
+.header-actions{
     display:flex;
     gap:10px;
     flex-wrap:wrap;
 }
 
-/* =========================================================
+/* =====================================================
 BUTTONS
-========================================================= */
+===================================================== */
 
 .btn{
     border:none;
     cursor:pointer;
-    border-radius:12px;
+    border-radius:14px;
     padding:10px 15px;
     font-weight:700;
+    background:#1e293b;
     color:white;
-    background:#334155;
-    transition:.2s;
+    transition:.2s ease;
 }
 
 .btn:hover{
     transform:translateY(-1px);
-    background:#475569;
+    background:#334155;
 }
 
 .btn-primary{
@@ -114,116 +135,139 @@ BUTTONS
     background:var(--primary-hover);
 }
 
-.btn-active{
+.btn-success{
+    background:var(--success);
+}
+
+.btn.active{
     background:var(--primary);
 }
 
-/* =========================================================
+/* =====================================================
 MAIN
-========================================================= */
+===================================================== */
 
-main{
+.main{
     flex:1;
     display:flex;
     overflow:hidden;
 }
 
-/* =========================================================
+/* =====================================================
 SIDEBAR
-========================================================= */
+===================================================== */
 
 .sidebar{
-    width:400px;
+    width:390px;
     background:var(--panel);
     border-right:1px solid var(--border);
     overflow-y:auto;
 }
 
-.section{
-    padding:20px;
+.panel{
+    padding:18px;
     border-bottom:1px solid var(--border);
 }
 
-.label{
-    display:block;
-    margin-bottom:10px;
-    color:#94a3b8;
-    font-size:11px;
-    font-weight:800;
+.panel-title{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:15px;
     text-transform:uppercase;
     letter-spacing:1px;
+    font-weight:800;
 }
 
 .group{
     display:flex;
-    gap:8px;
     flex-wrap:wrap;
+    gap:10px;
 }
-
-/* =========================================================
-INPUTS
-========================================================= */
 
 .input,
 .select{
     width:100%;
-    background:#0f172a;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:10px;
-    color:white;
+    border:none;
     outline:none;
+    background:#020617;
+    border:1px solid #1e293b;
+    color:white;
+    border-radius:14px;
+    padding:12px;
 }
 
-/* =========================================================
+.range{
+    width:100%;
+}
+
+/* =====================================================
 EDITOR
-========================================================= */
+===================================================== */
 
 #editor{
-    min-height:260px;
-    background:rgba(0,0,0,.2);
-    border:1px solid var(--border);
-    border-radius:16px;
+    min-height:280px;
+    border-radius:18px;
+    border:1px solid #1e293b;
+    background:#020617;
     padding:18px;
     outline:none;
-    font-size:17px;
     line-height:1.7;
+    font-size:18px;
+    overflow:auto;
 }
 
-/* =========================================================
+/* =====================================================
 WORKSPACE
-========================================================= */
+===================================================== */
 
 .workspace{
     flex:1;
     overflow:auto;
+    position:relative;
     display:flex;
     justify-content:center;
     align-items:flex-start;
-    padding:50px;
+    padding:40px;
     background:
     radial-gradient(#1e293b 1px, transparent 1px);
     background-size:20px 20px;
 }
 
-/* =========================================================
-RENDER
-========================================================= */
+/* =====================================================
+CANVAS
+===================================================== */
 
-#renderBox{
-    border-radius:24px;
-    overflow:hidden;
-    box-shadow:0 30px 60px rgba(0,0,0,.7);
+.canvas-wrap{
+    position:relative;
+    transition:.2s;
 }
 
 #svgCanvas{
     display:block;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.6);
     background:#111;
 }
 
-/* =========================================================
+/* =====================================================
+ZOOM
+===================================================== */
+
+.zoom-controls{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    z-index:90;
+}
+
+/* =====================================================
 MOBILE
-========================================================= */
+===================================================== */
 
 .mobile-nav{
     display:none;
@@ -231,7 +275,7 @@ MOBILE
 
 @media(max-width:900px){
 
-    main{
+    .main{
         flex-direction:column;
     }
 
@@ -256,20 +300,25 @@ MOBILE
     .mobile-nav{
         display:flex;
         justify-content:space-around;
-        background:var(--panel);
+        align-items:center;
+        background:#0f172a;
         border-top:1px solid var(--border);
         padding:10px;
     }
 
     .mobile-nav button{
-        background:none;
         border:none;
+        background:none;
         color:#94a3b8;
-        font-weight:800;
+        font-weight:700;
     }
 
     .mobile-nav button.active{
         color:var(--primary);
+    }
+
+    .sidebar{
+        height:calc(100vh - 120px);
     }
 
 }
@@ -280,17 +329,13 @@ MOBILE
 
 <div class="app">
 
-<!-- =====================================================
-HEADER
-===================================================== -->
-
 <header>
 
 <div class="logo">
-STUDIO<span>.</span>
+SVG<span>.</span>Studio
 </div>
 
-<div class="actions">
+<div class="header-actions">
 
 <button class="btn" onclick="resetStudio()">
 Reset
@@ -312,11 +357,7 @@ PNG
 
 </header>
 
-<!-- =====================================================
-MAIN
-===================================================== -->
-
-<main>
+<div class="main">
 
 <!-- =====================================================
 SIDEBAR
@@ -325,70 +366,51 @@ SIDEBAR
 <aside class="sidebar active" id="sidebar">
 
 <!-- =====================================================
-EDITOR
+TEXT
 ===================================================== -->
 
-<div class="section">
+<div class="panel">
 
-<span class="label">
-Editor
-</span>
+<div class="panel-title">
+Text Editor
+</div>
 
-<div class="group" style="margin-bottom:10px;">
+<div class="group" style="margin-bottom:12px;">
 
-<button class="btn" onclick="execCmd('bold')">
-<b>B</b>
-</button>
+<button class="btn" onclick="execCmd('bold')"><b>B</b></button>
 
-<button class="btn" onclick="execCmd('italic')">
-<i>I</i>
-</button>
+<button class="btn" onclick="execCmd('italic')"><i>I</i></button>
 
-<button class="btn" onclick="execCmd('underline')">
-<u>U</u>
-</button>
+<button class="btn" onclick="execCmd('underline')"><u>U</u></button>
 
-<button class="btn" onclick="setTextAlign('left')">
-Left
-</button>
+<button class="btn" onclick="execCmd('insertUnorderedList')">List</button>
 
-<button class="btn" onclick="setTextAlign('center')">
-Center
-</button>
+<button class="btn" onclick="alignText('left')">Left</button>
 
-<button class="btn" onclick="setTextAlign('right')">
-Right
-</button>
+<button class="btn" onclick="alignText('center')">Center</button>
 
-<button class="btn" onclick="execCmd('insertUnorderedList')">
-List
-</button>
+<button class="btn" onclick="alignText('right')">Right</button>
 
 </div>
 
 <div
 id="editor"
 contenteditable="true"
-oninput="syncEditorToSVG()">
+oninput="syncEditor()">
 
-<h1>SVG Full Page Text To Image Studio</h1>
-
-<p>
-Create beautiful full-page text images.
-</p>
+<h1>Modern SVG Text Studio</h1>
 
 <p>
-Supports:
+Create beautiful full-page text images with modern typography.
 </p>
 
 <ul>
-<li>A4 export</li>
-<li>A3 export</li>
+<li>A4 / A3 / Social sizes</li>
 <li>Gradient text</li>
-<li>Gradient background</li>
-<li>Long article rendering</li>
-<li>Retina PNG export</li>
-<li>SVG export</li>
+<li>SVG vector rendering</li>
+<li>Long article export</li>
+<li>Transparent PNG export</li>
+<li>Retina quality</li>
 </ul>
 
 </div>
@@ -399,22 +421,20 @@ Supports:
 TYPOGRAPHY
 ===================================================== -->
 
-<div class="section">
+<div class="panel">
 
-<span class="label">
-Font Family
-</span>
+<div class="panel-title">
+Typography
+</div>
 
-<select
-class="select"
-onchange="changeFont(this.value)">
+<select class="select" onchange="changeFont(this.value)">
 
 <option value="Inter">
 Inter
 </option>
 
 <option value="Playfair Display">
-Playfair
+Playfair Display
 </option>
 
 <option value="Fira Code">
@@ -429,57 +449,49 @@ Bungee
 
 <br><br>
 
-<span class="label">
-Text Color
-</span>
-
 <div class="group">
+
+<div style="flex:1;">
+
+<div class="panel-title">
+Text Color
+</div>
 
 <input
 type="color"
-id="textColor"
 class="input"
 value="#ffffff"
-oninput="changeTextColor(this.value)">
-
-<button
-class="btn"
-onclick="applyGradientText()">
-Gradient
-</button>
+oninput="changeTextColor(this.value)"
+>
 
 </div>
 
-<br>
+<div style="flex:1;">
 
-<span class="label">
-Background Color
-</span>
-
-<div class="group">
+<div class="panel-title">
+Background
+</div>
 
 <input
 type="color"
-id="bgColor"
 class="input"
 value="#111111"
-oninput="changeBg(this.value)">
+oninput="changeBackground(this.value)"
+>
 
-<button
-class="btn"
-onclick="toggleTransparentBg()">
-Transparent
-</button>
+</div>
 
 </div>
 
 <br>
 
-<span class="label">
-Gradient Background
-</span>
-
 <div class="group">
+
+<div style="flex:1;">
+
+<div class="panel-title">
+Gradient 1
+</div>
 
 <input
 type="color"
@@ -487,62 +499,87 @@ id="grad1"
 class="input"
 value="#6366f1">
 
+</div>
+
+<div style="flex:1;">
+
+<div class="panel-title">
+Gradient 2
+</div>
+
 <input
 type="color"
 id="grad2"
 class="input"
 value="#ec4899">
 
-<button
-class="btn"
-onclick="applyGradientBg()">
-Apply
+</div>
+
+</div>
+
+<br>
+
+<div class="group">
+
+<button class="btn" onclick="applyGradientText()">
+Gradient Text
+</button>
+
+<button class="btn" onclick="applyGradientBg()">
+Gradient BG
+</button>
+
+<button class="btn" onclick="toggleGlow()">
+Glow
 </button>
 
 </div>
 
-<br><br>
+<br>
 
-<span class="label">
+<div class="panel-title">
 Font Size
-</span>
+</div>
 
 <input
 type="range"
+class="range"
 min="18"
 max="120"
-value="52"
-class="input"
-oninput="changeFontSize(this.value)">
+value="48"
+oninput="changeFontSize(this.value)"
+>
 
 <br><br>
 
-<span class="label">
+<div class="panel-title">
 Line Height
-</span>
+</div>
 
 <input
 type="range"
+class="range"
 min="1"
 max="3"
 step="0.1"
-value="1.4"
-class="input"
-oninput="changeLineHeight(this.value)">
+value="1.5"
+oninput="changeLineHeight(this.value)"
+>
 
 <br><br>
 
-<span class="label">
+<div class="panel-title">
 Letter Spacing
-</span>
+</div>
 
 <input
 type="range"
+class="range"
 min="0"
-max="10"
+max="20"
 value="0"
-class="input"
-oninput="changeLetterSpacing(this.value)">
+oninput="changeLetterSpacing(this.value)"
+>
 
 </div>
 
@@ -550,47 +587,35 @@ oninput="changeLetterSpacing(this.value)">
 SIZES
 ===================================================== -->
 
-<div class="section">
+<div class="panel">
 
-<span class="label">
-Paper Sizes
-</span>
+<div class="panel-title">
+Canvas Sizes
+</div>
 
 <div class="group">
 
-<button class="btn btn-active" id="r1" onclick="setPaperSize('a5','r1')">
-A5
-</button>
-
-<button class="btn" id="r2" onclick="setPaperSize('a4','r2')">
+<button class="btn active" id="a4btn" onclick="setPaper('a4','a4btn')">
 A4
 </button>
 
-<button class="btn" id="r3" onclick="setPaperSize('a3','r3')">
+<button class="btn" id="a3btn" onclick="setPaper('a3','a3btn')">
 A3
 </button>
 
-<button class="btn" id="r4" onclick="setPaperSize('a2','r4')">
-A2
+<button class="btn" id="a5btn" onclick="setPaper('a5','a5btn')">
+A5
 </button>
 
-<button class="btn" id="r5" onclick="setPaperSize('letter','r5')">
-LETTER
-</button>
-
-<button class="btn" id="r6" onclick="setPaperSize('legal','r6')">
-LEGAL
-</button>
-
-<button class="btn" id="r7" onclick="setRatio('1:1','r7')">
+<button class="btn" id="s1btn" onclick="setRatio('1:1','s1btn')">
 1:1
 </button>
 
-<button class="btn" id="r8" onclick="setRatio('9:16','r8')">
+<button class="btn" id="s2btn" onclick="setRatio('9:16','s2btn')">
 9:16
 </button>
 
-<button class="btn" id="r9" onclick="setRatio('16:9','r9')">
+<button class="btn" id="s3btn" onclick="setRatio('16:9','s3btn')">
 16:9
 </button>
 
@@ -598,9 +623,9 @@ LEGAL
 
 <br>
 
-<span class="label">
+<div class="panel-title">
 Custom Width
-</span>
+</div>
 
 <input
 type="number"
@@ -610,22 +635,22 @@ value="1080">
 
 <br><br>
 
-<span class="label">
+<div class="panel-title">
 Custom Height
-</span>
+</div>
 
 <input
 type="number"
 id="customHeight"
 class="input"
-value="1080">
+value="1920">
 
 <br><br>
 
 <button
 class="btn"
 style="width:100%;"
-onclick="setCustomSize()">
+onclick="applyCustomSize()">
 Apply Custom Size
 </button>
 
@@ -635,11 +660,11 @@ Apply Custom Size
 BACKGROUND IMAGE
 ===================================================== -->
 
-<div class="section">
+<div class="panel">
 
-<span class="label">
+<div class="panel-title">
 Background Image
-</span>
+</div>
 
 <button
 class="btn"
@@ -650,19 +675,11 @@ Upload Background
 
 <input
 hidden
-type="file"
 id="bgUpload"
+type="file"
 accept="image/*"
-onchange="handleBgUpload(this)">
-
-<br><br>
-
-<button
-class="btn"
-style="width:100%;"
-onclick="toggleGlow()">
-Toggle Glow
-</button>
+onchange="uploadBg(this)"
+>
 
 </div>
 
@@ -674,18 +691,14 @@ WORKSPACE
 
 <section class="workspace active" id="workspace">
 
-<div id="renderBox">
-
-<!-- =====================================================
-SVG ENGINE
-===================================================== -->
+<div class="canvas-wrap" id="canvasWrap">
 
 <svg
 id="svgCanvas"
 xmlns="http://www.w3.org/2000/svg"
-width="1748"
-height="2480"
-viewBox="0 0 1748 2480">
+width="2480"
+height="3508"
+viewBox="0 0 2480 3508">
 
 <defs>
 
@@ -694,7 +707,7 @@ viewBox="0 0 1748 2480">
 <filter id="glow">
 
 <feGaussianBlur
-stdDeviation="7"
+stdDeviation="8"
 result="blur"/>
 
 <feMerge>
@@ -707,21 +720,6 @@ result="blur"/>
 
 </filter>
 
-<!-- TEXT GRADIENT -->
-
-<linearGradient
-id="textGradient"
-x1="0%"
-y1="0%"
-x2="100%"
-y2="0%">
-
-<stop offset="0%" stop-color="#6366f1"/>
-
-<stop offset="100%" stop-color="#ec4899"/>
-
-</linearGradient>
-
 <!-- BG GRADIENT -->
 
 <linearGradient
@@ -732,7 +730,6 @@ x2="100%"
 y2="100%">
 
 <stop offset="0%" stop-color="#6366f1"/>
-
 <stop offset="100%" stop-color="#ec4899"/>
 
 </linearGradient>
@@ -745,25 +742,27 @@ y2="100%">
 id="svgBg"
 width="100%"
 height="100%"
-fill="#111111"/>
+fill="#111111"
+/>
 
 <!-- IMAGE -->
 
 <image
-id="svgBgImage"
+id="bgImage"
 width="100%"
 height="100%"
 preserveAspectRatio="xMidYMid slice"
-style="display:none;" />
+style="display:none;"
+/>
 
 <!-- CONTENT -->
 
 <foreignObject
 id="foreignObject"
-x="80"
-y="80"
-width="1588"
-height="2200">
+x="120"
+y="120"
+width="2240"
+height="3200">
 
 <div
 xmlns="http://www.w3.org/1999/xhtml"
@@ -771,19 +770,14 @@ id="svgContent"
 style="
 width:100%;
 min-height:100%;
-color:white;
-font-size:52px;
-line-height:1.4;
+font-size:48px;
+line-height:1.5;
 font-family:Inter,sans-serif;
-white-space:pre-wrap;
+color:white;
 overflow-wrap:anywhere;
 word-break:break-word;
-letter-spacing:0px;
-padding:0;
-background-clip:text;
--webkit-background-clip:text;
+white-space:pre-wrap;
 ">
-
 </div>
 
 </foreignObject>
@@ -794,7 +788,23 @@ background-clip:text;
 
 </section>
 
-</main>
+</div>
+
+<!-- =====================================================
+ZOOM
+===================================================== -->
+
+<div class="zoom-controls">
+
+<button class="btn" onclick="zoomIn()">
++
+</button>
+
+<button class="btn" onclick="zoomOut()">
+−
+</button>
+
+</div>
 
 <!-- =====================================================
 MOBILE NAV
@@ -803,16 +813,16 @@ MOBILE NAV
 <nav class="mobile-nav">
 
 <button
-id="nav-edit"
+id="editBtn"
 class="active"
 onclick="switchMobile('edit')">
-EDIT
+Edit
 </button>
 
 <button
-id="nav-preview"
+id="previewBtn"
 onclick="switchMobile('preview')">
-PREVIEW
+Preview
 </button>
 
 </nav>
@@ -821,142 +831,143 @@ PREVIEW
 
 <script>
 
-/* =========================================================
+/* =====================================================
 ELEMENTS
-========================================================= */
+===================================================== */
 
-const editor = document.getElementById('editor');
-const svgContent = document.getElementById('svgContent');
-const svgCanvas = document.getElementById('svgCanvas');
-const foreignObject = document.getElementById('foreignObject');
+const editor =
+document.getElementById('editor');
 
-/* =========================================================
+const svgContent =
+document.getElementById('svgContent');
+
+const svgCanvas =
+document.getElementById('svgCanvas');
+
+const foreignObject =
+document.getElementById('foreignObject');
+
+const canvasWrap =
+document.getElementById('canvasWrap');
+
+/* =====================================================
 SYNC
-========================================================= */
+===================================================== */
 
-function syncEditorToSVG(){
+function syncEditor(){
 
     svgContent.innerHTML =
     editor.innerHTML;
 
-    autoResizeCanvas();
+    autoResize();
 
     localStorage.setItem(
-        'svg_text_studio',
+        'svgStudioData',
         editor.innerHTML
     );
 
 }
 
-/* =========================================================
+/* =====================================================
 AUTO RESIZE
-========================================================= */
+===================================================== */
 
-function autoResizeCanvas(){
+function autoResize(){
 
     setTimeout(()=>{
 
-        const contentHeight =
-        svgContent.scrollHeight;
-
-        const finalHeight =
-        contentHeight + 180;
+        const h =
+        svgContent.scrollHeight + 250;
 
         const width =
         svgCanvas.viewBox.baseVal.width;
 
         svgCanvas.setAttribute(
             'height',
-            finalHeight
+            h
         );
 
         svgCanvas.setAttribute(
             'viewBox',
-            `0 0 ${width} ${finalHeight}`
+            `0 0 ${width} ${h}`
         );
 
         foreignObject.setAttribute(
             'height',
-            finalHeight - 120
+            h - 240
         );
 
     },50);
 
 }
 
-/* =========================================================
-EDITOR COMMANDS
-========================================================= */
+/* =====================================================
+COMMANDS
+===================================================== */
 
-function execCmd(cmd,val=null){
+function execCmd(cmd){
 
     document.execCommand(
         cmd,
         false,
-        val
+        null
     );
 
-    syncEditorToSVG();
+    syncEditor();
 
 }
 
-/* =========================================================
-TEXT ALIGN
-========================================================= */
+/* =====================================================
+ALIGN
+===================================================== */
 
-function setTextAlign(align){
+function alignText(v){
 
-    svgContent.style.textAlign =
-    align;
+    svgContent.style.textAlign = v;
 
 }
 
-/* =========================================================
+/* =====================================================
 FONT
-========================================================= */
+===================================================== */
 
-function changeFont(font){
+function changeFont(v){
 
-    svgContent.style.fontFamily =
-    font;
+    svgContent.style.fontFamily = v;
 
 }
 
-function changeTextColor(color){
+function changeTextColor(v){
 
-    svgContent.style.background =
-    'none';
+    svgContent.style.background='none';
 
-    svgContent.style.webkitTextFillColor =
-    color;
+    svgContent.style.webkitTextFillColor=v;
 
-    svgContent.style.color =
-    color;
+    svgContent.style.color=v;
 
     svgContent.querySelectorAll('*')
     .forEach(el=>{
 
-        el.style.color = color;
+        el.style.color=v;
 
     });
 
 }
 
-function changeFontSize(size){
+function changeFontSize(v){
 
     svgContent.style.fontSize =
-    size + 'px';
+    v + 'px';
 
-    autoResizeCanvas();
+    autoResize();
 
 }
 
 function changeLineHeight(v){
 
-    svgContent.style.lineHeight =
-    v;
+    svgContent.style.lineHeight=v;
 
-    autoResizeCanvas();
+    autoResize();
 
 }
 
@@ -967,76 +978,58 @@ function changeLetterSpacing(v){
 
 }
 
-/* =========================================================
+/* =====================================================
 BACKGROUND
-========================================================= */
+===================================================== */
 
-function changeBg(color){
+function changeBackground(v){
 
     document
     .getElementById('svgBg')
     .setAttribute(
         'fill',
-        color
+        v
     );
 
 }
 
-/* =========================================================
-TRANSPARENT BG
-========================================================= */
+/* =====================================================
+GRADIENT TEXT
+===================================================== */
 
-let transparentMode = false;
+function applyGradientText(){
 
-function toggleTransparentBg(){
+    const c1 =
+    document.getElementById('grad1').value;
 
-    transparentMode = !transparentMode;
+    const c2 =
+    document.getElementById('grad2').value;
 
-    const bg =
-    document.getElementById(
-        'svgBg'
-    );
+    svgContent.style.background =
+    `linear-gradient(90deg,${c1},${c2})`;
 
-    if(transparentMode){
+    svgContent.style.webkitBackgroundClip =
+    'text';
 
-        bg.setAttribute(
-            'fill',
-            'transparent'
-        );
-
-    }else{
-
-        bg.setAttribute(
-            'fill',
-            document.getElementById(
-                'bgColor'
-            ).value
-        );
-
-    }
+    svgContent.style.webkitTextFillColor =
+    'transparent';
 
 }
 
-/* =========================================================
+/* =====================================================
 GRADIENT BG
-========================================================= */
+===================================================== */
 
 function applyGradientBg(){
 
     const c1 =
-    document.getElementById(
-        'grad1'
-    ).value;
+    document.getElementById('grad1').value;
 
     const c2 =
-    document.getElementById(
-        'grad2'
-    ).value;
+    document.getElementById('grad2').value;
 
     const grad =
-    document.getElementById(
-        'bgGradient'
-    );
+    document.getElementById('bgGradient');
 
     const stops =
     grad.querySelectorAll('stop');
@@ -1060,56 +1053,28 @@ function applyGradientBg(){
 
 }
 
-/* =========================================================
-GRADIENT TEXT
-========================================================= */
+/* =====================================================
+GLOW
+===================================================== */
 
-function applyGradientText(){
+let glow=false;
 
-    const c1 =
-    document.getElementById(
-        'grad1'
-    ).value;
+function toggleGlow(){
 
-    const c2 =
-    document.getElementById(
-        'grad2'
-    ).value;
+    glow=!glow;
 
-    const grad =
-    document.getElementById(
-        'textGradient'
-    );
-
-    const stops =
-    grad.querySelectorAll('stop');
-
-    stops[0].setAttribute(
-        'stop-color',
-        c1
-    );
-
-    stops[1].setAttribute(
-        'stop-color',
-        c2
-    );
-
-    svgContent.style.background =
-    `linear-gradient(90deg,${c1},${c2})`;
-
-    svgContent.style.webkitBackgroundClip =
-    'text';
-
-    svgContent.style.webkitTextFillColor =
-    'transparent';
+    svgContent.style.filter =
+    glow
+    ? 'url(#glow)'
+    : 'none';
 
 }
 
-/* =========================================================
+/* =====================================================
 BACKGROUND IMAGE
-========================================================= */
+===================================================== */
 
-function handleBgUpload(input){
+function uploadBg(input){
 
     const file =
     input.files[0];
@@ -1119,12 +1084,10 @@ function handleBgUpload(input){
     const reader =
     new FileReader();
 
-    reader.onload = e => {
+    reader.onload = e=>{
 
         const img =
-        document.getElementById(
-            'svgBgImage'
-        );
+        document.getElementById('bgImage');
 
         img.setAttribute(
             'href',
@@ -1139,94 +1102,56 @@ function handleBgUpload(input){
 
 }
 
-/* =========================================================
-PAPER SIZES
-========================================================= */
+/* =====================================================
+SIZES
+===================================================== */
 
-function setPaperSize(type,id){
+function clearActive(){
 
     document
     .querySelectorAll('.group .btn')
     .forEach(btn=>{
 
-        btn.classList.remove(
-            'btn-active'
-        );
+        btn.classList.remove('active');
 
     });
 
+}
+
+function setPaper(type,id){
+
+    clearActive();
+
     document
     .getElementById(id)
-    .classList.add(
-        'btn-active'
-    );
+    .classList.add('active');
 
-    const sizes = {
+    const sizes={
 
         a5:[1748,2480],
 
         a4:[2480,3508],
 
-        a3:[3508,4961],
-
-        a2:[4961,7016],
-
-        letter:[2550,3300],
-
-        legal:[2550,4200]
+        a3:[3508,4961]
 
     };
 
-    const w = sizes[type][0];
-    const h = sizes[type][1];
-
-    svgCanvas.setAttribute(
-        'width',
-        w
+    applySize(
+        sizes[type][0],
+        sizes[type][1]
     );
-
-    svgCanvas.setAttribute(
-        'height',
-        h
-    );
-
-    svgCanvas.setAttribute(
-        'viewBox',
-        `0 0 ${w} ${h}`
-    );
-
-    foreignObject.setAttribute(
-        'width',
-        w - 160
-    );
-
-    autoResizeCanvas();
 
 }
 
-/* =========================================================
-SOCIAL RATIOS
-========================================================= */
-
 function setRatio(type,id){
 
-    document
-    .querySelectorAll('.group .btn')
-    .forEach(btn=>{
-
-        btn.classList.remove(
-            'btn-active'
-        );
-
-    });
+    clearActive();
 
     document
     .getElementById(id)
-    .classList.add(
-        'btn-active'
-    );
+    .classList.add('active');
 
-    const sizes = {
+    const sizes={
 
         '1:1':[1080,1080],
 
@@ -1236,38 +1161,14 @@ function setRatio(type,id){
 
     };
 
-    const w = sizes[type][0];
-    const h = sizes[type][1];
-
-    svgCanvas.setAttribute(
-        'width',
-        w
+    applySize(
+        sizes[type][0],
+        sizes[type][1]
     );
-
-    svgCanvas.setAttribute(
-        'height',
-        h
-    );
-
-    svgCanvas.setAttribute(
-        'viewBox',
-        `0 0 ${w} ${h}`
-    );
-
-    foreignObject.setAttribute(
-        'width',
-        w - 120
-    );
-
-    autoResizeCanvas();
 
 }
 
-/* =========================================================
-CUSTOM SIZE
-========================================================= */
-
-function setCustomSize(){
+function applyCustomSize(){
 
     const w =
     parseInt(
@@ -1283,6 +1184,12 @@ function setCustomSize(){
         ).value
     );
 
+    applySize(w,h);
+
+}
+
+function applySize(w,h){
+
     svgCanvas.setAttribute(
         'width',
         w
@@ -1300,35 +1207,47 @@ function setCustomSize(){
 
     foreignObject.setAttribute(
         'width',
-        w - 120
+        w - 240
     );
 
-    autoResizeCanvas();
+    foreignObject.setAttribute(
+        'height',
+        h - 240
+    );
+
+    autoResize();
 
 }
 
-/* =========================================================
-GLOW
-========================================================= */
+/* =====================================================
+ZOOM
+===================================================== */
 
-let glow = false;
+let zoom = 1;
 
-function toggleGlow(){
+function zoomIn(){
 
-    glow = !glow;
+    zoom += .1;
 
-    svgContent.style.filter =
-    glow
-    ? 'url(#glow)'
-    : 'none';
+    canvasWrap.style.transform =
+    `scale(${zoom})`;
 
 }
 
-/* =========================================================
-EXPORT ENGINE
-========================================================= */
+function zoomOut(){
 
-function createExport(type='png'){
+    zoom = Math.max(.2, zoom-.1);
+
+    canvasWrap.style.transform =
+    `scale(${zoom})`;
+
+}
+
+/* =====================================================
+EXPORT
+===================================================== */
+
+function exportImage(type='png'){
 
     const serializer =
     new XMLSerializer();
@@ -1364,6 +1283,7 @@ function createExport(type='png'){
         document.createElement('canvas');
 
         canvas.width = width * 2;
+
         canvas.height = height * 2;
 
         const ctx =
@@ -1371,11 +1291,7 @@ function createExport(type='png'){
 
         ctx.scale(2,2);
 
-        ctx.drawImage(
-            img,
-            0,
-            0
-        );
+        ctx.drawImage(img,0,0);
 
         URL.revokeObjectURL(url);
 
@@ -1383,16 +1299,10 @@ function createExport(type='png'){
 
             canvas.toBlob(blob=>{
 
-                const a =
-                document.createElement('a');
-
-                a.href =
-                URL.createObjectURL(blob);
-
-                a.download =
-                'Studio-'+Date.now()+'.jpg';
-
-                a.click();
+                downloadBlob(
+                    blob,
+                    '.jpg'
+                );
 
             },'image/jpeg',0.95);
 
@@ -1400,16 +1310,10 @@ function createExport(type='png'){
 
             canvas.toBlob(blob=>{
 
-                const a =
-                document.createElement('a');
-
-                a.href =
-                URL.createObjectURL(blob);
-
-                a.download =
-                'Studio-'+Date.now()+'.png';
-
-                a.click();
+                downloadBlob(
+                    blob,
+                    '.png'
+                );
 
             });
 
@@ -1417,25 +1321,42 @@ function createExport(type='png'){
 
     };
 
-    img.src = url;
+    img.src=url;
 
 }
 
-/* =========================================================
-EXPORTS
-========================================================= */
+function downloadBlob(blob,ext){
+
+    const a =
+    document.createElement('a');
+
+    a.href =
+    URL.createObjectURL(blob);
+
+    a.download =
+    'SVG-Studio-' +
+    Date.now() +
+    ext;
+
+    a.click();
+
+}
 
 function exportPNG(){
 
-    createExport('png');
+    exportImage('png');
 
 }
 
 function exportJPG(){
 
-    createExport('jpg');
+    exportImage('jpg');
 
 }
+
+/* =====================================================
+SVG DOWNLOAD
+===================================================== */
 
 function downloadSVG(){
 
@@ -1455,22 +1376,16 @@ function downloadSVG(){
         }
     );
 
-    const a =
-    document.createElement('a');
-
-    a.href =
-    URL.createObjectURL(blob);
-
-    a.download =
-    'Studio-'+Date.now()+'.svg';
-
-    a.click();
+    downloadBlob(
+        blob,
+        '.svg'
+    );
 
 }
 
-/* =========================================================
+/* =====================================================
 RESET
-========================================================= */
+===================================================== */
 
 function resetStudio(){
 
@@ -1480,31 +1395,23 @@ function resetStudio(){
 
 }
 
-/* =========================================================
+/* =====================================================
 MOBILE
-========================================================= */
+===================================================== */
 
 function switchMobile(mode){
 
     const side =
-    document.getElementById(
-        'sidebar'
-    );
+    document.getElementById('sidebar');
 
     const work =
-    document.getElementById(
-        'workspace'
-    );
+    document.getElementById('workspace');
 
-    const btnE =
-    document.getElementById(
-        'nav-edit'
-    );
+    const ebtn =
+    document.getElementById('editBtn');
 
-    const btnP =
-    document.getElementById(
-        'nav-preview'
-    );
+    const pbtn =
+    document.getElementById('previewBtn');
 
     if(mode==='edit'){
 
@@ -1512,9 +1419,9 @@ function switchMobile(mode){
 
         work.classList.remove('active');
 
-        btnE.classList.add('active');
+        ebtn.classList.add('active');
 
-        btnP.classList.remove('active');
+        pbtn.classList.remove('active');
 
     }else{
 
@@ -1522,17 +1429,17 @@ function switchMobile(mode){
 
         work.classList.add('active');
 
-        btnE.classList.remove('active');
+        ebtn.classList.remove('active');
 
-        btnP.classList.add('active');
+        pbtn.classList.add('active');
 
     }
 
 }
 
-/* =========================================================
+/* =====================================================
 SHORTCUTS
-========================================================= */
+===================================================== */
 
 document.addEventListener(
 'keydown',
@@ -1560,25 +1467,24 @@ e=>{
 
 });
 
-/* =========================================================
+/* =====================================================
 INIT
-========================================================= */
+===================================================== */
 
-window.onload = ()=>{
+window.onload=()=>{
 
     const saved =
     localStorage.getItem(
-        'svg_text_studio'
+        'svgStudioData'
     );
 
     if(saved){
 
-        editor.innerHTML =
-        saved;
+        editor.innerHTML=saved;
 
     }
 
-    syncEditorToSVG();
+    syncEditor();
 
 };
 
