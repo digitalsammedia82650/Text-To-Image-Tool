@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>SVG Canva Style Studio</title>
+<title>DSM Design Studio Pro</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700&family=Fira+Code&family=Bungee&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;700;800&family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@700&family=Oswald:wght@400;600&family=Bebas+Neue&family=Anton&family=Fira+Code&family=Lobster&family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
 
 /* =========================================================
-ROOT
+ROOT VARIABLES
 ========================================================= */
 
 :root{
-    --bg:#0b1120;
-    --panel:#111827;
-    --panel2:#1e293b;
-    --border:#243041;
-    --text:#f8fafc;
-    --muted:#94a3b8;
-    --primary:#6366f1;
-    --hover:#4f46e5;
+    --bg:#edf2f7;
+    --panel:#ffffff;
+    --border:#dbe3ef;
+    --text:#0f172a;
+    --muted:#64748b;
+    --primary:#7c3aed;
+    --primary-hover:#6d28d9;
+    --shadow:0 10px 50px rgba(15,23,42,.08);
 }
 
 /* =========================================================
@@ -38,27 +38,27 @@ GLOBAL
 
 html,
 body{
+    width:100%;
     height:100%;
     overflow:hidden;
     background:var(--bg);
     font-family:Inter,sans-serif;
-    color:white;
+    color:var(--text);
 }
 
 button,
 input,
-select,
-textarea{
+select{
     font-family:inherit;
 }
 
 ::-webkit-scrollbar{
-    width:10px;
-    height:10px;
+    width:8px;
+    height:8px;
 }
 
 ::-webkit-scrollbar-thumb{
-    background:#334155;
+    background:#cbd5e1;
     border-radius:20px;
 }
 
@@ -77,13 +77,14 @@ HEADER
 ========================================================= */
 
 header{
-    height:70px;
-    background:rgba(2,6,23,.95);
+    height:72px;
+    min-height:72px;
+    background:white;
     border-bottom:1px solid var(--border);
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 20px;
+    padding:0 18px;
     z-index:100;
 }
 
@@ -100,6 +101,7 @@ header{
 .header-actions{
     display:flex;
     gap:10px;
+    flex-wrap:wrap;
 }
 
 /* =========================================================
@@ -110,31 +112,32 @@ BUTTONS
     border:none;
     cursor:pointer;
     border-radius:14px;
-    padding:11px 16px;
+    padding:11px 15px;
     font-weight:700;
     transition:.2s;
-    background:#1e293b;
-    color:white;
 }
 
 .btn:hover{
-    background:#334155;
+    transform:translateY(-1px);
+}
+
+.btn-light{
+    background:#eef2ff;
+    color:#312e81;
 }
 
 .btn-primary{
     background:var(--primary);
+    color:white;
 }
 
-.btn-primary:hover{
-    background:var(--hover);
-}
-
-.btn.active{
-    background:var(--primary);
+.btn-dark{
+    background:#0f172a;
+    color:white;
 }
 
 /* =========================================================
-LAYOUT
+MAIN LAYOUT
 ========================================================= */
 
 .main{
@@ -148,24 +151,24 @@ SIDEBAR
 ========================================================= */
 
 .sidebar{
-    width:380px;
+    width:390px;
     background:var(--panel);
-    overflow-y:auto;
     border-right:1px solid var(--border);
+    overflow-y:auto;
 }
 
 .section{
-    padding:20px;
+    padding:22px;
     border-bottom:1px solid var(--border);
 }
 
 .section-title{
     font-size:12px;
+    font-weight:900;
+    letter-spacing:1px;
     text-transform:uppercase;
     color:var(--muted);
     margin-bottom:16px;
-    font-weight:800;
-    letter-spacing:1px;
 }
 
 .group{
@@ -177,13 +180,11 @@ SIDEBAR
 .input,
 .select{
     width:100%;
-    border:none;
-    outline:none;
+    border:1px solid var(--border);
     border-radius:14px;
-    background:#020617;
-    color:white;
-    border:1px solid #1e293b;
     padding:12px;
+    outline:none;
+    background:white;
 }
 
 .range{
@@ -193,8 +194,9 @@ SIDEBAR
 label{
     display:block;
     margin-bottom:8px;
-    color:#cbd5e1;
     font-size:13px;
+    font-weight:600;
+    color:#334155;
 }
 
 /* =========================================================
@@ -202,14 +204,14 @@ EDITOR
 ========================================================= */
 
 #editor{
-    min-height:240px;
-    background:#020617;
-    border:1px solid #1e293b;
-    border-radius:20px;
-    padding:18px;
+    min-height:260px;
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:20px;
+    background:white;
     outline:none;
+    font-size:22px;
     line-height:1.6;
-    font-size:20px;
 }
 
 /* =========================================================
@@ -219,31 +221,30 @@ WORKSPACE
 .workspace{
     flex:1;
     overflow:auto;
-    position:relative;
     display:flex;
     justify-content:center;
     align-items:flex-start;
     padding:40px;
     background:
-    radial-gradient(#1e293b 1px, transparent 1px);
-    background-size:20px 20px;
+    radial-gradient(#dbeafe 1px, transparent 1px);
+    background-size:24px 24px;
 }
 
 /* =========================================================
 CANVAS
 ========================================================= */
 
-.canvas-wrap{
-    position:relative;
+.canvas-shell{
+    background:white;
     border-radius:28px;
     overflow:hidden;
-    box-shadow:
-    0 25px 70px rgba(0,0,0,.55);
+    box-shadow:var(--shadow);
+    position:relative;
 }
 
 #svgCanvas{
     display:block;
-    background:#111;
+    background:white;
 }
 
 /* =========================================================
@@ -262,12 +263,13 @@ MOBILE
 
     .sidebar{
         width:100%;
+        height:calc(100vh - 130px);
         display:none;
-        height:calc(100vh - 120px);
     }
 
     .workspace{
         display:none;
+        padding:18px;
     }
 
     .sidebar.active{
@@ -281,16 +283,17 @@ MOBILE
     .mobile-nav{
         display:flex;
         justify-content:space-around;
-        padding:10px;
-        background:#111827;
+        align-items:center;
+        padding:12px;
+        background:white;
         border-top:1px solid var(--border);
     }
 
     .mobile-nav button{
         border:none;
         background:none;
-        color:#94a3b8;
         font-weight:700;
+        color:#64748b;
     }
 
     .mobile-nav button.active{
@@ -305,38 +308,46 @@ MOBILE
 
 <div class="app">
 
+<!-- =========================================================
+HEADER
+========================================================= -->
+
 <header>
 
 <div class="logo">
-SVG<span>.</span>Studio
+DSM<span>.</span>Studio
 </div>
 
 <div class="header-actions">
 
-<button class="btn" onclick="resetStudio()">
-Reset
+<button class="btn btn-light" onclick="resetStudio()">
+Reset Project
 </button>
 
-<button class="btn" onclick="downloadSVG()">
-SVG
+<button class="btn btn-dark" onclick="downloadSVG()">
+Download Editable SVG
 </button>
 
-<button class="btn" onclick="exportImage('jpg')">
-JPG
+<button class="btn btn-dark" onclick="exportImage('jpg')">
+Download High Quality JPG
 </button>
 
 <button class="btn btn-primary" onclick="exportImage('png')">
-PNG
+Download Transparent PNG
 </button>
 
 </div>
 
 </header>
 
+<!-- =========================================================
+MAIN
+========================================================= -->
+
 <div class="main">
 
 <!-- =========================================================
-SIDEBAR
+LEFT SIDEBAR
 ========================================================= -->
 
 <aside class="sidebar active" id="sidebar">
@@ -348,36 +359,36 @@ TEXT
 <div class="section">
 
 <div class="section-title">
-Text
+Text Editor
 </div>
 
 <div class="group" style="margin-bottom:14px;">
 
-<button class="btn" onclick="cmd('bold')">
-B
+<button class="btn btn-light" onclick="cmd('bold')">
+Bold
 </button>
 
-<button class="btn" onclick="cmd('italic')">
-I
+<button class="btn btn-light" onclick="cmd('italic')">
+Italic
 </button>
 
-<button class="btn" onclick="cmd('underline')">
-U
+<button class="btn btn-light" onclick="cmd('underline')">
+Underline
 </button>
 
-<button class="btn" onclick="cmd('insertUnorderedList')">
-List
+<button class="btn btn-light" onclick="cmd('strikeThrough')">
+Strike
 </button>
 
-<button class="btn" onclick="alignText('left')">
+<button class="btn btn-light" onclick="alignText('left')">
 Left
 </button>
 
-<button class="btn" onclick="alignText('center')">
+<button class="btn btn-light" onclick="alignText('center')">
 Center
 </button>
 
-<button class="btn" onclick="alignText('right')">
+<button class="btn btn-light" onclick="alignText('right')">
 Right
 </button>
 
@@ -388,18 +399,18 @@ id="editor"
 contenteditable="true"
 oninput="syncEditor()">
 
-<h1>SVG Canva Style Studio</h1>
+<h1>Modern Design Studio</h1>
 
 <p>
-Create modern text based full page image posters.
+Create beautiful full page text images like Canva and Photoshop.
 </p>
 
 <ul>
-<li>SVG powered rendering</li>
-<li>Editable backgrounds</li>
-<li>Gradient text</li>
-<li>Paper sizes</li>
-<li>Ultra HD export</li>
+<li>SVG Rendering Engine</li>
+<li>Paper Sizes</li>
+<li>Background Image Controls</li>
+<li>Text Styling</li>
+<li>HD Export</li>
 </ul>
 
 </div>
@@ -417,100 +428,22 @@ Typography
 </div>
 
 <label>
-Font
+Font Family
 </label>
 
-<select class="select" onchange="setFont(this.value)">
-
-<option value="Inter">
-Inter
-</option>
-
-<option value="Playfair Display">
-Playfair
-</option>
-
-<option value="Fira Code">
-Fira Code
-</option>
-
-<option value="Bungee">
-Bungee
-</option>
-
+<select class="select" onchange="updateFont(this.value)">
+<option>Inter</option>
+<option>Poppins</option>
+<option>Montserrat</option>
+<option>Roboto</option>
+<option>Playfair Display</option>
+<option>Oswald</option>
+<option>Bebas Neue</option>
+<option>Anton</option>
+<option>Fira Code</option>
+<option>Lobster</option>
+<option>Pacifico</option>
 </select>
-
-<br><br>
-
-<label>
-Text Style
-</label>
-
-<select class="select" onchange="setTextMode(this.value)">
-
-<option value="solid">
-Solid Color
-</option>
-
-<option value="gradient">
-Gradient
-</option>
-
-</select>
-
-<br><br>
-
-<div id="solidTextOptions">
-
-<label>
-Text Color
-</label>
-
-<input
-type="color"
-class="input"
-value="#ffffff"
-oninput="setTextColor(this.value)"
->
-
-</div>
-
-<div id="gradientTextOptions" style="display:none;">
-
-<label>
-Gradient Color 1
-</label>
-
-<input
-type="color"
-class="input"
-id="tgrad1"
-value="#6366f1"
->
-
-<br><br>
-
-<label>
-Gradient Color 2
-</label>
-
-<input
-type="color"
-class="input"
-id="tgrad2"
-value="#ec4899"
->
-
-<br><br>
-
-<button
-class="btn"
-style="width:100%;"
-onclick="applyTextGradient()">
-Apply Gradient
-</button>
-
-</div>
 
 <br><br>
 
@@ -519,13 +452,13 @@ Font Size
 </label>
 
 <input
-type="range"
 class="range"
-min="18"
+type="range"
+min="12"
 max="120"
-value="48"
-oninput="setFontSize(this.value)"
->
+value="32"
+oninput="updateTextStyle('fontSize', this.value + 'px')"
+/>
 
 <br><br>
 
@@ -534,14 +467,14 @@ Line Height
 </label>
 
 <input
-type="range"
 class="range"
+type="range"
 min="1"
 max="3"
 step="0.1"
 value="1.5"
-oninput="setLineHeight(this.value)"
->
+oninput="updateTextStyle('lineHeight', this.value)"
+/>
 
 <br><br>
 
@@ -550,285 +483,323 @@ Letter Spacing
 </label>
 
 <input
-type="range"
 class="range"
+type="range"
 min="0"
 max="20"
 value="0"
-oninput="setLetterSpacing(this.value)"
->
+oninput="updateTextStyle('letterSpacing', this.value + 'px')"
+/>
 
 <br><br>
 
-<button
-class="btn"
-style="width:100%;"
-onclick="toggleGlow()">
-Toggle Glow
-</button>
+<label>
+Text Color
+</label>
+
+<input
+class="input"
+type="color"
+value="#111111"
+oninput="updateTextColor(this.value)"
+/>
 
 </div>
 
 <!-- =========================================================
-BACKGROUND
+CANVAS SIZE
 ========================================================= -->
 
 <div class="section">
 
 <div class="section-title">
-Background
+Canvas & Paper Size
 </div>
 
-<label>
-Background Type
-</label>
+<select class="select" onchange="setPaper(this.value)">
 
-<select class="select" onchange="setBackgroundMode(this.value)">
-
-<option value="solid">
-Solid Color
+<option value="1080x1080">
+Instagram Square
 </option>
 
-<option value="gradient">
-Gradient
+<option value="1080x1920">
+Story / Reel
 </option>
 
-<option value="image">
-Image
+<option value="1920x1080">
+YouTube Thumbnail
+</option>
+
+<option value="794x1123">
+A4 Paper
+</option>
+
+<option value="1123x1587">
+A3 Paper
+</option>
+
+<option value="1587x2245">
+A2 Paper
+</option>
+
+<option value="595x842">
+Letter
+</option>
+
+<option value="custom">
+Custom
 </option>
 
 </select>
 
 <br><br>
 
-<div id="solidBgOptions">
+<label>
+Canvas Width
+</label>
+
+<input
+class="input"
+id="customWidth"
+type="number"
+value="1080"
+/>
+
+<br><br>
+
+<label>
+Canvas Height
+</label>
+
+<input
+class="input"
+id="customHeight"
+type="number"
+value="1080"
+/>
+
+<br><br>
+
+<button
+class="btn btn-primary"
+style="width:100%;"
+onclick="applyCustomCanvas()">
+
+Apply Custom Canvas
+
+</button>
+
+</div>
+
+<!-- =========================================================
+BACKGROUND IMAGE ENGINE
+========================================================= -->
+
+<div class="section">
+
+<div class="section-title">
+Background Image Studio
+</div>
 
 <label>
 Background Color
 </label>
 
 <input
-type="color"
 class="input"
-value="#111111"
-oninput="setBackgroundColor(this.value)"
->
-
-</div>
-
-<div id="gradientBgOptions" style="display:none;">
-
-<label>
-Gradient Color 1
-</label>
-
-<input
 type="color"
-class="input"
-id="bggrad1"
-value="#0f172a"
->
+value="#ffffff"
+oninput="updateBackgroundColor(this.value)"
+/>
 
 <br><br>
 
 <label>
-Gradient Color 2
+Upload Background Image
 </label>
 
 <input
-type="color"
 class="input"
-id="bggrad2"
-value="#312e81"
->
-
-<br><br>
-
-<button
-class="btn"
-style="width:100%;"
-onclick="applyBackgroundGradient()">
-Apply Gradient
-</button>
-
-</div>
-
-<div id="imageBgOptions" style="display:none;">
-
-<br>
-
-<button
-class="btn"
-style="width:100%;"
-onclick="document.getElementById('bgUpload').click()">
-
-Upload Background
-
-</button>
-
-<input
 type="file"
-id="bgUpload"
-hidden
 accept="image/*"
 onchange="uploadBackground(this)"
->
+/>
 
 <br><br>
 
 <label>
-Zoom
+Background Position X
 </label>
 
 <input
-type="range"
 class="range"
-min="0.5"
-max="3"
-step="0.01"
-value="1"
-oninput="setBgScale(this.value)"
->
-
-<br><br>
-
-<label>
-Position X
-</label>
-
-<input
 type="range"
-class="range"
-min="-1000"
-max="1000"
+min="-500"
+max="500"
 value="0"
-oninput="setBgX(this.value)"
->
+oninput="bgPosX=this.value; renderSVG();"
+/>
 
 <br><br>
 
 <label>
-Position Y
+Background Position Y
 </label>
 
 <input
-type="range"
 class="range"
-min="-1000"
-max="1000"
+type="range"
+min="-500"
+max="500"
 value="0"
-oninput="setBgY(this.value)"
->
+oninput="bgPosY=this.value; renderSVG();"
+/>
 
 <br><br>
 
 <label>
-Rotation
+Background Zoom
 </label>
 
 <input
-type="range"
 class="range"
+type="range"
+min="20"
+max="300"
+value="100"
+oninput="bgScale=this.value; renderSVG();"
+/>
+
+<br><br>
+
+<label>
+Background Rotation
+</label>
+
+<input
+class="range"
+type="range"
 min="-180"
 max="180"
 value="0"
-oninput="setBgRotate(this.value)"
->
+oninput="bgRotate=this.value; renderSVG();"
+/>
 
 <br><br>
 
 <label>
-Opacity
+Background Opacity
 </label>
 
 <input
-type="range"
 class="range"
+type="range"
 min="0"
 max="1"
-step="0.01"
+step="0.05"
 value="1"
-oninput="setBgOpacity(this.value)"
->
+oninput="bgOpacity=this.value; renderSVG();"
+/>
 
-</div>
+<br><br>
+
+<label>
+Background Blur
+</label>
+
+<input
+class="range"
+type="range"
+min="0"
+max="40"
+value="0"
+oninput="bgBlur=this.value; renderSVG();"
+/>
+
+<br><br>
+
+<label>
+Background Brightness
+</label>
+
+<input
+class="range"
+type="range"
+min="0.2"
+max="2"
+step="0.1"
+value="1"
+oninput="bgBrightness=this.value; renderSVG();"
+/>
+
+<br><br>
+
+<label>
+Background Contrast
+</label>
+
+<input
+class="range"
+type="range"
+min="0.2"
+max="3"
+step="0.1"
+value="1"
+oninput="bgContrast=this.value; renderSVG();"
+/>
 
 </div>
 
 <!-- =========================================================
-CANVAS
+TEXT EFFECTS
 ========================================================= -->
 
 <div class="section">
 
 <div class="section-title">
-Canvas
+Text Effects
 </div>
 
-<div class="group">
+<label>
+Text Shadow Blur
+</label>
 
-<button class="btn active" onclick="setCanvas(2480,3508,this)">
-A4
-</button>
-
-<button class="btn" onclick="setCanvas(3508,4961,this)">
-A3
-</button>
-
-<button class="btn" onclick="setCanvas(1748,2480,this)">
-A5
-</button>
-
-<button class="btn" onclick="setCanvas(1080,1080,this)">
-1:1
-</button>
-
-<button class="btn" onclick="setCanvas(1080,1920,this)">
-Story
-</button>
-
-<button class="btn" onclick="setCanvas(1920,1080,this)">
-16:9
-</button>
-
-</div>
+<input
+class="range"
+type="range"
+min="0"
+max="60"
+value="0"
+oninput="textShadowBlur=this.value; renderSVG();"
+/>
 
 <br><br>
 
 <label>
-Custom Width
+Text Shadow Color
 </label>
 
 <input
-type="number"
 class="input"
-id="cw"
-value="1080"
->
+type="color"
+value="#000000"
+oninput="textShadowColor=this.value; renderSVG();"
+/>
 
 <br><br>
 
 <label>
-Custom Height
+Canvas Padding
 </label>
 
 <input
-type="number"
-class="input"
-id="ch"
-value="1920"
->
-
-<br><br>
-
-<button
-class="btn"
-style="width:100%;"
-onclick="applyCustomCanvas()">
-
-Apply Custom Size
-
-</button>
+class="range"
+type="range"
+min="10"
+max="200"
+value="80"
+oninput="canvasPadding=this.value; renderSVG();"
+/>
 
 </div>
 
@@ -840,95 +811,13 @@ WORKSPACE
 
 <section class="workspace active" id="workspace">
 
-<div class="canvas-wrap">
+<div class="canvas-shell">
 
 <svg
 id="svgCanvas"
 xmlns="http://www.w3.org/2000/svg"
 width="1080"
-height="1920"
-viewBox="0 0 1080 1920">
-
-<defs>
-
-<linearGradient
-id="bgGradient"
-x1="0%"
-y1="0%"
-x2="100%"
-y2="100%">
-
-<stop offset="0%" stop-color="#0f172a"/>
-<stop offset="100%" stop-color="#312e81"/>
-
-</linearGradient>
-
-<filter id="glow">
-
-<feGaussianBlur
-stdDeviation="10"
-result="blur"/>
-
-<feMerge>
-
-<feMergeNode in="blur"/>
-<feMergeNode in="SourceGraphic"/>
-
-</feMerge>
-
-</filter>
-
-</defs>
-
-<!-- BASE -->
-
-<rect
-id="bgRect"
-width="100%"
-height="100%"
-fill="#111"
-/>
-
-<!-- SVG IMAGE LAYER -->
-
-<g id="bgGroup">
-
-<image
-id="bgImage"
-width="1080"
-height="1920"
-preserveAspectRatio="xMidYMid slice"
-style="display:none;"
-/>
-
-</g>
-
-<!-- CONTENT -->
-
-<foreignObject
-id="foreignObject"
-x="80"
-y="80"
-width="920"
-height="1760">
-
-<div
-xmlns="http://www.w3.org/1999/xhtml"
-id="svgContent"
-style="
-width:100%;
-min-height:100%;
-font-size:48px;
-line-height:1.5;
-font-family:Inter,sans-serif;
-color:white;
-overflow-wrap:anywhere;
-word-break:break-word;
-">
-
-</div>
-
-</foreignObject>
+height="1080">
 
 </svg>
 
@@ -945,19 +834,19 @@ MOBILE NAV
 <nav class="mobile-nav">
 
 <button
-id="editBtn"
 class="active"
-onclick="switchMobile('edit')">
+id="editBtn"
+onclick="showPanel('edit')">
 
-Edit
+EDIT
 
 </button>
 
 <button
 id="previewBtn"
-onclick="switchMobile('preview')">
+onclick="showPanel('preview')">
 
-Preview
+PREVIEW
 
 </button>
 
@@ -965,22 +854,128 @@ Preview
 
 </div>
 
+<!-- =========================================================
+SCRIPT
+========================================================= -->
+
 <script>
 
 /* =========================================================
-ELEMENTS
+GLOBAL STATE
 ========================================================= */
 
-const editor=document.getElementById('editor');
-const svgContent=document.getElementById('svgContent');
-const svgCanvas=document.getElementById('svgCanvas');
-const bgImage=document.getElementById('bgImage');
-const bgGroup=document.getElementById('bgGroup');
+const editor = document.getElementById("editor");
+const svgCanvas = document.getElementById("svgCanvas");
 
-let bgScale=1;
-let bgX=0;
-let bgY=0;
-let bgRotate=0;
+let canvasWidth = 1080;
+let canvasHeight = 1080;
+
+let bgColor = "#ffffff";
+let bgImage = "";
+
+let bgPosX = 0;
+let bgPosY = 0;
+let bgScale = 100;
+let bgRotate = 0;
+let bgOpacity = 1;
+let bgBlur = 0;
+let bgBrightness = 1;
+let bgContrast = 1;
+
+let textColor = "#111111";
+
+let textShadowBlur = 0;
+let textShadowColor = "#000000";
+
+let canvasPadding = 80;
+
+/* =========================================================
+EDITOR COMMANDS
+========================================================= */
+
+function cmd(command){
+    document.execCommand(command,false,null);
+    syncEditor();
+}
+
+function alignText(type){
+    editor.style.textAlign = type;
+    syncEditor();
+}
+
+/* =========================================================
+TEXT STYLES
+========================================================= */
+
+function updateFont(font){
+    editor.style.fontFamily = font;
+    syncEditor();
+}
+
+function updateTextStyle(prop,val){
+    editor.style[prop] = val;
+    syncEditor();
+}
+
+function updateTextColor(color){
+    textColor = color;
+    editor.style.color = color;
+    syncEditor();
+}
+
+/* =========================================================
+BACKGROUND
+========================================================= */
+
+function updateBackgroundColor(color){
+    bgColor = color;
+    renderSVG();
+}
+
+function uploadBackground(input){
+
+    const file = input.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+        bgImage = e.target.result;
+        renderSVG();
+    }
+
+    reader.readAsDataURL(file);
+
+}
+
+/* =========================================================
+PAPER SIZE
+========================================================= */
+
+function setPaper(size){
+
+    if(size === "custom") return;
+
+    const arr = size.split("x");
+
+    canvasWidth = parseInt(arr[0]);
+    canvasHeight = parseInt(arr[1]);
+
+    renderSVG();
+
+}
+
+function applyCustomCanvas(){
+
+    canvasWidth =
+    parseInt(document.getElementById("customWidth").value);
+
+    canvasHeight =
+    parseInt(document.getElementById("customHeight").value);
+
+    renderSVG();
+
+}
 
 /* =========================================================
 SYNC
@@ -988,365 +983,198 @@ SYNC
 
 function syncEditor(){
 
-    svgContent.innerHTML=editor.innerHTML;
-
-    autoResize();
-
-}
-
-/* =========================================================
-AUTO RESIZE
-========================================================= */
-
-function autoResize(){
-
-    setTimeout(()=>{
-
-        const h=svgContent.scrollHeight+200;
-
-        document
-        .getElementById('foreignObject')
-        .setAttribute('height',h);
-
-    },50);
-
-}
-
-/* =========================================================
-COMMANDS
-========================================================= */
-
-function cmd(c){
-
-    document.execCommand(c,false,null);
-
-    syncEditor();
-
-}
-
-function alignText(v){
-
-    svgContent.style.textAlign=v;
-
-}
-
-/* =========================================================
-TYPOGRAPHY
-========================================================= */
-
-function setFont(v){
-
-    svgContent.style.fontFamily=v;
-
-}
-
-function setTextMode(v){
-
-    document.getElementById('solidTextOptions').style.display=
-    v==='solid' ? 'block':'none';
-
-    document.getElementById('gradientTextOptions').style.display=
-    v==='gradient' ? 'block':'none';
-
-}
-
-function setTextColor(v){
-
-    svgContent.style.background='none';
-
-    svgContent.style.color=v;
-
-    svgContent.style.webkitTextFillColor=v;
-
-}
-
-function applyTextGradient(){
-
-    const c1=document.getElementById('tgrad1').value;
-    const c2=document.getElementById('tgrad2').value;
-
-    svgContent.style.background=
-    `linear-gradient(90deg,${c1},${c2})`;
-
-    svgContent.style.webkitBackgroundClip='text';
-    svgContent.style.webkitTextFillColor='transparent';
-
-}
-
-function setFontSize(v){
-
-    svgContent.style.fontSize=v+'px';
-
-    autoResize();
-
-}
-
-function setLineHeight(v){
-
-    svgContent.style.lineHeight=v;
-
-}
-
-function setLetterSpacing(v){
-
-    svgContent.style.letterSpacing=v+'px';
-
-}
-
-let glow=false;
-
-function toggleGlow(){
-
-    glow=!glow;
-
-    svgContent.style.filter=
-    glow ? 'url(#glow)' : 'none';
-
-}
-
-/* =========================================================
-BACKGROUND
-========================================================= */
-
-function setBackgroundMode(v){
-
-    document.getElementById('solidBgOptions').style.display=
-    v==='solid' ? 'block':'none';
-
-    document.getElementById('gradientBgOptions').style.display=
-    v==='gradient' ? 'block':'none';
-
-    document.getElementById('imageBgOptions').style.display=
-    v==='image' ? 'block':'none';
-
-}
-
-function setBackgroundColor(v){
-
-    document
-    .getElementById('bgRect')
-    .setAttribute('fill',v);
-
-}
-
-function applyBackgroundGradient(){
-
-    const c1=document.getElementById('bggrad1').value;
-    const c2=document.getElementById('bggrad2').value;
-
-    const stops=document.querySelectorAll('#bgGradient stop');
-
-    stops[0].setAttribute('stop-color',c1);
-    stops[1].setAttribute('stop-color',c2);
-
-    document
-    .getElementById('bgRect')
-    .setAttribute('fill','url(#bgGradient)');
-
-}
-
-/* =========================================================
-UPLOAD BG
-========================================================= */
-
-function uploadBackground(input){
-
-    const file=input.files[0];
-
-    if(!file) return;
-
-    const reader=new FileReader();
-
-    reader.onload=e=>{
-
-        bgImage.setAttribute(
-            'href',
-            e.target.result
-        );
-
-        bgImage.style.display='block';
-
-    };
-
-    reader.readAsDataURL(file);
-
-}
-
-/* =========================================================
-SVG IMAGE TRANSFORM
-========================================================= */
-
-function updateBgTransform(){
-
-    bgGroup.setAttribute(
-        'transform',
-        `
-        translate(${bgX} ${bgY})
-        scale(${bgScale})
-        rotate(${bgRotate} 540 960)
-        `
+    localStorage.setItem(
+        "studio_content",
+        editor.innerHTML
     );
 
-}
-
-function setBgScale(v){
-
-    bgScale=v;
-
-    updateBgTransform();
-
-}
-
-function setBgX(v){
-
-    bgX=v;
-
-    updateBgTransform();
-
-}
-
-function setBgY(v){
-
-    bgY=v;
-
-    updateBgTransform();
-
-}
-
-function setBgRotate(v){
-
-    bgRotate=v;
-
-    updateBgTransform();
-
-}
-
-function setBgOpacity(v){
-
-    bgImage.setAttribute('opacity',v);
+    renderSVG();
 
 }
 
 /* =========================================================
-CANVAS
+SVG ENGINE
 ========================================================= */
 
-function setCanvas(w,h,btn){
+function renderSVG(){
 
-    document
-    .querySelectorAll('.group .btn')
-    .forEach(b=>b.classList.remove('active'));
+    svgCanvas.setAttribute("width",canvasWidth);
+    svgCanvas.setAttribute("height",canvasHeight);
 
-    btn.classList.add('active');
+    let bgLayer = `
+    <rect
+    width="100%"
+    height="100%"
+    fill="${bgColor}" />
+    `;
 
-    applyCanvas(w,h);
+    if(bgImage){
 
-}
+        bgLayer += `
+        <defs>
 
-function applyCustomCanvas(){
+            <filter id="bgFx">
+                <feGaussianBlur stdDeviation="${bgBlur}" />
+            </filter>
 
-    const w=parseInt(document.getElementById('cw').value);
-    const h=parseInt(document.getElementById('ch').value);
+        </defs>
 
-    applyCanvas(w,h);
+        <image
+        href="${bgImage}"
+        x="${bgPosX}"
+        y="${bgPosY}"
+        width="${canvasWidth * (bgScale/100)}"
+        height="${canvasHeight * (bgScale/100)}"
+        opacity="${bgOpacity}"
+        filter="url(#bgFx)"
+        preserveAspectRatio="xMidYMid slice"
+        transform="
+        rotate(
+        ${bgRotate}
+        ${canvasWidth/2}
+        ${canvasHeight/2}
+        )"
 
-}
+        style="
+        filter:
+        brightness(${bgBrightness})
+        contrast(${bgContrast});
+        "
+        />
+        `;
+    }
 
-function applyCanvas(w,h){
+    const html = editor.innerHTML;
 
-    svgCanvas.setAttribute('width',w);
-    svgCanvas.setAttribute('height',h);
-    svgCanvas.setAttribute('viewBox',`0 0 ${w} ${h}`);
+    svgCanvas.innerHTML = `
 
-    bgImage.setAttribute('width',w);
-    bgImage.setAttribute('height',h);
+    ${bgLayer}
 
-}
+    <foreignObject
+    x="${canvasPadding}"
+    y="${canvasPadding}"
+    width="${canvasWidth - canvasPadding*2}"
+    height="${canvasHeight - canvasPadding*2}">
 
-/* =========================================================
-EXPORT
-========================================================= */
+        <div xmlns="http://www.w3.org/1999/xhtml"
+        style="
+        width:100%;
+        height:100%;
+        color:${textColor};
+        font-family:${getComputedStyle(editor).fontFamily};
+        font-size:${getComputedStyle(editor).fontSize};
+        line-height:${getComputedStyle(editor).lineHeight};
+        letter-spacing:${getComputedStyle(editor).letterSpacing};
+        text-shadow:
+        0 0 ${textShadowBlur}px
+        ${textShadowColor};
+        overflow-wrap:break-word;
+        ">
 
-function exportImage(type='png'){
+        ${html}
 
-    const serializer=new XMLSerializer();
+        </div>
 
-    const source=
-    serializer.serializeToString(svgCanvas);
+    </foreignObject>
 
-    const blob=
-    new Blob(
-        [source],
-        {type:'image/svg+xml;charset=utf-8'}
-    );
-
-    const url=URL.createObjectURL(blob);
-
-    const img=new Image();
-
-    img.onload=()=>{
-
-        const canvas=document.createElement('canvas');
-
-        canvas.width=
-        svgCanvas.viewBox.baseVal.width*2;
-
-        canvas.height=
-        svgCanvas.viewBox.baseVal.height*2;
-
-        const ctx=canvas.getContext('2d');
-
-        ctx.scale(2,2);
-
-        ctx.drawImage(img,0,0);
-
-        canvas.toBlob(blob=>{
-
-            const a=document.createElement('a');
-
-            a.href=URL.createObjectURL(blob);
-
-            a.download=
-            'SVG-Studio-'+Date.now()+'.'+type;
-
-            a.click();
-
-        },
-        type==='jpg'
-        ? 'image/jpeg'
-        : 'image/png',
-        .95);
-
-    };
-
-    img.src=url;
+    `;
 
 }
 
 /* =========================================================
-SVG DOWNLOAD
+DOWNLOAD SVG
 ========================================================= */
 
 function downloadSVG(){
 
-    const serializer=new XMLSerializer();
+    const data =
+    new XMLSerializer().serializeToString(svgCanvas);
 
-    const source=
-    serializer.serializeToString(svgCanvas);
+    const blob =
+    new Blob([data],{
+        type:"image/svg+xml"
+    });
 
-    const blob=
-    new Blob(
-        [source],
-        {type:'image/svg+xml'}
-    );
+    const url =
+    URL.createObjectURL(blob);
 
-    const a=document.createElement('a');
+    const a =
+    document.createElement("a");
 
-    a.href=URL.createObjectURL(blob);
-
-    a.download='SVG-Studio.svg';
-
+    a.href = url;
+    a.download = "DSM-Studio.svg";
     a.click();
+
+}
+
+/* =========================================================
+EXPORT PNG/JPG
+========================================================= */
+
+function exportImage(type){
+
+    const data =
+    new XMLSerializer().serializeToString(svgCanvas);
+
+    const svgBlob =
+    new Blob([data],{
+        type:"image/svg+xml;charset=utf-8"
+    });
+
+    const url =
+    URL.createObjectURL(svgBlob);
+
+    const img =
+    new Image();
+
+    img.onload = function(){
+
+        const canvas =
+        document.createElement("canvas");
+
+        canvas.width = canvasWidth * 2;
+        canvas.height = canvasHeight * 2;
+
+        const ctx =
+        canvas.getContext("2d");
+
+        if(type === "jpg"){
+
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+        }
+
+        ctx.drawImage(
+            img,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        const link =
+        document.createElement("a");
+
+        link.download =
+        `DSM-Studio.${type}`;
+
+        link.href =
+        canvas.toDataURL(
+            `image/${type}`,
+            1
+        );
+
+        link.click();
+
+    }
+
+    img.src = url;
 
 }
 
@@ -1356,37 +1184,44 @@ RESET
 
 function resetStudio(){
 
+    localStorage.clear();
     location.reload();
 
 }
 
 /* =========================================================
-MOBILE
+MOBILE PANEL
 ========================================================= */
 
-function switchMobile(mode){
+function showPanel(type){
 
-    const sidebar=document.getElementById('sidebar');
-    const workspace=document.getElementById('workspace');
+    const sidebar =
+    document.getElementById("sidebar");
 
-    const eb=document.getElementById('editBtn');
-    const pb=document.getElementById('previewBtn');
+    const workspace =
+    document.getElementById("workspace");
 
-    if(mode==='edit'){
+    const editBtn =
+    document.getElementById("editBtn");
 
-        sidebar.classList.add('active');
-        workspace.classList.remove('active');
+    const previewBtn =
+    document.getElementById("previewBtn");
 
-        eb.classList.add('active');
-        pb.classList.remove('active');
+    if(type === "edit"){
+
+        sidebar.classList.add("active");
+        workspace.classList.remove("active");
+
+        editBtn.classList.add("active");
+        previewBtn.classList.remove("active");
 
     }else{
 
-        sidebar.classList.remove('active');
-        workspace.classList.add('active');
+        workspace.classList.add("active");
+        sidebar.classList.remove("active");
 
-        eb.classList.remove('active');
-        pb.classList.add('active');
+        previewBtn.classList.add("active");
+        editBtn.classList.remove("active");
 
     }
 
@@ -1396,11 +1231,18 @@ function switchMobile(mode){
 INIT
 ========================================================= */
 
-window.onload=()=>{
+window.onload = function(){
 
-    syncEditor();
+    const saved =
+    localStorage.getItem("studio_content");
 
-};
+    if(saved){
+        editor.innerHTML = saved;
+    }
+
+    renderSVG();
+
+}
 
 </script>
 
